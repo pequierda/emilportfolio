@@ -12,7 +12,6 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* NEW: Simplified styles, color is now handled by Tailwind classes */
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
@@ -25,7 +24,8 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            display: none; /* NEW: Hidden by default, enabled by JS in dark mode */
+            /* CORRECTED: Hidden by default, only shown in dark mode via JS */
+            display: none; 
         }
 
         .name-animation {
@@ -34,7 +34,6 @@
             transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
         }
 
-        /* NEW: Updated glass-card to use Tailwind classes for colors/borders */
         .glass-card {
             backdrop-filter: blur(12px);
             border-radius: 1rem;
@@ -44,6 +43,66 @@
             position: relative;
             z-index: 1;
         }
+
+        .animate-container {
+            position: relative;
+        }
+
+        .particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .content-to-animate {
+            position: relative;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+        }
+
+        .content-to-animate.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .content-to-animate.glitch {
+            animation: glitch-pulse 0.5s forwards;
+        }
+        
+        .content-to-animate.glitch::before,
+        .content-to-animate.glitch::after {
+            content: ''; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            clip-path: inherit;
+        }
+        .content-to-animate.glitch::before {
+            left: 2px;
+            animation: glitch-anim-1 0.5s forwards;
+        }
+        .content-to-animate.glitch::after {
+            left: -2px;
+            animation: glitch-anim-2 0.5s forwards;
+        }
+
+        @keyframes glitch-pulse {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -2px); }
+            50% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, 2px); }
+        }
+        @keyframes glitch-anim-1 { 0%, 100% { clip-path: inset(0 0 0 0); } 25% { clip-path: inset(20% 0 50% 0); } 50% { clip-path: inset(50% 0 30% 0); } 75% { clip-path: inset(30% 0 60% 0); } }
+        @keyframes glitch-anim-2 { 0%, 100% { clip-path: inset(0 0 0 0); } 25% { clip-path: inset(60% 0 30% 0); } 50% { clip-path: inset(30% 0 50% 0); } 75% { clip-path: inset(40% 0 20% 0); } }
+
     </style>
 </head>
 <body class="antialiased bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-200 transition-colors duration-300">
@@ -79,13 +138,15 @@
 
     <main class="container mx-auto px-6">
 
-        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center">
-            <div class="max-w-3xl">
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center animate-container">
+            <div class="max-w-3xl content-to-animate">
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-black dark:text-white mb-4">
-                    <div id="animated-name" class="name-animation" data-name="Emil Lawrence Villanueva Pequierda"></div>
+                    <div id="animated-name" class="name-animation" data-name="Emil Lawrence Villanueva Pequierda">
+                        Emil Lawrence Villanueva Pequierda
+                    </div>
                 </h1>
-                <p class="text-xl md:text-2xl text-green-600 dark:text-green-300 font-medium" style="font-family: 'Inter', sans-serif;">Dev</p>
-                <p class="mt-6 text-green-600 dark:text-green-300 text-lg md:text-xl font-medium max-w-xl mx-auto leading-relaxed">
+                <p class="text-xl md:text-2xl text-gray-900 dark:text-gray-100 font-medium">Dev</p>
+                <p class="mt-6 text-lg md:text-xl text-gray-800 dark:text-gray-300 font-medium max-w-xl mx-auto leading-relaxed">
                     I offer building softwares, Network Configurations, Cctv Installations,IT Consulting and more.
                 </p>
                 <a href="#projects" class="mt-8 inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-transform transform hover:scale-105 duration-300">
@@ -94,64 +155,61 @@
             </div>
         </section>
 
-        <section id="about" class="py-20 lg:py-32">
-            <div class="grid md:grid-cols-5 gap-10 items-center">
+        <section id="about" class="py-20 lg:py-32 animate-container">
+            <div class="grid md:grid-cols-5 gap-10 items-center content-to-animate">
                 <div class="md:col-span-2">
-                    <img src="images/emil.png" alt="A portrait of John Doe" class="rounded-full shadow-2xl mx-auto w-64 h-64 md:w-full md:h-auto object-cover border-4 border-gray-300 dark:border-gray-700">
+                    <img src="images/emil.png" alt="A portrait of Emil" class="rounded-full shadow-2xl mx-auto w-64 h-64 md:w-full md:h-auto object-cover border-4 border-gray-300 dark:border-gray-700">
                 </div>
                 <div class="md:col-span-3">
                     <h2 class="text-4xl font-bold text-black dark:text-white mb-4">About Me</h2>
-                    <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-4 leading-relaxed">
+                    <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">
                         Hello! I'm Emil Lawrence V. Pequierda, Dynamic IT professional with a comprehensive skill set...
                     </p>
-                    <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-6 leading-relaxed">
+                    <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-6 leading-relaxed">
                         When I'm not online. I sleep all day :)
                     </p>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="py-20 lg:py-32">
-            <h2 class="text-4xl font-bold text-black dark:text-white text-center mb-12">My Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                    <div class="mb-4 overflow-hidden rounded-lg">
-                        <img src="images/dentalsystem.png" alt="Dental Management Information System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+        <section id="projects" class="py-20 lg:py-32 animate-container">
+            <div class="content-to-animate">
+                <h2 class="text-4xl font-bold text-black dark:text-white text-center mb-12">My Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="images/dentalsystem.png" alt="Dental Management Information System" class="mb-4 rounded-lg w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Dental Management Information System</h3>
+                        <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can record all the patient dental information and can generate reports.</p>
                     </div>
-                    <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Dental Management Information System</h3>
-                    <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-4 leading-relaxed">Can record all the patient dental information and can generate reports.</p>                 
-                </div>
-                <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                    <div class="mb-4 overflow-hidden rounded-lg">
-                        <img src="images/pos.png" alt="POS with Inventory and Customer Credit Management" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                         <img src="images/pos.png" alt="POS System" class="mb-4 rounded-lg w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-2xl font-bold text-black dark:text-white mb-2">POS with Inventory Management</h3>
+                        <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Performing inventory management, customer credit management, and sales tracking.</p>
                     </div>
-                    <h3 class="text-2xl font-bold text-black dark:text-white mb-2">POS with Inventory and Customer Credit Management</h3>
-                    <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-4 leading-relaxed">Performing inventory management, customer credit management, and sales tracking.</p>
-                </div>
-                <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                    <div class="mb-4 overflow-hidden rounded-lg">
-                        <img src="images/travel.png" alt="Travel and Tour Management System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                         <img src="images/travel.png" alt="Travel and Tour System" class="mb-4 rounded-lg w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Travel and Tour Management System</h3>
+                        <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage travel and tour information and send email notifications to the customer.</p>
                     </div>
-                    <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Travel and Tour Management System with email notification</h3>
-                    <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-4 leading-relaxed">Can manage the travel and tour information and can send email notification to the customer.</p>
-                </div>
-                 <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                    <div class="mb-4 overflow-hidden rounded-lg">
-                        <img src="images/patient.png" alt="Patient Scheduler Management System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+
+                    <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="images/patient.png" alt="Patient Scheduler Management System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Patient Scheduler Management system with email notification</h3>
+                        <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-4 leading-relaxed">Can manage the patient schedule and can send email notification to the patient.</p>
                     </div>
-                    <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Patient Scheduler Management system with email notification</h3>
-                    <p class="text-gray-700 dark:text-green-300 text-base font-medium mb-4 leading-relaxed">Can manage the patient schedule and can send email notification to the patient.</p>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="py-20 lg:py-32">
-            <div class="text-center max-w-2xl mx-auto">
+        <section id="contact" class="py-20 lg:py-32 animate-container">
+            <div class="text-center max-w-2xl mx-auto content-to-animate">
                 <h2 class="text-4xl font-bold text-black dark:text-white mb-4">DM me</h2>
                 <div class="mb-6 overflow-hidden rounded-lg">
-                    <img src="images/me.png" alt="Contact" class="w-full h-64 object-cover mx-auto" style="width: 200px; height: 200px;">
+                    <img src="images/me.png" alt="Contact" class="w-full h-64 object-cover mx-auto" style="width: 200px; height: 200px; border-radius: 50%;">
                 </div>
-                <p class="text-green-600 dark:text-green-300 text-lg font-medium mb-8 leading-relaxed">
+                <p class="text-gray-800 dark:text-gray-300 text-lg font-medium mb-8 leading-relaxed">
                     I'm currently open to new opportunities. Feel free to send me a DM!
                 </p>
             </div>
@@ -168,22 +226,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- NEW: Theme Toggling and Matrix Control ---
+            // --- CORRECTED: Theme Toggling and Matrix Control ---
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
             const matrixCanvas = document.getElementById('matrix-bg');
-            const matrixCtx = matrixCanvas.getContext('2d');
             let matrixInterval;
 
-            // Function to start the Matrix animation
+            // This function starts the classic GREEN matrix effect
             function startMatrixAnimation() {
-                if (matrixInterval) clearInterval(matrixInterval); // Ensure no multiple intervals running
+                if (matrixInterval) clearInterval(matrixInterval);
                 
-                matrixCanvas.style.display = 'block';
+                const matrixCtx = matrixCanvas.getContext('2d');
+                matrixCanvas.style.display = 'block'; // Show the canvas
                 matrixCanvas.width = window.innerWidth;
                 matrixCanvas.height = window.innerHeight;
-                
                 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
                 const charArray = chars.split('');
                 const fontSize = 14;
@@ -193,9 +250,8 @@
                 function draw() {
                     matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                     matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-                    matrixCtx.fillStyle = '#0F0';
+                    matrixCtx.fillStyle = '#0F0'; // Classic green color
                     matrixCtx.font = fontSize + 'px monospace';
-
                     for (let i = 0; i < drops.length; i++) {
                         const text = charArray[Math.floor(Math.random() * charArray.length)];
                         matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -208,98 +264,154 @@
                 matrixInterval = setInterval(draw, 33);
             }
 
-            // Function to stop the Matrix animation
+            // This function stops and hides the matrix effect
             function stopMatrixAnimation() {
                 if (matrixInterval) clearInterval(matrixInterval);
                 matrixInterval = null;
-                matrixCanvas.style.display = 'none';
+                matrixCanvas.style.display = 'none'; // Hide the canvas
             }
 
-            // Function to set the theme
             function setTheme(isDark) {
                 if (isDark) {
                     document.documentElement.classList.add('dark');
                     themeToggleLightIcon.classList.remove('hidden');
                     themeToggleDarkIcon.classList.add('hidden');
                     localStorage.setItem('theme', 'dark');
-                    startMatrixAnimation();
+                    startMatrixAnimation(); // Turn ON matrix in dark mode
                 } else {
                     document.documentElement.classList.remove('dark');
                     themeToggleDarkIcon.classList.remove('hidden');
                     themeToggleLightIcon.classList.add('hidden');
                     localStorage.setItem('theme', 'light');
-                    stopMatrixAnimation();
+                    stopMatrixAnimation(); // Turn OFF matrix in light mode
                 }
             }
 
-            // Check for saved theme preference or system preference
-            const isDarkMode = localStorage.getItem('theme') === 'dark' || 
-                              (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            const isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
             setTheme(isDarkMode);
 
-            // Add click listener to the toggle button
-            themeToggleBtn.addEventListener('click', () => {
-                const isCurrentlyDark = document.documentElement.classList.contains('dark');
-                setTheme(!isCurrentlyDark);
-            });
+            themeToggleBtn.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
             
-            // Adjust canvas on window resize only if it's active
             window.addEventListener('resize', () => {
+                // Only restart the animation if we are in dark mode
                 if (document.documentElement.classList.contains('dark')) {
-                    stopMatrixAnimation();
                     startMatrixAnimation();
                 }
             });
 
-            // --- Hacker-style Name Animation (Original Code) ---
-            const nameContainer = document.getElementById('animated-name');
-            if (nameContainer) {
+            // --- Hacker-style Name Animation ---
+            function startHackerAnimationLoop() {
+                const nameContainer = document.getElementById('animated-name');
+                if (!nameContainer) return;
+                
                 const nameChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!<>-_\\/[]{}—=+*^?#";
                 const originalName = nameContainer.getAttribute('data-name');
                 const colors = ['#34D399', '#60A5FA', '#F87171', '#FBBF24', '#A78BFA', '#FFFFFF'];
-                let colorIndex = 0;
-                let iteration = 0;
-                let direction = 1;
-                let interval = null;
-
-                function changeColor() {
-                    nameContainer.style.color = colors[colorIndex];
-                    nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`;
-                    colorIndex = (colorIndex + 1) % colors.length;
-                }
+                let colorIndex = 0, iteration = 0, direction = -1, interval = null;
+                nameContainer.innerText = originalName;
+                
+                function changeColor() { nameContainer.style.color = colors[colorIndex]; nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`; colorIndex = (colorIndex + 1) % colors.length; }
 
                 function animate() {
                     clearInterval(interval);
+                    iteration = (direction === 1) ? 0 : originalName.length;
                     interval = setInterval(() => {
-                        nameContainer.innerText = originalName
-                            .split("").map((letter, index) => {
-                                if (originalName[index] === ' ') return ' ';
-                                if (index < iteration) return originalName[index];
-                                return nameChars[Math.floor(Math.random() * nameChars.length)];
-                            }).join("");
-
-                        if (direction === 1 && iteration >= originalName.length) {
-                            direction = 0;
+                        nameContainer.innerText = originalName.split("").map((_, index) => { if (originalName[index] === ' ') return ' '; if ( (direction === 1 && index < iteration) || (direction === -1 && index < iteration) ) { return originalName[index]; } return nameChars[Math.floor(Math.random() * nameChars.length)]; }).join("");
+                        if ((direction === 1 && iteration >= originalName.length) || (direction === -1 && iteration <= 0)) {
+                            direction *= -1;
                             clearInterval(interval);
-                            setInterval(changeColor, 1000);
-                            setTimeout(() => { direction = -1; animate(); }, 5000);
-                        } else if (direction === -1 && iteration <= 0) {
-                            direction = 0;
-                            clearInterval(interval);
-                            setTimeout(() => { direction = 1; animate(); }, 1000);
+                            if (direction === -1) { setInterval(changeColor, 1000); setTimeout(animate, 5000); } else { setTimeout(animate, 1000); }
                         }
                         iteration += (1 / 8) * direction;
                     }, 50);
                 }
-                animate();
+                setTimeout(animate, 2000);
             }
 
-            // --- Mobile Menu Toggle (Original Code) ---
+            // --- Mobile Menu Toggle ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            // --- DIGITAL INK & GLITCH ANIMATION ---
+            const animateContainers = document.querySelectorAll('.animate-container');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const container = entry.target;
+                        const content = container.querySelector('.content-to-animate');
+                        
+                        const canvas = document.createElement('canvas');
+                        canvas.className = 'particle-canvas';
+                        container.appendChild(canvas);
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = container.offsetWidth;
+                        canvas.height = container.offsetHeight;
+                        
+                        const particleColor = document.documentElement.classList.contains('dark') ? '#10B981' : '#059669';
+                        
+                        let particles = [];
+                        let animationFrameId;
+
+                        class Particle {
+                            constructor(x, y) { this.x = x + (Math.random() * 10 - 5); this.y = y + (Math.random() * 10 - 5); this.size = Math.random() * 2 + 1; this.speedX = Math.random() * 2 - 1; this.speedY = Math.random() * 2 - 1; this.life = 0; this.maxLife = Math.random() * 100 + 50; }
+                            update() { this.x += this.speedX; this.y += this.speedY; this.life++; }
+                            draw() { ctx.fillStyle = particleColor; ctx.globalAlpha = 1 - (this.life / this.maxLife); ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
+                        }
+
+                        function getContentPixelData(element) {
+                            const tempCanvas = document.createElement('canvas');
+                            const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
+                            tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
+                            const originalVisibility = element.style.visibility; const originalOpacity = element.style.opacity;
+                            element.style.visibility = 'visible'; element.style.opacity = '1';
+                            
+                            Array.from(element.querySelectorAll('h1, h2, p, h3, a')).forEach(el => {
+                                const style = getComputedStyle(el); tempCtx.fillStyle = style.color;
+                                tempCtx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+                                const rect = el.getBoundingClientRect(); const containerRect = container.getBoundingClientRect();
+                                tempCtx.fillText(el.innerText, rect.left - containerRect.left, rect.top - containerRect.top + rect.height * 0.8);
+                            });
+                             Array.from(element.querySelectorAll('img')).forEach(imgEl => {
+                                const rect = imgEl.getBoundingClientRect(); const containerRect = container.getBoundingClientRect();
+                                try { tempCtx.drawImage(imgEl, rect.left - containerRect.left, rect.top - containerRect.top, rect.width, rect.height); } catch (e) { console.error("Could not draw image:", e); }
+                            });
+
+                            element.style.visibility = originalVisibility; element.style.opacity = originalOpacity;
+                            return tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
+                        }
+                        
+                        Promise.all(Array.from(container.querySelectorAll('img')).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+                            const pixelData = getContentPixelData(content);
+                            let mappedPixels = [];
+                            const density = 4;
+                            for (let y = 0; y < canvas.height; y += density) {
+                                for (let x = 0; x < canvas.width; x += density) {
+                                    if (pixelData[(y * canvas.width + x) * 4 + 3] > 128) { mappedPixels.push({ x: x, y: y }); }
+                                }
+                            }
+
+                            function initParticles() { for(let i = 0; i < mappedPixels.length; i+=2) { particles.push(new Particle(mappedPixels[i].x, mappedPixels[i].y)); } }
+                            function animateParticles() {
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                particles.forEach((p, i) => { p.update(); p.draw(); if (p.life >= p.maxLife) particles.splice(i, 1); });
+                                if (particles.length > 0) animationFrameId = requestAnimationFrame(animateParticles);
+                            }
+                            initParticles(); animateParticles();
+
+                            setTimeout(() => content.classList.add('visible'), 1200);
+                            setTimeout(() => {
+                                content.classList.add('glitch');
+                                if (container.id === 'home') { startHackerAnimationLoop(); }
+                            }, 1800);
+                            setTimeout(() => { cancelAnimationFrame(animationFrameId); if (canvas.parentNode) canvas.remove(); }, 3000);
+                        });
+                        observer.unobserve(container);
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            animateContainers.forEach(container => observer.observe(container));
         });
     </script>
 
