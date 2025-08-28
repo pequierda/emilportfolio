@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emil Pequierda - Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the animation and overall look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000; /* Changed to black for the matrix effect */
+            color: #e5e7eb; /* A light gray for text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Canvas for the falling symbols background */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place it behind all other content */
+        }
+
+        /* The animation container */
+        .name-animation {
+            display: inline-block;
+            /* Set a monospace font for a more consistent "hacker" look */
+            font-family: 'Courier New', Courier, monospace;
+            transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out; /* Smooth color transition */
+        }
+
+        /* Custom card styling for a "glassmorphism" effect */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7); /* Slightly more opaque dark blue-gray */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem; /* More rounded corners */
+        }
+
+        /* Ensure main content is on top of the canvas */
+        main, header, footer {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- The background canvas -->
+    <canvas id="matrix-bg"></canvas>
+
+    <!-- Header and Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white tracking-wider">EP</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-300 hover:text-green-400 transition duration-300">About</a>
+                <a href="#projects" class="text-gray-300 hover:text-green-400 transition duration-300">Projects</a>
+                <a href="#contact" class="text-gray-300 hover:text-green-400 transition duration-300">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#about" class="block py-2 text-gray-300 hover:text-green-400">About</a>
+            <a href="#projects" class="block py-2 text-gray-300 hover:text-green-400">Projects</a>
+            <a href="#contact" class="block py-2 text-gray-300 hover:text-green-400">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center">
+            <div class="max-w-3xl">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-4">
+                    <!-- The animated name will be injected here by JavaScript -->
+                    <div id="animated-name" class="name-animation" data-name="Emil Lawrence V. Pequierda"></div>
+                </h1>
+                <p class="text-xl md:text-2xl text-green-300 font-medium" style="font-family: 'Inter', sans-serif;">Developer</p>
+                <p class="mt-6 text-green-300 text-lg md:text-xl font-medium max-w-xl mx-auto leading-relaxed">
+                    I build softwares, Network Configurations, Cctv Installations, and more.
+                </p>
+                <a href="#projects" class="mt-8 inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-transform transform hover:scale-105 duration-300">
+                    View My Work
+                </a>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="py-20 lg:py-32">
+            <div class="grid md:grid-cols-5 gap-10 items-center">
+                <div class="md:col-span-2">
+                    <img src="images/emil.png" alt="A portrait of John Doe" class="rounded-full shadow-2xl mx-auto w-64 h-64 md:w-full md:h-auto object-cover border-4 border-gray-700">
+                </div>
+                <div class="md:col-span-3">
+                    <h2 class="text-4xl font-bold text-white mb-4">About Me</h2>
+                    <p class="text-green-300 text-base font-medium mb-4 leading-relaxed">
+                        Hello! I'm Emil Lawrence V. Pequierda, Dynamic IT professional with a comprehensive skill set including Software Development, Quality Assurance Testing, Hospital
+                        IT Operations, Networking Operations, IT Security, System Administration, Database Administration, and System Troubleshooting. I am
+                        eager to leverage these diverse abilities to drive innovation and operational excellence within a forward-thinking organization. Committed
+                        to continuous learning and proactive knowledge sharing, I aim to contribute significantly to team success and overall organizational
+                        growth.
+                    </p>
+                    <p class="text-green-300 text-base font-medium mb-6 leading-relaxed">
+                        When I'm not coding, Im playing Mobile games such as Honor of Kings, Wild Rift, Call of Duty mobile, Once human and more.
+                    </p>
+                 
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 lg:py-32">
+            <h2 class="text-4xl font-bold text-white text-center mb-12">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <div class="glass-card p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="mb-4 overflow-hidden rounded-lg">
+                        <img src="images/dentalsystem.png" alt="Dental Management Information System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Dental Management Information System</h3>
+                    <p class="text-green-300 text-base font-medium mb-4 leading-relaxed">Can record all the patient dental information and can generate reports.</p>                 
+                </div>
+                <!-- Project Card 2 -->
+                <div class="glass-card p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="mb-4 overflow-hidden rounded-lg">
+                        <img src="images/pos.png" alt="POS with Inventory and Customer Credit Management" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">POS with Inventory and Customer Credit Management</h3>
+                    <p class="text-green-300 text-base font-medium mb-4 leading-relaxed">Performing inventory management, customer credit management, and sales tracking.</p>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="glass-card p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="mb-4 overflow-hidden rounded-lg">
+                        <img src="images/travel.png" alt="Travel and Tour Management System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Travel and Tour Management System with email notification</h3>
+                    <p class="text-green-300 text-base font-medium mb-4 leading-relaxed">Can manage the travel and tour information and can send email notification to the customer.</p>
+                </div>
+                 <!-- Project Card 4 -->
+                 <div class="glass-card p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="mb-4 overflow-hidden rounded-lg">
+                        <img src="images/patient.png" alt="Travel and Tour Management System" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Patient Scheduler Management system with email notification</h3>
+                    <p class="text-green-300 text-base font-medium mb-4 leading-relaxed">Can manage the patient schedule and can send email notification to the patient.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 lg:py-32">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-4xl font-bold text-white mb-4">Get In Touch</h2>
+                <div class="mb-6 overflow-hidden rounded-lg">
+                    <img src="images/me.png" alt="Contact" class="w-full h-64 object-cover mx-auto" style="width: 200px; height: 200px;">
+                </div>
+                <p class="text-green-300 text-lg font-medium mb-8 leading-relaxed">
+                    I'm currently open to new opportunities and collaborations. Feel free to send me a DM!
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+            <p>&copy; 2025 Emil Lawrence V. Pequierda. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Matrix Background Animation ---
+            const canvas = document.getElementById('matrix-bg');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas to full screen size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // The characters that will be falling
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
+            const charArray = chars.split('');
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+
+            // An array to store the y-position of each falling character column
+            let drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function drawMatrix() {
+                // Fill the canvas with a semi-transparent black to create the fading trail effect
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#0F0'; // Green text
+                ctx.font = fontSize + 'px monospace';
+
+                // Loop over the columns
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charArray[Math.floor(Math.random() * charArray.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    // Reset the drop to the top if it has gone off screen, with a random chance
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    // Increment the y-position
+                    drops[i]++;
+                }
+            }
+
+            // Start the matrix animation loop
+            setInterval(drawMatrix, 33);
+            
+            // Adjust canvas on window resize
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                // Recalculate columns and reset drops on resize
+                const newColumns = canvas.width / fontSize;
+                drops = [];
+                for (let x = 0; x < newColumns; x++) {
+                    drops[x] = 1;
+                }
+            });
+
+
+            // --- Hacker-style Name Animation ---
+            const nameContainer = document.getElementById('animated-name');
+            if (nameContainer) {
+                const nameChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!<>-_\\/[]{}—=+*^?#";
+                const originalName = nameContainer.getAttribute('data-name');
+                const colors = ['#34D399', '#60A5FA', '#F87171', '#FBBF24', '#A78BFA', '#FFFFFF'];
+                let colorIndex = 0;
+                
+                let iteration = 0;
+                let direction = 1; // 1 for revealing, -1 for hiding, 0 for paused
+                let interval = null;
+
+                // Function to change the color of the name
+                function changeColor() {
+                    nameContainer.style.color = colors[colorIndex];
+                    nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`;
+                    colorIndex = (colorIndex + 1) % colors.length;
+                }
+
+                function animate() {
+                    clearInterval(interval);
+                    
+                    interval = setInterval(() => {
+                        nameContainer.innerText = originalName
+                            .split("")
+                            .map((letter, index) => {
+                                if (originalName[index] === ' ') return ' ';
+                                if (index < iteration) return originalName[index];
+                                return nameChars[Math.floor(Math.random() * nameChars.length)];
+                            })
+                            .join("");
+
+                        if (direction === 1 && iteration >= originalName.length) {
+                            direction = 0;
+                            clearInterval(interval);
+                            setInterval(changeColor, 1000); // Start changing color when revealed
+                            
+                            setTimeout(() => {
+                                direction = -1;
+                                animate();
+                            }, 5000);
+                        } else if (direction === -1 && iteration <= 0) {
+                            direction = 0;
+                            clearInterval(interval);
+                            
+                            setTimeout(() => {
+                                direction = 1;
+                                animate();
+                            }, 1000);
+                        }
+
+                        iteration += (1 / 8) * direction;
+                    }, 50);
+                }
+                
+                animate();
+            }
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+
+</body>
+</html>
