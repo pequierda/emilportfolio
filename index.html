@@ -267,23 +267,41 @@
             }
 
             function setTheme(isDark) {
+                const emilPortrait = document.querySelector('#about img[src*="emil"]');
+                
                 if (isDark) {
                     document.documentElement.classList.add('dark');
                     themeToggleLightIcon.classList.remove('hidden');
                     themeToggleDarkIcon.classList.add('hidden');
                     localStorage.setItem('theme', 'dark');
                     startMatrixAnimation(); // Turn ON matrix in dark mode
+                    
+                    // Change portrait to emil1.png in dark mode
+                    if (emilPortrait) {
+                        emilPortrait.src = 'images/emil1.png';
+                    }
                 } else {
                     document.documentElement.classList.remove('dark');
                     themeToggleDarkIcon.classList.remove('hidden');
                     themeToggleLightIcon.classList.add('hidden');
                     localStorage.setItem('theme', 'light');
                     stopMatrixAnimation(); // Turn OFF matrix in light mode
+                    
+                    // Change portrait back to emil.png in light mode
+                    if (emilPortrait) {
+                        emilPortrait.src = 'images/emil.png';
+                    }
                 }
             }
 
             const isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
             setTheme(isDarkMode);
+            
+            // Set initial portrait based on theme
+            const emilPortrait = document.querySelector('#about img[src*="emil"]');
+            if (emilPortrait && isDarkMode) {
+                emilPortrait.src = 'images/emil1.png';
+            }
 
             themeToggleBtn.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
             
