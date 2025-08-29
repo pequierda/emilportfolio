@@ -423,7 +423,7 @@
                         observer.unobserve(container);
                     }
                 });
-            }, { threshold: 0.4 });
+            }, { threshold: 0.1 });
 
             animateContainers.forEach(container => observer.observe(container));
         });
