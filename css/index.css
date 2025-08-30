@@ -1,0 +1,91 @@
+
+body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+#matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* CORRECTED: Hidden by default, only shown in dark mode via JS */
+    display: none; 
+}
+
+.name-animation {
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
+}
+
+.glass-card {
+    backdrop-filter: blur(12px);
+    border-radius: 1rem;
+}
+
+main, header, footer {
+    position: relative;
+    z-index: 1;
+}
+
+.animate-container {
+    position: relative;
+}
+
+.particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.content-to-animate {
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease;
+}
+
+.content-to-animate.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.content-to-animate.glitch {
+    animation: glitch-pulse 0.5s forwards;
+}
+
+.content-to-animate.glitch::before,
+.content-to-animate.glitch::after {
+    content: ''; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    clip-path: inherit;
+}
+.content-to-animate.glitch::before {
+    left: 2px;
+    animation: glitch-anim-1 0.5s forwards;
+}
+.content-to-animate.glitch::after {
+    left: -2px;
+    animation: glitch-anim-2 0.5s forwards;
+}
+
+@keyframes glitch-pulse {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, 2px); }
+}
+@keyframes glitch-anim-1 { 0%, 100% { clip-path: inset(0 0 0 0); } 25% { clip-path: inset(20% 0 50% 0); } 50% { clip-path: inset(50% 0 30% 0); } 75% { clip-path: inset(30% 0 60% 0); } }
+@keyframes glitch-anim-2 { 0%, 100% { clip-path: inset(0 0 0 0); } 25% { clip-path: inset(60% 0 30% 0); } 50% { clip-path: inset(30% 0 50% 0); } 75% { clip-path: inset(40% 0 20% 0); } }
