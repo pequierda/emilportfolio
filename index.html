@@ -56,7 +56,7 @@
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-900 dark:text-gray-100 font-medium">Dev</p>
                 <p class="mt-6 text-lg md:text-xl text-gray-800 dark:text-gray-300 font-medium max-w-xl mx-auto leading-relaxed">
-                    "I build custom software, configure secure networks, install CCTV systems, and provide expert IT consulting, specializing in troubleshooting and resolving challenges within the Bizbox system."
+                    "I develop and implement custom technology solutions—from building standalone software and creating specialized Bizbox scripts and RDL reports, to configuring secure networks and installing CCTV systems. I also provide expert IT consulting to address your unique challenges."
                 </p>
                
             </div>
@@ -70,7 +70,7 @@
                 <div class="md:col-span-3">
                     <h2 class="text-4xl font-bold text-black dark:text-white mb-4">About Me</h2>
                     <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">
-                     "My two operational states: 1. Solving all your IT problems. 2. Hibernating."
+                        "My two operational states: 1. Solving all your IT problems. 2. Hibernating."
                     </p>
                 </div>
             </div>
@@ -100,22 +100,61 @@
                             <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Patient Scheduler Management System</h3>
                             <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage patient schedules and send email notifications to patients.</p>
                         </div>
+                                                 <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                             <div class="relative mb-4">
+                                 <div class="bizbox-slideshow overflow-hidden rounded-lg">
+                                     <img src="images/bizbox_item.png" alt="Bizbox Item Cleaner" class="bizbox-slide active project-image w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Bizbox Departmental item clean up" data-slide="1">
+                                     <img src="images/bizbox_item_script.png" alt="Bizbox Item Cleaner" class="bizbox-slide project-image w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Bizbox Departmental item clean up" data-slide="2">
+                                   
+                                 </div>
+                                 <button class="bizbox-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100">
+                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                     </svg>
+                                 </button>
+                                 <button class="bizbox-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100">
+                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                     </svg>
+                                 </button>
+                             </div>
+                             <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Bizbox Departmental item clean up</h3>
+                             <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">fixing items for each department thru script</p>
+                         </div>
+                         <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
+                            <img src="images/price_gen.gif" alt="Patient Scheduler Management System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Bizbox Price Generator">
+<h3 class="text-2xl font-bold text-black dark:text-white mb-2">Bizbox Price Generator</h3>
+<p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage price wether its HMO mark up or standard price</p>
+</div>
                 </div>
             </div>
         </section>
 
-        <!-- Image Modal -->
-        <div id="image-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-            <div class="relative max-w-4xl max-h-full">
-                <img id="modal-image" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl">
-                <h3 id="modal-title" class="text-white text-xl font-bold mt-4 text-center"></h3>
-                <button id="close-modal" class="absolute -top-4 -right-4 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-all duration-300 hover:scale-110">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
+                 <!-- Image Modal -->
+         <div id="image-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+             <div class="relative max-w-4xl max-h-full">
+                 <img id="modal-image" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl">
+                 <h3 id="modal-title" class="text-white text-xl font-bold mt-4 text-center"></h3>
+                 
+                 <!-- Modal Navigation Buttons (hidden by default) -->
+                 <button id="modal-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hidden">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                     </svg>
+                 </button>
+                 <button id="modal-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hidden">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                     </svg>
+                 </button>
+                 
+                 <button id="close-modal" class="absolute -top-4 -right-4 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-all duration-300 hover:scale-110">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                     </svg>
+                 </button>
+             </div>
+         </div>
 
         <section id="contact" class="py-20 lg:py-32 animate-container">
             <div class="text-center max-w-2xl mx-auto content-to-animate">
@@ -297,53 +336,166 @@
 
             animateContainers.forEach(container => observer.observe(container));
 
-            // --- IMAGE MODAL FUNCTIONALITY ---
-            const modal = document.getElementById('image-modal');
-            const modalImage = document.getElementById('modal-image');
-            const modalTitle = document.getElementById('modal-title');
-            const closeModal = document.getElementById('close-modal');
-            const projectImages = document.querySelectorAll('.project-image');
+                         // --- IMAGE MODAL FUNCTIONALITY ---
+             const modal = document.getElementById('image-modal');
+             const modalImage = document.getElementById('modal-image');
+             const modalTitle = document.getElementById('modal-title');
+             const closeModal = document.getElementById('close-modal');
+             const modalPrev = document.getElementById('modal-prev');
+             const modalNext = document.getElementById('modal-next');
+             const projectImages = document.querySelectorAll('.project-image');
 
-            function openModal(imageSrc, title) {
-                modalImage.src = imageSrc;
-                modalImage.alt = title;
-                modalTitle.textContent = title;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
-            }
+             let currentModalSlides = [];
+             let currentModalSlideIndex = 0;
 
-            function closeModalFunc() {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = ''; // Restore scrolling
-            }
+             function openModal(imageSrc, title, slides = null, slideIndex = 0) {
+                 modalImage.src = imageSrc;
+                 modalImage.alt = title;
+                 modalTitle.textContent = title;
+                 modal.classList.remove('hidden');
+                 modal.classList.add('flex');
+                 document.body.style.overflow = 'hidden'; // Prevent scrolling
+                 
+                 // Check if this is a Bizbox slideshow image
+                 if (slides && slides.length > 1) {
+                     currentModalSlides = slides;
+                     currentModalSlideIndex = slideIndex;
+                     modalPrev.classList.remove('hidden');
+                     modalNext.classList.remove('hidden');
+                 } else {
+                     currentModalSlides = [];
+                     modalPrev.classList.add('hidden');
+                     modalNext.classList.add('hidden');
+                 }
+             }
 
-            // Event listeners for project images
-            projectImages.forEach(img => {
-                img.addEventListener('click', () => {
-                    const imageSrc = img.src;
-                    const title = img.getAttribute('data-title');
-                    openModal(imageSrc, title);
-                });
-            });
+             function closeModalFunc() {
+                 modal.classList.add('hidden');
+                 modal.classList.remove('flex');
+                 document.body.style.overflow = ''; // Restore scrolling
+                 currentModalSlides = [];
+                 modalPrev.classList.add('hidden');
+                 modalNext.classList.add('hidden');
+             }
 
-            // Close modal events
-            closeModal.addEventListener('click', closeModalFunc);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModalFunc();
-                }
-            });
+             function showModalSlide(index) {
+                 if (currentModalSlides.length > 0 && index >= 0 && index < currentModalSlides.length) {
+                     const slide = currentModalSlides[index];
+                     modalImage.src = slide.src;
+                     modalImage.alt = slide.alt;
+                     currentModalSlideIndex = index;
+                 }
+             }
 
-            // Close modal with Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    closeModalFunc();
-                }
-            });
-        });
-    </script>
+             function nextModalSlide() {
+                 if (currentModalSlides.length > 0) {
+                     const nextIndex = (currentModalSlideIndex + 1) % currentModalSlides.length;
+                     showModalSlide(nextIndex);
+                 }
+             }
+
+             function prevModalSlide() {
+                 if (currentModalSlides.length > 0) {
+                     const prevIndex = (currentModalSlideIndex - 1 + currentModalSlides.length) % currentModalSlides.length;
+                     showModalSlide(prevIndex);
+                 }
+             }
+
+             // Event listeners for project images
+             projectImages.forEach(img => {
+                 img.addEventListener('click', () => {
+                     const imageSrc = img.src;
+                     const title = img.getAttribute('data-title');
+                     
+                     // Check if this is a Bizbox slideshow image
+                     if (img.classList.contains('bizbox-slide')) {
+                         const slideshow = img.closest('.bizbox-slideshow');
+                         const slides = slideshow.querySelectorAll('.bizbox-slide');
+                         const slideIndex = Array.from(slides).indexOf(img);
+                         openModal(imageSrc, title, slides, slideIndex);
+                     } else {
+                         openModal(imageSrc, title);
+                     }
+                 });
+             });
+
+             // Modal navigation event listeners
+             modalPrev.addEventListener('click', (e) => {
+                 e.stopPropagation();
+                 prevModalSlide();
+             });
+
+             modalNext.addEventListener('click', (e) => {
+                 e.stopPropagation();
+                 nextModalSlide();
+             });
+
+             // Close modal events
+             closeModal.addEventListener('click', closeModalFunc);
+             modal.addEventListener('click', (e) => {
+                 if (e.target === modal) {
+                     closeModalFunc();
+                 }
+             });
+
+             // Close modal with Escape key
+             document.addEventListener('keydown', (e) => {
+                 if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                     closeModalFunc();
+                 }
+             });
+
+             // --- BIZBOX SLIDESHOW FUNCTIONALITY ---
+             const bizboxSlideshows = document.querySelectorAll('.bizbox-slideshow');
+             
+             bizboxSlideshows.forEach(slideshow => {
+                 const slides = slideshow.querySelectorAll('.bizbox-slide');
+                 const prevBtn = slideshow.parentElement.querySelector('.bizbox-prev');
+                 const nextBtn = slideshow.parentElement.querySelector('.bizbox-next');
+                 let currentSlide = 0;
+                 
+                 function showSlide(index) {
+                     slides.forEach((slide, i) => {
+                         if (i === index) {
+                             slide.classList.add('active');
+                         } else {
+                             slide.classList.remove('active');
+                         }
+                     });
+                 }
+                 
+                 function nextSlide() {
+                     currentSlide = (currentSlide + 1) % slides.length;
+                     showSlide(currentSlide);
+                 }
+                 
+                 function prevSlide() {
+                     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                     showSlide(currentSlide);
+                 }
+                 
+                 // Event listeners for navigation buttons
+                 if (prevBtn) {
+                     prevBtn.addEventListener('click', (e) => {
+                         e.stopPropagation();
+                         prevSlide();
+                     });
+                 }
+                 
+                 if (nextBtn) {
+                     nextBtn.addEventListener('click', (e) => {
+                         e.stopPropagation();
+                         nextSlide();
+                     });
+                 }
+                 
+                 // Auto-advance slides every 3 seconds
+                 setInterval(() => {
+                     nextSlide();
+                 }, 3000);
+             });
+         });
+     </script>
 
 </body>
 </html>
