@@ -84,28 +84,41 @@
                 <h2 class="text-4xl font-bold text-black dark:text-white text-center mb-12">My Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="images/dentalsystem.png" alt="Dental Management Information System" class="mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <img src="images/dentalsystem.gif" alt="Dental Management Information System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Dental Management Information System">
                         <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Dental Management Information System</h3>
                         <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can record all the patient dental information and can generate reports.</p>
                     </div>
                     <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                                                   <img src="images/pos.png" alt="POS System" class="mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                                                   <img src="images/pos.gif" alt="POS System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="POS with Inventory Management">
                         <h3 class="text-2xl font-bold text-black dark:text-white mb-2">POS with Inventory Management</h3>
                         <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Performing inventory management, customer credit management, and sales tracking.</p>
                     </div>
                         <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                                                         <img src="images/travel.png" alt="Travel and Tour System" class="mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                                                         <img src="images/travel.gif" alt="Travel and Tour System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Travel and Tour Management System">
                             <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Travel and Tour Management System</h3>
                             <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage travel and tour information and send email notifications to the customer.</p>
                         </div>
                         <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                                                         <img src="images/patient.png" alt="Patient Scheduler Management System" class="mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                                                         <img src="images/patient.gif" alt="Patient Scheduler Management System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Patient Scheduler Management System">
                             <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Patient Scheduler Management System</h3>
                             <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage patient schedules and send email notifications to patients.</p>
                         </div>
                 </div>
             </div>
         </section>
+
+        <!-- Image Modal -->
+        <div id="image-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+            <div class="relative max-w-4xl max-h-full">
+                <img id="modal-image" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl">
+                <h3 id="modal-title" class="text-white text-xl font-bold mt-4 text-center"></h3>
+                <button id="close-modal" class="absolute -top-4 -right-4 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-all duration-300 hover:scale-110">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
         <section id="contact" class="py-20 lg:py-32 animate-container">
             <div class="text-center max-w-2xl mx-auto content-to-animate">
@@ -264,7 +277,7 @@
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-            // --- DIGITAL INK & GLITCH ANIMATION ---
+            // --- SIMPLE FADE-IN ANIMATION ---
             const animateContainers = document.querySelectorAll('.animate-container');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -272,77 +285,66 @@
                         const container = entry.target;
                         const content = container.querySelector('.content-to-animate');
                         
-                        const canvas = document.createElement('canvas');
-                        canvas.className = 'particle-canvas';
-                        container.appendChild(canvas);
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = container.offsetWidth;
-                        canvas.height = container.offsetHeight;
-                        
-                        const particleColor = document.documentElement.classList.contains('dark') ? '#10B981' : '#059669';
-                        
-                        let particles = [];
-                        let animationFrameId;
-
-                        class Particle {
-                            constructor(x, y) { this.x = x + (Math.random() * 10 - 5); this.y = y + (Math.random() * 10 - 5); this.size = Math.random() * 2 + 1; this.speedX = Math.random() * 2 - 1; this.speedY = Math.random() * 2 - 1; this.life = 0; this.maxLife = Math.random() * 100 + 50; }
-                            update() { this.x += this.speedX; this.y += this.speedY; this.life++; }
-                            draw() { ctx.fillStyle = particleColor; ctx.globalAlpha = 1 - (this.life / this.maxLife); ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
-                        }
-
-                        function getContentPixelData(element) {
-                            const tempCanvas = document.createElement('canvas');
-                            const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-                            tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
-                            const originalVisibility = element.style.visibility; const originalOpacity = element.style.opacity;
-                            element.style.visibility = 'visible'; element.style.opacity = '1';
-                            
-                            Array.from(element.querySelectorAll('h1, h2, p, h3, a')).forEach(el => {
-                                const style = getComputedStyle(el); tempCtx.fillStyle = style.color;
-                                tempCtx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-                                const rect = el.getBoundingClientRect(); const containerRect = container.getBoundingClientRect();
-                                tempCtx.fillText(el.innerText, rect.left - containerRect.left, rect.top - containerRect.top + rect.height * 0.8);
-                            });
-                             Array.from(element.querySelectorAll('img')).forEach(imgEl => {
-                                const rect = imgEl.getBoundingClientRect(); const containerRect = container.getBoundingClientRect();
-                                try { tempCtx.drawImage(imgEl, rect.left - containerRect.left, rect.top - containerRect.top, rect.width, rect.height); } catch (e) { console.error("Could not draw image:", e); }
-                            });
-
-                            element.style.visibility = originalVisibility; element.style.opacity = originalOpacity;
-                            return tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
-                        }
-                        
-                        Promise.all(Array.from(container.querySelectorAll('img')).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
-                            const pixelData = getContentPixelData(content);
-                            let mappedPixels = [];
-                            const density = 4;
-                            for (let y = 0; y < canvas.height; y += density) {
-                                for (let x = 0; x < canvas.width; x += density) {
-                                    if (pixelData[(y * canvas.width + x) * 4 + 3] > 128) { mappedPixels.push({ x: x, y: y }); }
-                                }
+                        // Simple fade-in animation
+                        setTimeout(() => {
+                            content.classList.add('visible');
+                            if (container.id === 'home') { 
+                                startHackerAnimationLoop(); 
                             }
-
-                            function initParticles() { for(let i = 0; i < mappedPixels.length; i+=2) { particles.push(new Particle(mappedPixels[i].x, mappedPixels[i].y)); } }
-                            function animateParticles() {
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                                particles.forEach((p, i) => { p.update(); p.draw(); if (p.life >= p.maxLife) particles.splice(i, 1); });
-                                if (particles.length > 0) animationFrameId = requestAnimationFrame(animateParticles);
-                            }
-                            initParticles(); animateParticles();
-
-                            setTimeout(() => content.classList.add('visible'), 1200);
-                            setTimeout(() => {
-                                content.classList.add('glitch');
-                                if (container.id === 'home') { startHackerAnimationLoop(); }
-                            }, 1800);
-                            setTimeout(() => { cancelAnimationFrame(animationFrameId); if (canvas.parentNode) canvas.remove(); }, 3000);
-                        });
+                        }, 300);
+                        
                         observer.unobserve(container);
                     }
                 });
             }, { threshold: 0.1 });
 
             animateContainers.forEach(container => observer.observe(container));
+
+            // --- IMAGE MODAL FUNCTIONALITY ---
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const closeModal = document.getElementById('close-modal');
+            const projectImages = document.querySelectorAll('.project-image');
+
+            function openModal(imageSrc, title) {
+                modalImage.src = imageSrc;
+                modalImage.alt = title;
+                modalTitle.textContent = title;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+
+            function closeModalFunc() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Event listeners for project images
+            projectImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    const imageSrc = img.src;
+                    const title = img.getAttribute('data-title');
+                    openModal(imageSrc, title);
+                });
+            });
+
+            // Close modal events
+            closeModal.addEventListener('click', closeModalFunc);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModalFunc();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModalFunc();
+                }
+            });
         });
     </script>
 
