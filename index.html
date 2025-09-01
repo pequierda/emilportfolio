@@ -3,138 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emil Lawrence - E Portfolio</title>
+    <title>Emil Lawrence - System Developer & IT Consultant Expert</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
+        theme: {
+          extend: {
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'glow': 'glow 2s ease-in-out infinite alternate',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'fade-in': 'fadeIn 1s ease-out',
+            }
+          }
+        }
       }
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
 </head>
-<body class="antialiased bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-200 transition-colors duration-300">
+<body class="antialiased bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-black dark:to-gray-900 text-gray-900 dark:text-gray-200 transition-all duration-500">
 
     <canvas id="matrix-bg"></canvas>
+    
+    <!-- Animated background particles -->
+    <div id="particles-bg" class="fixed inset-0 z-0 opacity-30 dark:opacity-20"></div>
 
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-black dark:text-white tracking-wider">EP</a>
-            <div class="flex items-center">
+            <a href="#" class="group flex items-center space-x-2">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    EL
+                </div>
+             
+            </a>
+            <div class="flex items-center space-x-6">
                 <nav class="hidden md:flex space-x-8">
-                    <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 transition duration-300">About</a>
-                    <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 transition duration-300">Projects</a>
-                    <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 transition duration-300">Contact</a>
+                    <a href="#about" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#projects" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
+                        Projects
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#contact" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
                 </nav>
 
-                <button id="theme-toggle" type="button" class="ml-6 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                <button id="theme-toggle" type="button" class="relative p-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 rounded-xl text-sm transition-all duration-300 hover:scale-110">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                     <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1zM6.464 16.364l.707-.707a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414z"></path></svg>
                 </button>
 
-                <button id="mobile-menu-button" class="md:hidden ml-4 text-gray-600 dark:text-gray-300 focus:outline-none">
+                <button id="mobile-menu-button" class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl focus:outline-none transition-all duration-300">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#about" class="block py-2 text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400">About</a>
-            <a href="#projects" class="block py-2 text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400">Projects</a>
-            <a href="#contact" class="block py-2 text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-800/50">
+            <div class="flex flex-col space-y-4 pt-4">
+                <a href="#about" class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300 font-medium">About</a>
+                <a href="#projects" class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300 font-medium">Projects</a>
+                <a href="#contact" class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300 font-medium">Contact</a>
+            </div>
         </div>
     </header>
 
     <main class="container mx-auto px-6">
 
-        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center animate-container">
-            <div class="max-w-3xl content-to-animate">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-black dark:text-white mb-4">
-                    <div id="animated-name" class="name-animation" data-name="Hi! I am Emil Lawrence">
-                       Hi! I am Emil Lawrence
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center animate-container relative">
+            <!-- Floating elements -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute top-20 left-10 w-20 h-20 bg-blue-500/10 rounded-full animate-float"></div>
+                <div class="absolute top-40 right-20 w-16 h-16 bg-purple-500/10 rounded-full animate-float" style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-40 left-20 w-24 h-24 bg-indigo-500/10 rounded-full animate-float" style="animation-delay: 4s;"></div>
+            </div>
+            
+            <div class="max-w-4xl content-to-animate relative z-10">
+                <div class="mb-8">
+                    <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 dark:border-purple-500/20 rounded-full text-blue-600 dark:text-blue-400 font-medium text-sm mb-6">
+                        <i class="fas fa-code mr-2"></i>
+                        System Developer & IT Consultant Expert
+                    </div>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-black mb-6">
+                    <div id="animated-name" class="name-animation bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent" data-name="Hello! I Am Emil Lawrence">
+                       Hello! I Am Emil Lawrence
                     </div>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-900 dark:text-gray-100 font-medium">Dev</p>
-                <p class="mt-6 text-lg md:text-xl text-gray-800 dark:text-gray-300 font-medium max-w-xl mx-auto leading-relaxed">
-                    "I develop and implement custom technology solutions—from building standalone software and creating specialized Bizbox scripts and RDL reports, to configuring secure networks and installing CCTV systems. I also provide expert IT consulting to address your unique challenges."
-                </p>
-               
+                
+                <div class="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 font-light mb-8">
+                    <span class="inline-block animate-fade-in" style="animation-delay: 0.5s;">I build</span>
+                    <span class="inline-block animate-fade-in ml-2 text-blue-600 dark:text-blue-400 font-semibold" style="animation-delay: 1s;">digital solutions</span>
+                    <span class="inline-block animate-fade-in ml-2" style="animation-delay: 1.5s;">that</span>
+                    <span class="inline-block animate-fade-in ml-2 text-purple-600 dark:text-purple-400 font-semibold" style="animation-delay: 2s;">transform</span>
+                    <span class="inline-block animate-fade-in ml-2" style="animation-delay: 2.5s;">businesses</span>
+                </div>
+                
+            
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style="animation-delay: 3.5s;">
+                    <a href="#projects" class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
+                        <i class="fas fa-rocket mr-3"></i>
+                        View My Work
+                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </a>
+                    <a href="#contact" class="group inline-flex items-center px-8 py-4 border-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-envelope mr-3"></i>
+                        Get In Touch
+                    </a>
+                </div>
+                
+                                 <!-- Tech stack badges -->
+                 <div class="mt-16 flex flex-wrap justify-center gap-3 animate-fade-in" style="animation-delay: 4s;">
+                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">PHP</span>
+                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">JavaScript</span>
+                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">MySQL</span>
+                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">HTML/CSS</span>
+                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">Bizbox</span>
+                 </div>
+                 
+                                 
+                
             </div>
         </section>
 
         <section id="about" class="py-20 lg:py-32 animate-container">
-            <div class="grid md:grid-cols-5 gap-10 items-center content-to-animate">
-                <div class="md:col-span-2">
-                                         <img src="images/emil.png" alt="A portrait of Emil" class="rounded-full shadow-2xl mx-auto w-48 h-48 sm:w-64 sm:h-64 md:w-full md:h-auto object-cover border-4 border-gray-300 dark:border-gray-700">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 content-to-animate">
+                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">About Me</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
                 </div>
-                <div class="md:col-span-3">
-                    <h2 class="text-4xl font-bold text-black dark:text-white mb-4">About Me</h2>
-                    <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">
-                        "My two operational states: 1. Solving all your IT problems. 2. Hibernating."
-                    </p>
+                
+                <div class="grid lg:grid-cols-2 gap-16 items-center content-to-animate">
+                    <div class="relative">
+                        <div class="relative z-10">
+                            <img src="images/emil.png" alt="A portrait of Emil" class="rounded-3xl shadow-2xl w-full max-w-md mx-auto object-cover border-8 border-white dark:border-gray-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="hidden rounded-3xl shadow-2xl w-full max-w-md mx-auto h-96 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
+                                Emil Lawrence
+                            </div>
+                        </div>
+                        <!-- Decorative elements -->
+                        <div class="absolute -top-4 -left-4 w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-20 animate-float"></div>
+                        <div class="absolute -bottom-4 -right-4 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-float" style="animation-delay: 2s;"></div>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <div class="space-y-6">
+                            <h3 class="text-3xl font-bold text-gray-900 dark:text-white">System Developer & IT Consultant Expert</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                                "I develop and implement custom technology solutions—from building standalone software and creating specialized Bizbox scripts and RDL reports, to configuring networks and installing CCTV systems. I also provide expert IT consulting to address your unique challenges."
+                            </p>
+                        </div>
+                   
+                        <div class="space-y-6">
+                            <h4 class="text-xl font-semibold text-gray-900 dark:text-white">What I Do</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
+                                    <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-code text-blue-600 dark:text-blue-400"></i>
+                                    </div>
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">Custom Software</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
+                                    <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-database text-purple-600 dark:text-purple-400"></i>
+                                    </div>
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">Database Management</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
+                                    <div class="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-network-wired text-green-600 dark:text-green-400"></i>
+                                    </div>
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">Network Configuration</span>
+                                </div>
+                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
+                                    <div class="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-cogs text-orange-600 dark:text-orange-400"></i>
+                                    </div>
+                                    <span class="font-medium text-gray-700 dark:text-gray-300">IT Consulting</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience highlights -->
+                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Expertise</h4>
+                            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                                <li class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    <span>Bizbox Scripts & RDL Reports</span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    <span>CCTV System Installation</span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    <span>Network Configuration</span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    <span>Custom Business Solutions</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="projects" class="py-20 lg:py-32 animate-container">
-            <div class="content-to-animate">
-                <h2 class="text-4xl font-bold text-black dark:text-white text-center mb-12">My Projects</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="images/dentalsystem.gif" alt="Dental Management Information System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Dental Management Information System">
-                        <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Dental Management Information System</h3>
-                        <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can record all the patient dental information and can generate reports.</p>
-                    </div>
-                    <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                                                   <img src="images/pos.gif" alt="POS System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="POS with Inventory Management">
-                        <h3 class="text-2xl font-bold text-black dark:text-white mb-2">POS with Inventory Management</h3>
-                        <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Performing inventory management, customer credit management, and sales tracking.</p>
-                    </div>
-                        <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                                                         <img src="images/travel.gif" alt="Travel and Tour System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Travel and Tour Management System">
-                            <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Travel and Tour Management System</h3>
-                            <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage travel and tour information and send email notifications to the customer.</p>
-                        </div>
-                        <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                                                         <img src="images/patient.gif" alt="Patient Scheduler Management System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Patient Scheduler Management System">
-                            <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Patient Scheduler Management System</h3>
-                            <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage patient schedules and send email notifications to patients.</p>
-                        </div>
-                                                 <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                             <div class="relative mb-4">
-                                 <div class="bizbox-slideshow overflow-hidden rounded-lg">
-                                     <img src="images/bizbox_item.png" alt="Bizbox Item Cleaner" class="bizbox-slide active project-image w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Bizbox Departmental item clean up" data-slide="1">
-                                     <img src="images/bizbox_item_script.png" alt="Bizbox Item Cleaner" class="bizbox-slide project-image w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Bizbox Departmental item clean up" data-slide="2">
-                                   
-                                 </div>
-                                 <button class="bizbox-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100">
-                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                     </svg>
-                                 </button>
-                                 <button class="bizbox-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100">
-                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                     </svg>
-                                 </button>
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 content-to-animate">
+                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">Featured Projects</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mb-8"></div>
+                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Explore my latest work in custom software development, business solutions, and IT infrastructure</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 content-to-animate">
+                                         <!-- Dental Management System -->
+                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
+                                                 <div class="relative overflow-hidden rounded-t-2xl">
+                             <img src="images/dentalsystem.gif" alt="Dental Management Information System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Dental Management Information System" onclick="openModal('images/dentalsystem.gif', 'Dental Management Information System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <div class="hidden w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                                 <i class="fas fa-tooth mr-2"></i>Dental System
                              </div>
-                             <h3 class="text-2xl font-bold text-black dark:text-white mb-2">Bizbox Departmental item clean up</h3>
-                             <p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">fixing items for each department thru script</p>
-                         </div>
-                         <div class="glass-card bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-white/10 p-6 group transform hover:-translate-y-2 transition-transform duration-300">
-                            <img src="images/price_gen.gif" alt="Patient Scheduler Management System" class="project-image mb-4 rounded-lg w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-300 cursor-pointer" data-title="Bizbox Price Generator">
-<h3 class="text-2xl font-bold text-black dark:text-white mb-2">Bizbox Price Generator</h3>
-<p class="text-gray-800 dark:text-gray-300 text-base font-medium mb-4 leading-relaxed">Can manage price whether it's HMO mark up or standard price</p>
-</div>
+                             
+                        </div>
+                        <div class="p-6">
+                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Dental Management Information System</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Comprehensive dental practice management solution with patient records, appointment scheduling, and automated reporting capabilities.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
+                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
+                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                                         <!-- POS System -->
+                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
+                                                 <div class="relative overflow-hidden rounded-t-2xl">
+                             <img src="images/pos.gif" alt="POS System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="POS with Inventory Management" onclick="openModal('images/pos.gif', 'POS with Inventory Management')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <div class="hidden w-full h-48 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                                 <i class="fas fa-cash-register mr-2"></i>POS System
+                             </div>
+                             
+                        </div>
+                        <div class="p-6">
+                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">POS with Inventory Management</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Complete point-of-sale solution with real-time inventory tracking, customer management, and comprehensive sales analytics.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
+                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
+                                <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded-full">Bootstrap</span>
+                            </div>
+                        </div>
+                    </div>
+
+                                         <!-- Travel Management System -->
+                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
+                                                 <div class="relative overflow-hidden rounded-t-2xl">
+                             <img src="images/travel.gif" alt="Travel and Tour System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Travel and Tour Management System" onclick="openModal('images/travel.gif', 'Travel and Tour Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <div class="hidden w-full h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-lg">
+                                 <i class="fas fa-plane mr-2"></i>Travel System
+                             </div>
+                             
+                        </div>
+                        <div class="p-6">
+                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Travel and Tour Management System</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Comprehensive travel agency management platform with booking automation and customer notification systems.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
+                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
+                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-medium rounded-full">SMTP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                                         <!-- Patient Scheduler -->
+                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
+                                                 <div class="relative overflow-hidden rounded-t-2xl">
+                             <img src="images/patient.gif" alt="Patient Scheduler Management System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Patient Scheduler Management System" onclick="openModal('images/patient.gif', 'Patient Scheduler Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <div class="hidden w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                                 <i class="fas fa-calendar-check mr-2"></i>Patient Scheduler
+                             </div>
+                             
+                        </div>
+                        <div class="p-6">
+                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Patient Scheduler Management System</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Intelligent appointment scheduling system with automated patient notifications and calendar management.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
+                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
+                                <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full">SMTP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                                             <!-- Departmental item cleaning -->
+                                             <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
+                                                <div class="relative overflow-hidden rounded-t-2xl">
+                            <img src="images/itemclean.gif" alt="Patient Scheduler Management System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Departmental Item Cleanup" onclick="openModal('images/itemclean.gif', 'Bizbox Departmental Item Cleanup')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                                <i class="fas fa-calendar-check mr-2"></i>Departmental item cleaning
+                            </div>
+                            
+                       </div>
+                       <div class="p-6">
+                                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Bizbox Departmental Item Cleanup</h3>
+                           <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Automated script solution for cleaning and organizing departmental items within the Bizbox system</p>
+                           <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">Bizbox</span>
+                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full">Scripting</span>
+                            <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full">Pricing</span>
+                           </div>
+                       </div>
+                   </div>
+
+                
+
+                                         <!-- Price Generator -->
+                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
+                                                 <div class="relative overflow-hidden rounded-t-2xl">
+                             <img src="images/price_gen.gif" alt="Bizbox Price Generator" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Price Generator" onclick="openModal('images/price_gen.gif', 'Bizbox Price Generator')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <div class="hidden w-full h-48 bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg">
+                                 <i class="fas fa-dollar-sign mr-2"></i>Price Generator
+                             </div>
+                             
+                        </div>
+                        <div class="p-6">
+                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Bizbox Price Generator</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Dynamic pricing system supporting HMO markup calculations and standard pricing management.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">Bizbox</span>
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full">Scripting</span>
+                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full">Pricing</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-                 <!-- Image Modal -->
-         <div id="image-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-             <div class="relative max-w-4xl max-h-full">
-                 <img id="modal-image" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl">
-                 <h3 id="modal-title" class="text-white text-xl font-bold mt-4 text-center"></h3>
+                                   <!-- Image Modal -->
+          <div id="image-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+              <div class="relative max-w-6xl max-h-full w-full">
+                  <img id="modal-image" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border-4 border-white/20">
+                  <h3 id="modal-title" class="text-white text-2xl font-bold mt-6 text-center bg-black/50 px-6 py-3 rounded-full backdrop-blur-sm"></h3>
                  
                  <!-- Modal Navigation Buttons (hidden by default) -->
                  <button id="modal-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hidden">
@@ -157,43 +380,169 @@
          </div>
 
         <section id="contact" class="py-20 lg:py-32 animate-container">
-            <div class="text-center max-w-2xl mx-auto content-to-animate">
-                <h2 class="text-4xl font-bold text-black dark:text-white mb-4">DM me</h2>
-                <div class="mb-6 overflow-hidden rounded-lg">
-                                         <img src="images/me.png" alt="Contact" class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-cover mx-auto">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16 content-to-animate">
+                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">Let's Connect</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mb-8"></div>
+                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">I'm currently open to new opportunities and collaborations. Let's discuss how we can work together!</p>
                 </div>
-                <p class="text-gray-800 dark:text-gray-300 text-lg font-medium mb-8 leading-relaxed">
-                    I'm currently open to new opportunities. Feel free to send me a DM!
-                </p>
+                
+                <div class="grid lg:grid-cols-2 gap-12 items-center content-to-animate">
+                    <div class="text-center lg:text-left">
+                        <div class="relative mb-8">
+                            <div class="relative z-10">
+                                <img src="images/me.png" alt="Emil Lawrence" class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-cover mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="hidden w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
+                                    EL
+                                </div>
+                            </div>
+                            <!-- Decorative elements -->
+                            <div class="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-20 animate-float"></div>
+                            <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-float" style="animation-delay: 2s;"></div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Ready to Start a Project?</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                                Whether you need custom software development, IT consulting, I'm here to help bring your ideas to life.
+                            </p>
+                            
+                            <!-- Contact Info -->
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-center lg:justify-start space-x-3 text-gray-600 dark:text-gray-400">
+                                    <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+                                    </div>
+                                    <span class="font-medium">Available for new opportunities</span>
+                                </div>
+                                <div class="flex items-center justify-center lg:justify-start space-x-3 text-gray-600 dark:text-gray-400">
+                                    <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-globe text-purple-600 dark:text-purple-400"></i>
+                                    </div>
+                                    <span class="font-medium">Remote & on-site work available near puerto princesa city</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-xl">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Get In Touch</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                                <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white">
+                                    <i class="fas fa-rocket text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">New Projects</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Let's discuss your next big idea</p>
+                                </div>
+                            </div>
+                        
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
+                                <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center text-white">
+                                    <i class="fas fa-lightbulb text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-white">Consulting</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Expert IT advice and solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                       
+                    </div>
+                </div>
             </div>
-            <!-- Resume download button outside animated container to ensure it's always clickable -->
-           <!-- <div class="text-center mt-8">
-                <a href="resume/resume.pdf" download="Emil_Lawrence_Resume.pdf" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white font-semibold rounded-lg transition duration-300 transform hover:scale-105 shadow-lg cursor-pointer z-10 relative">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    Download Resume
-                </a>
-            </div> -->
         </section>
 
     </main>
 
-    <footer class="border-t border-gray-200 dark:border-gray-800">
-        <div class="container mx-auto px-6 py-6 text-center text-gray-500 dark:text-gray-400">
-            <p>&copy; 2025 Emil Lawrence. All Rights Reserved.</p>
+    <footer class="border-t border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-black/50 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-8">
+            <div class="text-center">
+                <div class="flex justify-center items-center space-x-4 mb-4">
+                    <a href="https://www.linkedin.com/in/emil-lawrence-villanueva-pequierda-53a1571b3/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://m.me/pequierda123" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+                        <i class="fab fa-facebook-messenger"></i>
+                    </a>
+                </div>
+                <p class="text-gray-500 dark:text-gray-400">&copy; 2025 Emil Lawrence. All Rights Reserved.</p>
+                <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Built with 🤖🧠 and lots of 🤔🧠🤓💡</p>
+            </div>
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+         <script>
+         // Global modal function
+         function openModal(imageSrc, title, slides = null, slideIndex = 0) {
+             console.log('Opening modal with:', { imageSrc, title, slides: slides?.length, slideIndex });
+             
+             const modal = document.getElementById('image-modal');
+             const modalImage = document.getElementById('modal-image');
+             const modalTitle = document.getElementById('modal-title');
+             
+             if (!modal || !modalImage || !modalTitle) {
+                 console.error('Modal elements not found!');
+                 return;
+             }
+             
+             modalImage.src = imageSrc;
+             modalImage.alt = title;
+             modalTitle.textContent = title;
+             modal.classList.remove('hidden');
+             modal.classList.add('flex');
+             document.body.style.overflow = 'hidden'; // Prevent scrolling
+             
+             // Add zoom effect
+             modalImage.style.transform = 'scale(0.8)';
+             modalImage.style.opacity = '0';
+             
+             setTimeout(() => {
+                 modalImage.style.transform = 'scale(1)';
+                 modalImage.style.opacity = '1';
+             }, 50);
+             
+             // Check if this is a Bizbox slideshow image
+             const modalPrev = document.getElementById('modal-prev');
+             const modalNext = document.getElementById('modal-next');
+             
+             if (slides && slides.length > 1) {
+                 window.currentModalSlides = slides;
+                 window.currentModalSlideIndex = slideIndex;
+                 if (modalPrev) modalPrev.classList.remove('hidden');
+                 if (modalNext) modalNext.classList.remove('hidden');
+             } else {
+                 window.currentModalSlides = [];
+                 if (modalPrev) modalPrev.classList.add('hidden');
+                 if (modalNext) modalNext.classList.add('hidden');
+             }
+         }
+         
+         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- CORRECTED: Theme Toggling and Matrix Control ---
+            // --- Enhanced Theme Toggling and Matrix Control ---
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
             const matrixCanvas = document.getElementById('matrix-bg');
             let matrixInterval;
+
+            // Add scroll progress indicator
+            const scrollIndicator = document.createElement('div');
+            scrollIndicator.className = 'scroll-indicator';
+            document.body.appendChild(scrollIndicator);
+
+            // Update scroll progress
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.body.offsetHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                scrollIndicator.style.transform = `scaleX(${scrollPercent / 100})`;
+            });
 
             // This function starts the classic GREEN matrix effect
             function startMatrixAnimation() {
@@ -279,28 +628,43 @@
                 }
             });
 
-            // --- Hacker-style Name Animation ---
+            // --- Enhanced Hacker-style Name Animation ---
             function startHackerAnimationLoop() {
                 const nameContainer = document.getElementById('animated-name');
                 if (!nameContainer) return;
                 
                 const nameChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!<>-_\\/[]{}—=+*^?#";
                 const originalName = nameContainer.getAttribute('data-name');
-                const colors = ['#34D399', '#60A5FA', '#F87171', '#FBBF24', '#A78BFA', '#FFFFFF'];
+                const colors = ['#3B82F6', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'];
                 let colorIndex = 0, iteration = 0, direction = -1, interval = null;
                 nameContainer.innerText = originalName;
                 
-                function changeColor() { nameContainer.style.color = colors[colorIndex]; nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`; colorIndex = (colorIndex + 1) % colors.length; }
+                function changeColor() { 
+                    nameContainer.style.color = colors[colorIndex]; 
+                    nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`; 
+                    colorIndex = (colorIndex + 1) % colors.length; 
+                }
 
                 function animate() {
                     clearInterval(interval);
                     iteration = (direction === 1) ? 0 : originalName.length;
                     interval = setInterval(() => {
-                        nameContainer.innerText = originalName.split("").map((_, index) => { if (originalName[index] === ' ') return ' '; if ( (direction === 1 && index < iteration) || (direction === -1 && index < iteration) ) { return originalName[index]; } return nameChars[Math.floor(Math.random() * nameChars.length)]; }).join("");
+                        nameContainer.innerText = originalName.split("").map((_, index) => { 
+                            if (originalName[index] === ' ') return ' '; 
+                            if ( (direction === 1 && index < iteration) || (direction === -1 && index < iteration) ) { 
+                                return originalName[index]; 
+                            } 
+                            return nameChars[Math.floor(Math.random() * nameChars.length)]; 
+                        }).join("");
                         if ((direction === 1 && iteration >= originalName.length) || (direction === -1 && iteration <= 0)) {
                             direction *= -1;
                             clearInterval(interval);
-                            if (direction === -1) { setInterval(changeColor, 1000); setTimeout(animate, 5000); } else { setTimeout(animate, 1000); }
+                            if (direction === -1) { 
+                                setInterval(changeColor, 1000); 
+                                setTimeout(animate, 5000); 
+                            } else { 
+                                setTimeout(animate, 1000); 
+                            }
                         }
                         iteration += (1 / 8) * direction;
                     }, 50);
@@ -308,27 +672,83 @@
                 setTimeout(animate, 2000);
             }
 
+            // --- Particle Animation ---
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles-bg');
+                if (!particlesContainer) return;
+
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'absolute w-1 h-1 bg-blue-500/20 rounded-full';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 20 + 's';
+                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    particle.style.animation = 'particleFloat infinite ease-in-out';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // Initialize particles
+            createParticles();
+
+            // Debug image loading
+            function debugImageLoading() {
+                const images = document.querySelectorAll('img');
+                images.forEach((img, index) => {
+                    img.addEventListener('load', () => {
+                        console.log(`✅ Image ${index + 1} loaded successfully:`, img.src);
+                        console.log(`📏 Image dimensions: ${img.naturalWidth}x${img.naturalHeight}`);
+                        console.log(`🎨 Image display: ${img.style.display}, opacity: ${img.style.opacity}, visibility: ${img.style.visibility}`);
+                    });
+                    img.addEventListener('error', () => {
+                        console.error(`❌ Image ${index + 1} failed to load:`, img.src);
+                    });
+                });
+            }
+            
+            // Run debug function
+            debugImageLoading();
+
+            // Force show all images for debugging
+            setTimeout(() => {
+                const allImages = document.querySelectorAll('img');
+                allImages.forEach(img => {
+                    img.style.opacity = '1';
+                    img.style.visibility = 'visible';
+                    img.style.display = 'block';
+                    console.log('Forcing image visibility:', img.src);
+                });
+            }, 1000);
+
             // --- Mobile Menu Toggle ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-            // --- SIMPLE FADE-IN ANIMATION ---
+            // --- Simplified FADE-IN ANIMATION ---
             const animateContainers = document.querySelectorAll('.animate-container');
+            
+            // Immediately show all content
+            animateContainers.forEach(container => {
+                const content = container.querySelector('.content-to-animate');
+                if (content) {
+                    content.classList.add('visible');
+                    if (container.id === 'home') { 
+                        startHackerAnimationLoop(); 
+                    }
+                }
+            });
+
+            // Optional: Keep intersection observer for future animations
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const container = entry.target;
                         const content = container.querySelector('.content-to-animate');
-                        
-                        // Simple fade-in animation
-                        setTimeout(() => {
+                        if (content && !content.classList.contains('visible')) {
                             content.classList.add('visible');
-                            if (container.id === 'home') { 
-                                startHackerAnimationLoop(); 
-                            }
-                        }, 300);
-                        
+                        }
                         observer.unobserve(container);
                     }
                 });
@@ -336,7 +756,21 @@
 
             animateContainers.forEach(container => observer.observe(container));
 
-                         // --- IMAGE MODAL FUNCTIONALITY ---
+            // --- Enhanced Project Card Interactions ---
+            const projectCards = document.querySelectorAll('.group');
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                    this.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
+                });
+            });
+
+                                      // --- IMAGE MODAL FUNCTIONALITY ---
              const modal = document.getElementById('image-modal');
              const modalImage = document.getElementById('modal-image');
              const modalTitle = document.getElementById('modal-title');
@@ -348,34 +782,34 @@
              let currentModalSlides = [];
              let currentModalSlideIndex = 0;
 
-             function openModal(imageSrc, title, slides = null, slideIndex = 0) {
-                 modalImage.src = imageSrc;
-                 modalImage.alt = title;
-                 modalTitle.textContent = title;
-                 modal.classList.remove('hidden');
-                 modal.classList.add('flex');
-                 document.body.style.overflow = 'hidden'; // Prevent scrolling
-                 
-                 // Check if this is a Bizbox slideshow image
-                 if (slides && slides.length > 1) {
-                     currentModalSlides = slides;
-                     currentModalSlideIndex = slideIndex;
-                     modalPrev.classList.remove('hidden');
-                     modalNext.classList.remove('hidden');
-                 } else {
-                     currentModalSlides = [];
-                     modalPrev.classList.add('hidden');
-                     modalNext.classList.add('hidden');
-                 }
-             }
+             // Debug modal elements
+             console.log('Modal elements found:', {
+                 modal: !!modal,
+                 modalImage: !!modalImage,
+                 modalTitle: !!modalTitle,
+                 closeModal: !!closeModal,
+                 modalPrev: !!modalPrev,
+                 modalNext: !!modalNext,
+                 projectImages: projectImages.length
+             });
 
-             function closeModalFunc() {
-                 modal.classList.add('hidden');
-                 modal.classList.remove('flex');
-                 document.body.style.overflow = ''; // Restore scrolling
-                 currentModalSlides = [];
-                 modalPrev.classList.add('hidden');
-                 modalNext.classList.add('hidden');
+                                                                                                               
+
+             // Global close modal function
+             window.closeModalFunc = function() {
+                 const modal = document.getElementById('image-modal');
+                 const modalPrev = document.getElementById('modal-prev');
+                 const modalNext = document.getElementById('modal-next');
+                 
+                 if (modal) {
+                     modal.classList.add('hidden');
+                     modal.classList.remove('flex');
+                     document.body.style.overflow = ''; // Restore scrolling
+                 }
+                 
+                 window.currentModalSlides = [];
+                 if (modalPrev) modalPrev.classList.add('hidden');
+                 if (modalNext) modalNext.classList.add('hidden');
              }
 
              function showModalSlide(index) {
@@ -402,10 +836,20 @@
              }
 
              // Event listeners for project images
-             projectImages.forEach(img => {
-                 img.addEventListener('click', () => {
+             projectImages.forEach((img, index) => {
+                 console.log(`Adding click listener to image ${index + 1}:`, img.src);
+                 
+                 // Remove any existing click listeners
+                 img.removeEventListener('click', img.clickHandler);
+                 
+                 // Create new click handler
+                 img.clickHandler = function(e) {
+                     e.preventDefault();
+                     e.stopPropagation();
+                     console.log('Image clicked:', img.src);
+                     
                      const imageSrc = img.src;
-                     const title = img.getAttribute('data-title');
+                     const title = img.getAttribute('data-title') || 'Project Image';
                      
                      // Check if this is a Bizbox slideshow image
                      if (img.classList.contains('bizbox-slide')) {
@@ -416,34 +860,48 @@
                      } else {
                          openModal(imageSrc, title);
                      }
-                 });
+                 };
+                 
+                 img.addEventListener('click', img.clickHandler);
              });
 
              // Modal navigation event listeners
-             modalPrev.addEventListener('click', (e) => {
-                 e.stopPropagation();
-                 prevModalSlide();
-             });
+             if (modalPrev) {
+                 modalPrev.addEventListener('click', (e) => {
+                     e.stopPropagation();
+                     prevModalSlide();
+                 });
+             }
 
-             modalNext.addEventListener('click', (e) => {
-                 e.stopPropagation();
-                 nextModalSlide();
-             });
+             if (modalNext) {
+                 modalNext.addEventListener('click', (e) => {
+                     e.stopPropagation();
+                     nextModalSlide();
+                 });
+             }
 
              // Close modal events
-             closeModal.addEventListener('click', closeModalFunc);
-             modal.addEventListener('click', (e) => {
-                 if (e.target === modal) {
-                     closeModalFunc();
-                 }
-             });
+             if (closeModal) {
+                 closeModal.addEventListener('click', window.closeModalFunc);
+             }
+             
+             if (modal) {
+                 modal.addEventListener('click', (e) => {
+                     if (e.target === modal) {
+                         window.closeModalFunc();
+                     }
+                 });
+             }
 
              // Close modal with Escape key
              document.addEventListener('keydown', (e) => {
                  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                     closeModalFunc();
+                     window.closeModalFunc();
                  }
              });
+
+             // Test modal button
+         
 
              // --- BIZBOX SLIDESHOW FUNCTIONALITY ---
              const bizboxSlideshows = document.querySelectorAll('.bizbox-slideshow');
