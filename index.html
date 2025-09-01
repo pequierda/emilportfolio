@@ -739,9 +739,7 @@
                 const images = document.querySelectorAll('img');
                 images.forEach((img, index) => {
                     img.addEventListener('load', () => {
-                        console.log(`✅ Image ${index + 1} loaded successfully:`, img.src);
-                        console.log(`📏 Image dimensions: ${img.naturalWidth}x${img.naturalHeight}`);
-                        console.log(`🎨 Image display: ${img.style.display}, opacity: ${img.style.opacity}, visibility: ${img.style.visibility}`);
+                
                     });
                     img.addEventListener('error', () => {
                         console.error(`❌ Image ${index + 1} failed to load:`, img.src);
