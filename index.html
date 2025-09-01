@@ -34,12 +34,19 @@
 
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="group flex items-center space-x-2">
-                <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    EL
-                </div>
-             
-            </a>
+                         <a href="#" class="group flex items-center space-x-2">
+                 <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300">
+                     EL
+                 </div>
+                 
+                                   <!-- Visitor Counter -->
+                  <div class="flex items-center space-x-2 px-3 py-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full border border-gray-200 dark:border-gray-700">
+                      <i class="fas fa-eye text-blue-600 dark:text-blue-400 text-sm"></i>
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          <span id="visitor-count">0</span> visitors
+                      </span>
+                  </div>
+             </a>
             <div class="flex items-center space-x-6">
                 <nav class="hidden md:flex space-x-8">
                     <a href="#about" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
@@ -863,7 +870,55 @@
                 await Promise.allSettled(updates);
             }
 
-            initLikes();
+                         initLikes();
+
+             // --- VISITOR COUNTER ---
+             async function fetchVisitorCount() {
+                 try {
+                     const res = await fetch('/api/visitors');
+                     if (!res.ok) throw new Error('Failed to fetch visitor count');
+                     const data = await res.json();
+                     return typeof data.count === 'number' ? data.count : 0;
+                 } catch (e) {
+                     console.warn('Visitor count fallback to 0:', e);
+                     return 0;
+                 }
+             }
+
+             async function incrementVisitorCount() {
+                 try {
+                     const res = await fetch('/api/visitors', { method: 'POST' });
+                     if (!res.ok) throw new Error('Failed to increment visitor count');
+                     const data = await res.json();
+                     return typeof data.count === 'number' ? data.count : null;
+                 } catch (e) {
+                     console.error('Increment visitor count failed:', e);
+                     return null;
+                 }
+             }
+
+             async function initVisitorCounter() {
+                 const visitorCountElement = document.getElementById('visitor-count');
+                 if (!visitorCountElement) return;
+
+                 // Check if this is a new visitor (not counted yet this session)
+                 const hasVisited = sessionStorage.getItem('hasVisited');
+                 
+                 if (!hasVisited) {
+                     // This is a new visitor, increment the count
+                     const newCount = await incrementVisitorCount();
+                     if (newCount !== null) {
+                         visitorCountElement.textContent = newCount.toLocaleString();
+                         sessionStorage.setItem('hasVisited', 'true');
+                     }
+                 } else {
+                     // This visitor has already been counted, just fetch the current count
+                     const count = await fetchVisitorCount();
+                     visitorCountElement.textContent = count.toLocaleString();
+                 }
+             }
+
+             initVisitorCounter();
 
             // --- Enhanced Project Card Interactions ---
             const projectCards = document.querySelectorAll('.group');
