@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -652,7 +653,7 @@
                 }
             }
 
-            const isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                         const isDarkMode = localStorage.getItem('theme') === 'dark';
             setTheme(isDarkMode);
             
             // Set initial portrait based on theme
