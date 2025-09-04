@@ -11,6 +11,48 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  // Get visitor's IP address and location
+  async function getVisitorLocation() {
+    try {
+      // Get IP address from various headers (for different hosting platforms)
+      const ip = req.headers['x-forwarded-for'] || 
+                 req.headers['x-real-ip'] || 
+                 req.headers['x-client-ip'] || 
+                 req.connection?.remoteAddress || 
+                 req.socket?.remoteAddress ||
+                 '127.0.0.1';
+
+      // Use ipapi.co for free IP geolocation
+      const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`, {
+        timeout: 5000
+      });
+      
+      if (locationResponse.ok) {
+        const locationData = await locationResponse.json();
+        return {
+          ip: ip,
+          country: locationData.country_name || 'Unknown',
+          countryCode: locationData.country_code || 'Unknown',
+          city: locationData.city || 'Unknown',
+          region: locationData.region || 'Unknown',
+          timezone: locationData.timezone || 'Unknown'
+        };
+      }
+    } catch (error) {
+      console.log('Location fetch failed:', error.message);
+    }
+    
+    // Fallback if location service fails
+    return {
+      ip: 'Unknown',
+      country: 'Unknown',
+      countryCode: 'Unknown',
+      city: 'Unknown',
+      region: 'Unknown',
+      timezone: 'Unknown'
+    };
+  }
+
   const baseUrl = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
@@ -29,7 +71,7 @@ module.exports = async function handler(req, res) {
       });
       
       const data = await response.json();
-      let visitorData = { count: 0, lastVisit: null };
+      let visitorData = { count: 0, lastVisit: null, lastLocation: null };
       
       if (data.result) {
         try {
@@ -50,7 +92,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (method === 'POST') {
-      // Get current data, increment count, and update timestamp
+      // Get current data, increment count, and update timestamp with location
       const now = new Date();
       const timestamp24h = now.toLocaleString('en-CA', {
         year: 'numeric',
@@ -63,6 +105,9 @@ module.exports = async function handler(req, res) {
         timeZone: 'Asia/Manila'
       }).replace(',', '');
       
+      // Get visitor location
+      const location = await getVisitorLocation();
+      
       // First, get current data
       const getResponse = await fetch(`${baseUrl}/get/visitor_data`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -70,7 +115,7 @@ module.exports = async function handler(req, res) {
       });
       
       const getData = await getResponse.json();
-      let currentData = { count: 0, lastVisit: null };
+      let currentData = { count: 0, lastVisit: null, lastLocation: null };
       
       if (getData.result) {
         try {
@@ -86,10 +131,11 @@ module.exports = async function handler(req, res) {
         }
       }
       
-      // Increment count and update timestamp
+      // Increment count and update timestamp with location
       const newData = {
         count: currentData.count + 1,
-        lastVisit: timestamp24h
+        lastVisit: timestamp24h,
+        lastLocation: location
       };
       
       // Store updated data
