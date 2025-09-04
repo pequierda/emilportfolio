@@ -678,6 +678,7 @@ class ContactForm {
         this.hideMessage();
         
         try {
+            // Try server-side API first
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
@@ -692,11 +693,19 @@ class ContactForm {
                 this.showMessage(result.message, 'success');
                 this.form.reset();
             } else {
-                this.showMessage(result.error || 'Failed to send message. Please try again.', 'error');
+                // If server-side fails, try client-side email
+                console.log('Server-side email failed, trying client-side...');
+                await this.sendEmailClientSide(data);
             }
         } catch (error) {
             console.error('Contact form error:', error);
-            this.showMessage('Network error. Please check your connection and try again.', 'error');
+            // If all else fails, try client-side email
+            try {
+                await this.sendEmailClientSide(data);
+            } catch (clientError) {
+                console.error('Client-side email also failed:', clientError);
+                this.showMessage('Network error. Please check your connection and try again.', 'error');
+            }
         } finally {
             this.setLoadingState(false);
         }
@@ -768,6 +777,31 @@ class ContactForm {
     
     hideMessage() {
         this.formMessage.classList.add('hidden');
+    }
+    
+    async sendEmailClientSide(data) {
+        // Simple client-side email using mailto fallback
+        const subject = encodeURIComponent(`Portfolio Contact: ${data.subject}`);
+        const body = encodeURIComponent(`
+Name: ${data.name}
+Email: ${data.email}
+Subject: ${data.subject}
+
+Message:
+${data.message}
+
+---
+Sent from your portfolio contact form
+        `);
+        
+        const mailtoLink = `mailto:e.pequierda@yahoo.com?subject=${subject}&body=${body}`;
+        
+        // Try to open email client
+        window.location.href = mailtoLink;
+        
+        // Show success message
+        this.showMessage('Email client opened! Please send the email manually.', 'success');
+        this.form.reset();
     }
 }
 
