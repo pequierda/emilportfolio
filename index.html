@@ -27,6 +27,21 @@
     
 </head>
 <body class="antialiased bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-black dark:to-gray-900 text-gray-900 dark:text-gray-200 transition-all duration-500">
+    
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-black dark:to-gray-900 flex items-center justify-center">
+        <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4 animate-pulse">
+                EL
+            </div>
+            <div class="flex space-x-1">
+                <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0ms;"></div>
+                <div class="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style="animation-delay: 150ms;"></div>
+                <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 300ms;"></div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 mt-4 text-sm">Loading Portfolio...</p>
+        </div>
+    </div>
 
     <canvas id="matrix-bg"></canvas>
 
@@ -541,32 +556,48 @@
                     </div>
                     
                     <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-xl">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Get In Touch</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Me a Message</h3>
                         
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-                                <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white">
-                                    <i class="fas fa-rocket text-lg"></i>
+                        <form id="contactForm" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name *</label>
+                                    <input type="text" id="name" name="name" required 
+                                           class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                           placeholder="Your name">
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-white">New Projects</h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">Let's discuss your next big idea</p>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                                    <input type="email" id="email" name="email" required 
+                                           class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                           placeholder="your@email.com">
                                 </div>
                             </div>
                         
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject *</label>
+                                <input type="text" id="subject" name="subject" required 
+                                       class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                                       placeholder="What's this about?">
+                                </div>
                             
-                            <div class="flex items-center space-x-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
-                                <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center text-white">
-                                    <i class="fas fa-lightbulb text-lg"></i>
-                                </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-white">Consulting</h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">Expert IT advice and solutions</p>
-                                </div>
-                            </div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message *</label>
+                                <textarea id="message" name="message" rows="5" required 
+                                          class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none"
+                                          placeholder="Tell me about your project or question..."></textarea>
                         </div>
                         
-                       
+                            <button type="submit" id="submitBtn" 
+                                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                <span id="submitText">Send Message</span>
+                                <span id="submitLoading" class="hidden">
+                                    <i class="fas fa-spinner fa-spin mr-2"></i>Sending...
+                                </span>
+                            </button>
+                            
+                            <div id="formMessage" class="hidden p-4 rounded-xl text-center font-medium"></div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -585,11 +616,66 @@
                         <i class="fab fa-facebook-messenger"></i>
                     </a>
                 </div>
+                
+                <!-- Share Buttons -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Share this portfolio</h4>
+                    <div class="flex justify-center items-center space-x-3">
+                        <button onclick="shareOnTwitter()" class="w-10 h-10 bg-blue-400 hover:bg-blue-500 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button onclick="shareOnFacebook()" class="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button onclick="shareOnLinkedIn()" class="w-10 h-10 bg-blue-700 hover:bg-blue-800 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </button>
+                        <button onclick="shareOnWhatsApp()" class="w-10 h-10 bg-green-500 hover:bg-green-600 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                        <button onclick="copyLink()" class="w-10 h-10 bg-gray-600 hover:bg-gray-700 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Copy Link">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+                
                 <p class="text-gray-500 dark:text-gray-400">&copy; 2025 Emil Lawrence. All Rights Reserved.</p>
                 <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Built with 🤖🧠 and lots of 🤔🧠🤓💡</p>
             </div>
         </div>
     </footer>
+    
+    <!-- Floating Share Button -->
+    <div id="floatingShareBtn" class="fixed bottom-6 right-6 z-40">
+        <button onclick="toggleShareMenu()" class="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300">
+            <i class="fas fa-share-alt text-lg"></i>
+        </button>
+        
+        <!-- Share Menu -->
+        <div id="shareMenu" class="hidden absolute bottom-16 right-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-3 space-y-2 min-w-48">
+            <div class="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2 text-center">Share Portfolio</div>
+            <button onclick="shareOnTwitter()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <i class="fab fa-twitter text-blue-400 w-4"></i>
+                <span>Twitter</span>
+            </button>
+            <button onclick="shareOnFacebook()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <i class="fab fa-facebook-f text-blue-600 w-4"></i>
+                <span>Facebook</span>
+            </button>
+            <button onclick="shareOnLinkedIn()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <i class="fab fa-linkedin-in text-blue-700 w-4"></i>
+                <span>LinkedIn</span>
+            </button>
+            <button onclick="shareOnWhatsApp()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <i class="fab fa-whatsapp text-green-500 w-4"></i>
+                <span>WhatsApp</span>
+            </button>
+            <button onclick="copyLink()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                <i class="fas fa-link text-gray-600 w-4"></i>
+                <span>Copy Link</span>
+            </button>
+        </div>
+    </div>
 
     <!-- External JavaScript -->
     <script src="js/index.js"></script>
