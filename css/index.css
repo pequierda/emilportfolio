@@ -305,40 +305,45 @@ img {
 .status {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    color: #2d3748;
+    color: #000000 !important;
     font-weight: 600;
     padding: 0.5rem 1rem;
     background: linear-gradient(45deg, #f7fafc, #edf2f7);
     border-radius: 10px;
     border: 2px solid #e2e8f0;
     text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .game-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 2rem;
     background: #f7fafc;
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
     border: 3px solid #e2e8f0;
+    max-width: 100%;
+    width: 100%;
 }
 
 .cell {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 60px;
     background: white;
     border: 3px solid #cbd5e0;
-    border-radius: 15px;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #000000 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .cell:hover {
@@ -349,21 +354,25 @@ img {
 }
 
 .cell.x {
-    color: #e53e3e;
+    color: #000000 !important;
     background: linear-gradient(135deg, #fed7d7, #feb2b2);
     border-color: #fc8181;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .cell.o {
-    color: #3182ce;
+    color: #000000 !important;
     background: linear-gradient(135deg, #bee3f8, #90cdf4);
     border-color: #63b3ed;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .cell.winning {
     background: linear-gradient(135deg, #fef5e7, #fed7aa);
     border-color: #f6ad55;
     animation: pulse 1s infinite;
+    color: #000000 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes pulse {
@@ -373,7 +382,7 @@ img {
 
 .restart-btn {
     background: linear-gradient(45deg, #48bb78, #38a169);
-    color: white;
+    color: white !important;
     border: none;
     padding: 12px 24px;
     font-size: 1.1rem;
@@ -384,6 +393,7 @@ img {
     font-weight: 600;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .restart-btn:hover {
@@ -395,7 +405,8 @@ img {
 .score-board {
     display: flex;
     justify-content: space-around;
-    gap: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .score {
@@ -403,30 +414,102 @@ img {
     padding: 1rem 1.5rem;
     border-radius: 15px;
     border: 2px solid #e2e8f0;
-    min-width: 120px;
+    min-width: 100px;
     text-align: center;
+    flex: 1;
 }
 
 .player {
     display: block;
     font-size: 0.9rem;
-    color: #4a5568;
+    color: #000000 !important;
     margin-bottom: 0.5rem;
     font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .score-value {
     display: block;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #2d3748;
+    color: #000000 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Responsive Design for Tic-Tac-Toe */
+@media (max-width: 768px) {
+    .status {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .game-board {
+        gap: 6px;
+        padding: 12px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .cell {
+        height: 50px;
+        font-size: 1.8rem;
+        border-radius: 10px;
+    }
+    
+    .restart-btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+        margin-bottom: 1rem;
+    }
+    
+    .score-board {
+        gap: 0.5rem;
+    }
+    
+    .score {
+        padding: 0.8rem 1rem;
+        min-width: 80px;
+    }
+    
+    .player {
+        font-size: 0.8rem;
+    }
+    
+    .score-value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cell {
+        height: 45px;
+        font-size: 1.6rem;
+    }
+    
+    .status {
+        font-size: 0.9rem;
+    }
+    
+    .score {
+        padding: 0.6rem 0.8rem;
+        min-width: 70px;
+    }
+    
+    .player {
+        font-size: 0.75rem;
+    }
+    
+    .score-value {
+        font-size: 1.2rem;
+    }
 }
 
 /* Dark mode support for Tic-Tac-Toe */
 .dark .status {
     background: linear-gradient(45deg, #2d3748, #4a5568);
-    color: #e2e8f0;
+    color: #ffffff !important;
     border-color: #4a5568;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .dark .game-board {
@@ -437,12 +520,34 @@ img {
 .dark .cell {
     background: #4a5568;
     border-color: #718096;
-    color: #e2e8f0;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .dark .cell:hover {
     background: #38a169;
     border-color: #48bb78;
+}
+
+.dark .cell.x {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #742a2a, #9b2c2c);
+    border-color: #e53e3e;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.dark .cell.o {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #2c5282, #2b6cb0);
+    border-color: #3182ce;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.dark .cell.winning {
+    background: linear-gradient(135deg, #744210, #975a16);
+    border-color: #d69e2e;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .dark .score {
@@ -451,10 +556,12 @@ img {
 }
 
 .dark .player {
-    color: #e2e8f0;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .dark .score-value {
-    color: #e2e8f0;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
