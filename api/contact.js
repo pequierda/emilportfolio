@@ -174,7 +174,7 @@ Reply to: ${contactData.email}
     }
 
     // Send email using Resend (free email service)
-    const emailSent = await this.sendEmail({
+    const emailSent = await sendEmail({
       name: name.trim(),
       email: email.trim(),
       subject: subject.trim(),
