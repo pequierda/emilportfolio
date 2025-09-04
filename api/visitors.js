@@ -22,27 +22,78 @@ module.exports = async function handler(req, res) {
 
   try {
     if (method === 'GET') {
-      // Get current visitor count
-      const r = await fetch(`${baseUrl}/get/visitor_count`, {
+      // Get visitor data (count and timestamp) from single key
+      const response = await fetch(`${baseUrl}/get/visitor_data`, {
         headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store'
       });
-      const data = await r.json();
-      const raw = data.result;
-      const count = raw === null ? 0 : Number(raw) || 0;
-      res.status(200).json({ count });
+      
+      const data = await response.json();
+      let visitorData = { count: 0, lastVisit: null };
+      
+      if (data.result) {
+        try {
+          visitorData = JSON.parse(data.result);
+        } catch (e) {
+          // If parsing fails, try to get legacy data
+          const legacyCount = await fetch(`${baseUrl}/get/visitor_count`, {
+            headers: { Authorization: `Bearer ${token}` },
+            cache: 'no-store'
+          });
+          const legacyData = await legacyCount.json();
+          visitorData.count = legacyData.result === null ? 0 : Number(legacyData.result) || 0;
+        }
+      }
+      
+      res.status(200).json(visitorData);
       return;
     }
 
     if (method === 'POST') {
-      // Increment visitor count
-      const r = await fetch(`${baseUrl}/incrby/visitor_count/1`, {
+      // Get current data, increment count, and update timestamp
+      const now = new Date().toISOString();
+      
+      // First, get current data
+      const getResponse = await fetch(`${baseUrl}/get/visitor_data`, {
         headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store'
       });
-      const data = await r.json();
-      const count = Number(data.result) || 0;
-      res.status(200).json({ count });
+      
+      const getData = await getResponse.json();
+      let currentData = { count: 0, lastVisit: null };
+      
+      if (getData.result) {
+        try {
+          currentData = JSON.parse(getData.result);
+        } catch (e) {
+          // If parsing fails, try legacy count
+          const legacyCount = await fetch(`${baseUrl}/get/visitor_count`, {
+            headers: { Authorization: `Bearer ${token}` },
+            cache: 'no-store'
+          });
+          const legacyData = await legacyCount.json();
+          currentData.count = legacyData.result === null ? 0 : Number(legacyData.result) || 0;
+        }
+      }
+      
+      // Increment count and update timestamp
+      const newData = {
+        count: currentData.count + 1,
+        lastVisit: now
+      };
+      
+      // Store updated data
+      const setResponse = await fetch(`${baseUrl}/set/visitor_data`, {
+        method: 'POST',
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newData),
+        cache: 'no-store'
+      });
+      
+      res.status(200).json(newData);
       return;
     }
 
