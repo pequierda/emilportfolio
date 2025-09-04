@@ -51,7 +51,17 @@ module.exports = async function handler(req, res) {
 
     if (method === 'POST') {
       // Get current data, increment count, and update timestamp
-      const now = new Date().toISOString();
+      const now = new Date();
+      const timestamp24h = now.toLocaleString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'UTC'
+      }).replace(',', '');
       
       // First, get current data
       const getResponse = await fetch(`${baseUrl}/get/visitor_data`, {
@@ -79,7 +89,7 @@ module.exports = async function handler(req, res) {
       // Increment count and update timestamp
       const newData = {
         count: currentData.count + 1,
-        lastVisit: now
+        lastVisit: timestamp24h
       };
       
       // Store updated data
