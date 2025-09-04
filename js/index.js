@@ -416,10 +416,13 @@ class VisitorCounter {
             const res = await fetch('/api/visitors');
             if (!res.ok) throw new Error('Failed to fetch visitor count');
             const data = await res.json();
-            return typeof data.count === 'number' ? data.count : 0;
+            return {
+                count: typeof data.count === 'number' ? data.count : 0,
+                lastVisit: data.lastVisit || null
+            };
         } catch (e) {
             console.warn('Visitor count fallback to 0:', e);
-            return 0;
+            return { count: 0, lastVisit: null };
         }
     }
 
@@ -428,11 +431,32 @@ class VisitorCounter {
             const res = await fetch('/api/visitors', { method: 'POST' });
             if (!res.ok) throw new Error('Failed to increment visitor count');
             const data = await res.json();
-            return typeof data.count === 'number' ? data.count : null;
+            return {
+                count: typeof data.count === 'number' ? data.count : null,
+                lastVisit: data.lastVisit || null
+            };
         } catch (e) {
             console.error('Increment visitor count failed:', e);
             return null;
         }
+    }
+
+    formatTimestamp(timestamp) {
+        if (!timestamp) return 'Never';
+        
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
 
     async init() {
@@ -442,14 +466,14 @@ class VisitorCounter {
         const hasVisited = sessionStorage.getItem('hasVisited');
         
         if (!hasVisited) {
-            const newCount = await this.incrementVisitorCount();
-            if (newCount !== null) {
-                visitorCountElement.textContent = newCount.toLocaleString();
+            const result = await this.incrementVisitorCount();
+            if (result && result.count !== null) {
+                visitorCountElement.textContent = result.count.toLocaleString();
                 sessionStorage.setItem('hasVisited', 'true');
             }
         } else {
-            const count = await this.fetchVisitorCount();
-            visitorCountElement.textContent = count.toLocaleString();
+            const result = await this.fetchVisitorCount();
+            visitorCountElement.textContent = result.count.toLocaleString();
         }
     }
 }
