@@ -6,6 +6,9 @@ module.exports = async function handler(req, res) {
     try {
       const resendApiKey = process.env.RESEND_API_KEY;
       
+      console.log('Resend API key status:', resendApiKey ? 'Found' : 'Not found');
+      console.log('API key prefix:', resendApiKey ? resendApiKey.substring(0, 10) + '...' : 'None');
+      
       if (!resendApiKey) {
         console.log('Resend API key not configured, using fallback email service');
         return await sendEmailFallback(contactData);
@@ -18,7 +21,7 @@ module.exports = async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Portfolio Contact <noreply@yourdomain.com>',
+          from: 'Portfolio Contact <onboarding@resend.dev>',
           to: ['e.pequierda@yahoo.com'],
           subject: `Portfolio Contact: ${contactData.subject}`,
           html: `
@@ -61,10 +64,16 @@ module.exports = async function handler(req, res) {
       });
 
       if (emailResponse.ok) {
-        console.log('Email sent successfully via Resend');
+        const result = await emailResponse.json();
+        console.log('Email sent successfully via Resend:', result);
         return true;
       } else {
-        console.error('Resend email failed:', await emailResponse.text());
+        const errorText = await emailResponse.text();
+        console.error('Resend email failed:', {
+          status: emailResponse.status,
+          statusText: emailResponse.statusText,
+          error: errorText
+        });
         return await sendEmailFallback(contactData);
       }
     } catch (error) {
