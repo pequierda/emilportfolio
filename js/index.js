@@ -9,7 +9,7 @@
 
 // Global modal function
 function openModal(imageSrc, title, slides = null, slideIndex = 0) {
-    console.log('Opening modal with:', { imageSrc, title, slides: slides?.length, slideIndex });
+   
     
     const modal = document.getElementById('image-modal');
     const modalImage = document.getElementById('modal-image');
@@ -911,5 +911,5 @@ document.addEventListener('DOMContentLoaded', function() {
     new BizboxSlideshow();
     new DebugUtils();
     
-    console.log('🎉 Emil Lawrence Portfolio initialized successfully!');
+   
 });
