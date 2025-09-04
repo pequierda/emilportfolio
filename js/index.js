@@ -338,9 +338,12 @@ class LikesSystem {
     
     async fetchLikeCount(projectId) {
         try {
+            console.log('Fetching like count for project:', projectId);
             const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`);
-            if (!res.ok) throw new Error('Failed to fetch');
+            console.log('Like count response status:', res.status);
+            if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
             const data = await res.json();
+            console.log('Like count data:', data);
             return typeof data.count === 'number' ? data.count : 0;
         } catch (e) {
             console.warn('Like count fallback to 0 for', projectId, e);
@@ -350,9 +353,12 @@ class LikesSystem {
 
     async incrementLike(projectId) {
         try {
+            console.log('Incrementing like for project:', projectId);
             const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`, { method: 'POST' });
-            if (!res.ok) throw new Error('Failed to increment');
+            console.log('Increment like response status:', res.status);
+            if (!res.ok) throw new Error(`Failed to increment: ${res.status}`);
             const data = await res.json();
+            console.log('Increment like data:', data);
             return typeof data.count === 'number' ? data.count : null;
         } catch (e) {
             console.error('Increment like failed', projectId, e);
@@ -386,14 +392,21 @@ class LikesSystem {
             // Click handler
             btn.addEventListener('click', async (e) => {
                 e.preventDefault();
+                console.log('Like button clicked for project:', projectId);
                 const already = localStorage.getItem(`liked:${projectId}`) === '1';
-                if (already) return;
+                if (already) {
+                    console.log('Already liked, ignoring click');
+                    return;
+                }
 
                 const newCount = await this.incrementLike(projectId);
                 if (newCount !== null && countSpan) {
                     countSpan.textContent = String(newCount);
                     localStorage.setItem(`liked:${projectId}`, '1');
                     this.markLiked(btn);
+                    console.log('Like successful, new count:', newCount);
+                } else {
+                    console.log('Like failed, newCount:', newCount);
                 }
             });
         });
