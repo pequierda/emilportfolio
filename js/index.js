@@ -479,6 +479,299 @@ class VisitorCounter {
 }
 
 // ============================================================================
+// SOCIAL MEDIA SHARING
+// ============================================================================
+
+// Global share functions
+function shareOnTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent("Check out Emil Lawrence's amazing portfolio! 🚀 System Developer & IT Consultant Expert");
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+    window.open(twitterUrl, '_blank', 'width=600,height=400');
+    hideShareMenu();
+}
+
+function shareOnFacebook() {
+    const url = encodeURIComponent(window.location.href);
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400');
+    hideShareMenu();
+}
+
+function shareOnLinkedIn() {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent("Emil Lawrence - System Developer & IT Consultant Expert");
+    const summary = encodeURIComponent("Check out this amazing portfolio showcasing custom software development, IT consulting, and technical expertise!");
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`;
+    window.open(linkedinUrl, '_blank', 'width=600,height=400');
+    hideShareMenu();
+}
+
+function shareOnWhatsApp() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent("Check out Emil Lawrence's amazing portfolio! 🚀 System Developer & IT Consultant Expert");
+    const whatsappUrl = `https://wa.me/?text=${text}%20${url}`;
+    window.open(whatsappUrl, '_blank');
+    hideShareMenu();
+}
+
+function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        showCopyNotification();
+    }).catch(() => {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = window.location.href;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showCopyNotification();
+    });
+    hideShareMenu();
+}
+
+function toggleShareMenu() {
+    const shareMenu = document.getElementById('shareMenu');
+    if (shareMenu) {
+        shareMenu.classList.toggle('hidden');
+    }
+}
+
+function hideShareMenu() {
+    const shareMenu = document.getElementById('shareMenu');
+    if (shareMenu) {
+        shareMenu.classList.add('hidden');
+    }
+}
+
+function showCopyNotification() {
+    // Create a temporary notification
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300';
+    notification.innerHTML = '<i class="fas fa-check mr-2"></i>Link copied!';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 2000);
+}
+
+// Hide share menu when clicking outside
+document.addEventListener('click', (e) => {
+    const floatingShareBtn = document.getElementById('floatingShareBtn');
+    const shareMenu = document.getElementById('shareMenu');
+    
+    if (floatingShareBtn && shareMenu && !floatingShareBtn.contains(e.target)) {
+        shareMenu.classList.add('hidden');
+    }
+});
+
+// ============================================================================
+// LOADING ANIMATIONS & PAGE TRANSITIONS
+// ============================================================================
+
+class LoadingAnimations {
+    constructor() {
+        this.loadingScreen = document.getElementById('loadingScreen');
+        this.init();
+    }
+    
+    init() {
+        // Check if page is already loaded
+        if (document.readyState === 'complete') {
+            this.hideLoadingScreen();
+        } else {
+            // Hide loading screen when page is fully loaded
+            window.addEventListener('load', () => {
+                this.hideLoadingScreen();
+            });
+        }
+        
+        // Fallback: hide loading screen after 2 seconds max
+        setTimeout(() => {
+            this.hideLoadingScreen();
+        }, 2000);
+        
+        // Add smooth page transitions
+        this.addPageTransitions();
+    }
+    
+    hideLoadingScreen() {
+        if (this.loadingScreen && this.loadingScreen.style.display !== 'none') {
+            this.loadingScreen.style.opacity = '0';
+            this.loadingScreen.style.transition = 'opacity 0.5s ease-out';
+            
+            setTimeout(() => {
+                this.loadingScreen.style.display = 'none';
+            }, 500);
+        }
+    }
+    
+    addPageTransitions() {
+        // Add smooth transitions to all links
+        const links = document.querySelectorAll('a[href^="#"]');
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && href !== '#') {
+                    e.preventDefault();
+                    this.smoothScrollTo(href);
+                }
+            });
+        });
+    }
+    
+    smoothScrollTo(target) {
+        const element = document.querySelector(target);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+}
+
+// ============================================================================
+// CONTACT FORM SYSTEM
+// ============================================================================
+
+class ContactForm {
+    constructor() {
+        this.form = document.getElementById('contactForm');
+        this.submitBtn = document.getElementById('submitBtn');
+        this.submitText = document.getElementById('submitText');
+        this.submitLoading = document.getElementById('submitLoading');
+        this.formMessage = document.getElementById('formMessage');
+        
+        if (this.form) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+    
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this.form);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message')
+        };
+        
+        // Validate form
+        if (!this.validateForm(data)) {
+            return;
+        }
+        
+        // Show loading state
+        this.setLoadingState(true);
+        this.hideMessage();
+        
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                this.showMessage(result.message, 'success');
+                this.form.reset();
+            } else {
+                this.showMessage(result.error || 'Failed to send message. Please try again.', 'error');
+            }
+        } catch (error) {
+            console.error('Contact form error:', error);
+            this.showMessage('Network error. Please check your connection and try again.', 'error');
+        } finally {
+            this.setLoadingState(false);
+        }
+    }
+    
+    validateForm(data) {
+        if (!data.name.trim()) {
+            this.showMessage('Please enter your name.', 'error');
+            return false;
+        }
+        
+        if (!data.email.trim()) {
+            this.showMessage('Please enter your email.', 'error');
+            return false;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            this.showMessage('Please enter a valid email address.', 'error');
+            return false;
+        }
+        
+        if (!data.subject.trim()) {
+            this.showMessage('Please enter a subject.', 'error');
+            return false;
+        }
+        
+        if (!data.message.trim()) {
+            this.showMessage('Please enter your message.', 'error');
+            return false;
+        }
+        
+        if (data.message.trim().length < 10) {
+            this.showMessage('Please enter a more detailed message (at least 10 characters).', 'error');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    setLoadingState(loading) {
+        if (loading) {
+            this.submitBtn.disabled = true;
+            this.submitText.classList.add('hidden');
+            this.submitLoading.classList.remove('hidden');
+        } else {
+            this.submitBtn.disabled = false;
+            this.submitText.classList.remove('hidden');
+            this.submitLoading.classList.add('hidden');
+        }
+    }
+    
+    showMessage(message, type) {
+        this.formMessage.textContent = message;
+        this.formMessage.className = `p-4 rounded-xl text-center font-medium ${
+            type === 'success' 
+                ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800' 
+                : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+        }`;
+        this.formMessage.classList.remove('hidden');
+        
+        // Auto-hide success messages after 5 seconds
+        if (type === 'success') {
+            setTimeout(() => {
+                this.hideMessage();
+            }, 5000);
+        }
+    }
+    
+    hideMessage() {
+        this.formMessage.classList.add('hidden');
+    }
+}
+
+// ============================================================================
 // TIC-TAC-TOE GAME
 // ============================================================================
 
@@ -921,19 +1214,28 @@ class DebugUtils {
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all modules
-    new ThemeManager();
-    new ScrollProgress();
-    new ParticleAnimation();
-    new MobileMenu();
-    new AnimationController();
-    new LikesSystem();
-    new VisitorCounter();
-    new TicTacToe();
-    new ProjectCards();
-    new ImageModal();
-    new BizboxSlideshow();
-    new DebugUtils();
-    
-   
+    try {
+        // Initialize all modules with error handling
+        new ThemeManager();
+        new ScrollProgress();
+        new ParticleAnimation();
+        new MobileMenu();
+        new AnimationController();
+        new LikesSystem();
+        new VisitorCounter();
+        new ContactForm();
+        new LoadingAnimations();
+        new TicTacToe();
+        new ProjectCards();
+        new ImageModal();
+        new BizboxSlideshow();
+        new DebugUtils();
+    } catch (error) {
+        console.error('Error initializing modules:', error);
+        // Ensure loading screen is hidden even if there's an error
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'none';
+        }
+    }
 });
