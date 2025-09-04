@@ -66,6 +66,8 @@ module.exports = async function handler(req, res) {
       if (emailResponse.ok) {
         const result = await emailResponse.json();
         console.log('Email sent successfully via Resend:', result);
+        console.log('Email ID:', result.id);
+        console.log('Email status:', result.status);
         return true;
       } else {
         const errorText = await emailResponse.text();
