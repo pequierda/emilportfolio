@@ -60,7 +60,7 @@ module.exports = async function handler(req, res) {
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
-        timeZone: 'UTC'
+        timeZone: 'Asia/Manila'
       }).replace(',', '');
       
       // First, get current data
