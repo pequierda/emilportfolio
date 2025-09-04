@@ -24,6 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
+    
 </head>
 <body class="antialiased bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-black dark:to-gray-900 text-gray-900 dark:text-gray-200 transition-all duration-500">
 
@@ -59,6 +60,10 @@
                     </a>
                     <a href="#contact" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
                         Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#game" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
+                        Game
                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                     </a>
                 </nav>
@@ -429,6 +434,68 @@
              </div>
          </div>
 
+        <section id="game" class="py-20 lg:py-32 animate-container">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16 content-to-animate">
+                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">Play Tic-Tac-Toe</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mb-8"></div>
+                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Challenge the AI in a classic game of Tic-Tac-Toe! You are X, the AI is O.</p>
+                </div>
+                
+                <div class="flex flex-col items-center content-to-animate">
+                    <!-- Game Container -->
+                    <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-xl mb-8 w-full max-w-md">
+                        <div class="status" id="status">Your turn (X)</div>
+                        
+                        <div class="game-board" id="gameBoard">
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                            <div class="cell" data-cell></div>
+                        </div>
+                        
+                        <button class="restart-btn" id="restartBtn">Restart Game</button>
+                        
+                        <div class="score-board">
+                            <div class="score">
+                                <span class="player">You (X)</span>
+                                <span class="score-value" id="scoreX">0</span>
+                            </div>
+                            <div class="score">
+                                <span class="player">AI (O)</span>
+                                <span class="score-value" id="scoreO">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Instructions -->
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800 max-w-2xl">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">How to Play</h3>
+                        <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm">
+                            <li class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                                <span>You are X, the AI is O</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                                <span>Get three in a row (horizontal, vertical, or diagonal) to win</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                                <span>The AI uses strategic thinking - good luck!</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <section id="contact" class="py-20 lg:py-32 animate-container">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-16 content-to-animate">
@@ -526,590 +593,8 @@
         </div>
     </footer>
 
-    <script>
-         // Global modal function
-         function openModal(imageSrc, title, slides = null, slideIndex = 0) {
-             console.log('Opening modal with:', { imageSrc, title, slides: slides?.length, slideIndex });
-             
-             const modal = document.getElementById('image-modal');
-             const modalImage = document.getElementById('modal-image');
-             const modalTitle = document.getElementById('modal-title');
-             
-             if (!modal || !modalImage || !modalTitle) {
-                 console.error('Modal elements not found!');
-                 return;
-             }
-             
-             modalImage.src = imageSrc;
-             modalImage.alt = title;
-             modalTitle.textContent = title;
-             modal.classList.remove('hidden');
-             modal.classList.add('flex');
-             document.body.style.overflow = 'hidden'; // Prevent scrolling
-             
-             // Add zoom effect
-             modalImage.style.transform = 'scale(0.8)';
-             modalImage.style.opacity = '0';
-             
-             setTimeout(() => {
-                 modalImage.style.transform = 'scale(1)';
-                 modalImage.style.opacity = '1';
-             }, 50);
-             
-             // Check if this is a Bizbox slideshow image
-             const modalPrev = document.getElementById('modal-prev');
-             const modalNext = document.getElementById('modal-next');
-             
-             if (slides && slides.length > 1) {
-                 window.currentModalSlides = slides;
-                 window.currentModalSlideIndex = slideIndex;
-                 if (modalPrev) modalPrev.classList.remove('hidden');
-                 if (modalNext) modalNext.classList.remove('hidden');
-             } else {
-                 window.currentModalSlides = [];
-                 if (modalPrev) modalPrev.classList.add('hidden');
-                 if (modalNext) modalNext.classList.add('hidden');
-             }
-         }
-         
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // --- Enhanced Theme Toggling and Matrix Control ---
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-            const matrixCanvas = document.getElementById('matrix-bg');
-            let matrixInterval;
-
-            // Add scroll progress indicator
-            const scrollIndicator = document.createElement('div');
-            scrollIndicator.className = 'scroll-indicator';
-            document.body.appendChild(scrollIndicator);
-
-            // Update scroll progress
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.pageYOffset;
-                const docHeight = document.body.offsetHeight - window.innerHeight;
-                const scrollPercent = (scrollTop / docHeight) * 100;
-                scrollIndicator.style.transform = `scaleX(${scrollPercent / 100})`;
-            });
-
-            // This function starts the classic GREEN matrix effect
-            function startMatrixAnimation() {
-                if (matrixInterval) clearInterval(matrixInterval);
-                
-                const matrixCtx = matrixCanvas.getContext('2d');
-                matrixCanvas.style.display = 'block'; // Show the canvas
-                matrixCanvas.width = window.innerWidth;
-                matrixCanvas.height = window.innerHeight;
-                const chars = "010101010100001101110010101010101010101010101";
-                const charArray = chars.split('');
-                const fontSize = 14;
-                const columns = matrixCanvas.width / fontSize;
-                let drops = Array(Math.floor(columns)).fill(1);
-
-                function draw() {
-                    matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                    matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-                    matrixCtx.fillStyle = '#0F0'; // Classic green color
-                    matrixCtx.font = fontSize + 'px monospace';
-                    for (let i = 0; i < drops.length; i++) {
-                        const text = charArray[Math.floor(Math.random() * charArray.length)];
-                        matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-                        if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-                            drops[i] = 0;
-                        }
-                        drops[i]++;
-                    }
-                }
-                matrixInterval = setInterval(draw, 33);
-            }
-
-            // This function stops and hides the matrix effect
-            function stopMatrixAnimation() {
-                if (matrixInterval) clearInterval(matrixInterval);
-                matrixInterval = null;
-                matrixCanvas.style.display = 'none'; // Hide the canvas
-            }
-
-            function setTheme(isDark) {
-                const emilPortrait = document.querySelector('#about img[src*="emil"]');
-                
-                if (isDark) {
-                    document.documentElement.classList.add('dark');
-                    themeToggleLightIcon.classList.remove('hidden');
-                    themeToggleDarkIcon.classList.add('hidden');
-                    localStorage.setItem('theme', 'dark');
-                    startMatrixAnimation(); // Turn ON matrix in dark mode
-                    
-                    // Change portrait to emil1.png in dark mode
-                    if (emilPortrait) {
-                        emilPortrait.src = 'images/emil1.png';
-                    }
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    themeToggleDarkIcon.classList.remove('hidden');
-                    themeToggleLightIcon.classList.add('hidden');
-                    localStorage.setItem('theme', 'light');
-                    stopMatrixAnimation(); // Turn OFF matrix in light mode
-                    
-                    // Change portrait back to emil.png in light mode
-                    if (emilPortrait) {
-                        emilPortrait.src = 'images/emil.png';
-                    }
-                }
-            }
-
-                         const isDarkMode = localStorage.getItem('theme') === 'dark';
-            setTheme(isDarkMode);
-            
-            // Set initial portrait based on theme
-            const emilPortrait = document.querySelector('#about img[src*="emil"]');
-            if (emilPortrait && isDarkMode) {
-                emilPortrait.src = 'images/emil1.png';
-            }
-
-            themeToggleBtn.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('dark')));
-            
-            window.addEventListener('resize', () => {
-                // Only restart the animation if we are in dark mode
-                if (document.documentElement.classList.contains('dark')) {
-                    startMatrixAnimation();
-                }
-            });
-
-            // --- Enhanced Hacker-style Name Animation ---
-            function startHackerAnimationLoop() {
-                const nameContainer = document.getElementById('animated-name');
-                if (!nameContainer) return;
-                
-                const nameChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!<>-_\\/[]{}—=+*^?#";
-                const originalName = nameContainer.getAttribute('data-name');
-                const colors = ['#3B82F6', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'];
-                let colorIndex = 0, iteration = 0, direction = -1, interval = null;
-                nameContainer.innerText = originalName;
-                
-                function changeColor() { 
-                    nameContainer.style.color = colors[colorIndex]; 
-                    nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`; 
-                    colorIndex = (colorIndex + 1) % colors.length; 
-                }
-
-                function animate() {
-                    clearInterval(interval);
-                    iteration = (direction === 1) ? 0 : originalName.length;
-                    interval = setInterval(() => {
-                        nameContainer.innerText = originalName.split("").map((_, index) => { 
-                            if (originalName[index] === ' ') return ' '; 
-                            if ( (direction === 1 && index < iteration) || (direction === -1 && index < iteration) ) { 
-                                return originalName[index]; 
-                            } 
-                            return nameChars[Math.floor(Math.random() * nameChars.length)]; 
-                        }).join("");
-                        if ((direction === 1 && iteration >= originalName.length) || (direction === -1 && iteration <= 0)) {
-                            direction *= -1;
-                            clearInterval(interval);
-                            if (direction === -1) { 
-                                setInterval(changeColor, 1000); 
-                                setTimeout(animate, 5000); 
-                            } else { 
-                                setTimeout(animate, 1000); 
-                            }
-                        }
-                        iteration += (1 / 8) * direction;
-                    }, 50);
-                }
-                setTimeout(animate, 2000);
-            }
-
-            // --- Particle Animation ---
-            function createParticles() {
-                const particlesContainer = document.getElementById('particles-bg');
-                if (!particlesContainer) return;
-
-                for (let i = 0; i < 50; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'absolute w-1 h-1 bg-blue-500/20 rounded-full';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.top = Math.random() * 100 + '%';
-                    particle.style.animationDelay = Math.random() * 20 + 's';
-                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                    particle.style.animation = 'particleFloat infinite ease-in-out';
-                    particlesContainer.appendChild(particle);
-                }
-            }
-
-            // Initialize particles
-            createParticles();
-
-            // Debug image loading
-            function debugImageLoading() {
-                const images = document.querySelectorAll('img');
-                images.forEach((img, index) => {
-                    img.addEventListener('load', () => {
-                
-                    });
-                    img.addEventListener('error', () => {
-                        console.error(`❌ Image ${index + 1} failed to load:`, img.src);
-                    });
-                });
-            }
-            
-            // Run debug function
-            debugImageLoading();
-
-            // Force show all images for debugging
-            setTimeout(() => {
-                const allImages = document.querySelectorAll('img');
-                allImages.forEach(img => {
-                    img.style.opacity = '1';
-                    img.style.visibility = 'visible';
-                    img.style.display = 'block';
-                   
-                });
-            }, 1000);
-
-            // --- Mobile Menu Toggle ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-            // --- Simplified FADE-IN ANIMATION ---
-            const animateContainers = document.querySelectorAll('.animate-container');
-            
-            // Immediately show all content
-            animateContainers.forEach(container => {
-                const content = container.querySelector('.content-to-animate');
-                if (content) {
-                    content.classList.add('visible');
-                    if (container.id === 'home') { 
-                        startHackerAnimationLoop(); 
-                    }
-                }
-            });
-
-            // Optional: Keep intersection observer for future animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const container = entry.target;
-                        const content = container.querySelector('.content-to-animate');
-                        if (content && !content.classList.contains('visible')) {
-                            content.classList.add('visible');
-                            }
-                        observer.unobserve(container);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            animateContainers.forEach(container => observer.observe(container));
-
-            // --- Likes (Heart) Counter ---
-            async function fetchLikeCount(projectId) {
-                try {
-                    const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`);
-                    if (!res.ok) throw new Error('Failed to fetch');
-                    const data = await res.json();
-                    return typeof data.count === 'number' ? data.count : 0;
-                } catch (e) {
-                    console.warn('Like count fallback to 0 for', projectId, e);
-                    return 0;
-                }
-            }
-
-            async function incrementLike(projectId) {
-                try {
-                    const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`, { method: 'POST' });
-                    if (!res.ok) throw new Error('Failed to increment');
-                    const data = await res.json();
-                    return typeof data.count === 'number' ? data.count : null;
-                } catch (e) {
-                    console.error('Increment like failed', projectId, e);
-                    return null;
-                }
-            }
-
-            function markLiked(btn) {
-                btn.classList.add('bg-rose-500', 'text-white');
-                btn.classList.remove('bg-rose-100', 'text-rose-600');
-            }
-
-            async function initLikes() {
-                const likeButtons = document.querySelectorAll('.like-btn');
-                const updates = [];
-                likeButtons.forEach(btn => {
-                    const projectId = btn.getAttribute('data-project');
-                    const countSpan = btn.querySelector('.like-count');
-
-                    // Load initial count
-                    updates.push((async () => {
-                        const count = await fetchLikeCount(projectId);
-                        if (countSpan) countSpan.textContent = String(count);
-                    })());
-
-                    // Restore liked state from localStorage
-                    if (localStorage.getItem(`liked:${projectId}`) === '1') {
-                        markLiked(btn);
-                    }
-
-                    // Click handler
-                    btn.addEventListener('click', async (e) => {
-                        e.preventDefault();
-                        const already = localStorage.getItem(`liked:${projectId}`) === '1';
-                        if (already) return; // prevent multiple likes per browser
-
-                        const newCount = await incrementLike(projectId);
-                        if (newCount !== null && countSpan) {
-                            countSpan.textContent = String(newCount);
-                            localStorage.setItem(`liked:${projectId}`, '1');
-                            markLiked(btn);
-                        }
-                    });
-                });
-
-                await Promise.allSettled(updates);
-            }
-
-                         initLikes();
-
-             // --- VISITOR COUNTER ---
-             async function fetchVisitorCount() {
-                 try {
-                     const res = await fetch('/api/visitors');
-                     if (!res.ok) throw new Error('Failed to fetch visitor count');
-                     const data = await res.json();
-                     return typeof data.count === 'number' ? data.count : 0;
-                 } catch (e) {
-                     console.warn('Visitor count fallback to 0:', e);
-                     return 0;
-                 }
-             }
-
-             async function incrementVisitorCount() {
-                 try {
-                     const res = await fetch('/api/visitors', { method: 'POST' });
-                     if (!res.ok) throw new Error('Failed to increment visitor count');
-                     const data = await res.json();
-                     return typeof data.count === 'number' ? data.count : null;
-                 } catch (e) {
-                     console.error('Increment visitor count failed:', e);
-                     return null;
-                 }
-             }
-
-             async function initVisitorCounter() {
-                 const visitorCountElement = document.getElementById('visitor-count');
-                 if (!visitorCountElement) return;
-
-                 // Check if this is a new visitor (not counted yet this session)
-                 const hasVisited = sessionStorage.getItem('hasVisited');
-                 
-                 if (!hasVisited) {
-                     // This is a new visitor, increment the count
-                     const newCount = await incrementVisitorCount();
-                     if (newCount !== null) {
-                         visitorCountElement.textContent = newCount.toLocaleString();
-                         sessionStorage.setItem('hasVisited', 'true');
-                     }
-                 } else {
-                     // This visitor has already been counted, just fetch the current count
-                     const count = await fetchVisitorCount();
-                     visitorCountElement.textContent = count.toLocaleString();
-                 }
-             }
-
-             initVisitorCounter();
-
-            // --- Enhanced Project Card Interactions ---
-            const projectCards = document.querySelectorAll('.group');
-            projectCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px) scale(1.02)';
-                    this.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                    this.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
-                });
-            });
-
-                         // --- IMAGE MODAL FUNCTIONALITY ---
-             const modal = document.getElementById('image-modal');
-             const modalImage = document.getElementById('modal-image');
-             const modalTitle = document.getElementById('modal-title');
-             const closeModal = document.getElementById('close-modal');
-             const modalPrev = document.getElementById('modal-prev');
-             const modalNext = document.getElementById('modal-next');
-             const projectImages = document.querySelectorAll('.project-image');
-
-             let currentModalSlides = [];
-             let currentModalSlideIndex = 0;
-
-             // Debug modal elements
-       
-
-                                                                                                               
-
-             // Global close modal function
-             window.closeModalFunc = function() {
-                 const modal = document.getElementById('image-modal');
-                 const modalPrev = document.getElementById('modal-prev');
-                 const modalNext = document.getElementById('modal-next');
-                 
-                 if (modal) {
-                 modal.classList.add('hidden');
-                 modal.classList.remove('flex');
-                 document.body.style.overflow = ''; // Restore scrolling
-                 }
-                 
-                 window.currentModalSlides = [];
-                 if (modalPrev) modalPrev.classList.add('hidden');
-                 if (modalNext) modalNext.classList.add('hidden');
-             }
-
-             function showModalSlide(index) {
-                 if (currentModalSlides.length > 0 && index >= 0 && index < currentModalSlides.length) {
-                     const slide = currentModalSlides[index];
-                     modalImage.src = slide.src;
-                     modalImage.alt = slide.alt;
-                     currentModalSlideIndex = index;
-                 }
-             }
-
-             function nextModalSlide() {
-                 if (currentModalSlides.length > 0) {
-                     const nextIndex = (currentModalSlideIndex + 1) % currentModalSlides.length;
-                     showModalSlide(nextIndex);
-                 }
-             }
-
-             function prevModalSlide() {
-                 if (currentModalSlides.length > 0) {
-                     const prevIndex = (currentModalSlideIndex - 1 + currentModalSlides.length) % currentModalSlides.length;
-                     showModalSlide(prevIndex);
-                 }
-             }
-
-             // Event listeners for project images
-             projectImages.forEach((img, index) => {
-                
-                 
-                 // Remove any existing click listeners
-                 img.removeEventListener('click', img.clickHandler);
-                 
-                 // Create new click handler
-                 img.clickHandler = function(e) {
-                     e.preventDefault();
-                     e.stopPropagation();
-                     console.log('Image clicked:', img.src);
-                     
-                     const imageSrc = img.src;
-                     const title = img.getAttribute('data-title') || 'Project Image';
-                     
-                     // Check if this is a Bizbox slideshow image
-                     if (img.classList.contains('bizbox-slide')) {
-                         const slideshow = img.closest('.bizbox-slideshow');
-                         const slides = slideshow.querySelectorAll('.bizbox-slide');
-                         const slideIndex = Array.from(slides).indexOf(img);
-                         openModal(imageSrc, title, slides, slideIndex);
-                     } else {
-                         openModal(imageSrc, title);
-                     }
-                 };
-                 
-                 img.addEventListener('click', img.clickHandler);
-             });
-
-             // Modal navigation event listeners
-             if (modalPrev) {
-             modalPrev.addEventListener('click', (e) => {
-                 e.stopPropagation();
-                 prevModalSlide();
-             });
-             }
-
-             if (modalNext) {
-             modalNext.addEventListener('click', (e) => {
-                 e.stopPropagation();
-                 nextModalSlide();
-             });
-             }
-
-             // Close modal events
-             if (closeModal) {
-                 closeModal.addEventListener('click', window.closeModalFunc);
-             }
-             
-             if (modal) {
-             modal.addEventListener('click', (e) => {
-                 if (e.target === modal) {
-                         window.closeModalFunc();
-                 }
-             });
-             }
-
-             // Close modal with Escape key
-             document.addEventListener('keydown', (e) => {
-                 if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                     window.closeModalFunc();
-                 }
-             });
-
-             // Test modal button
-         
-
-             // --- BIZBOX SLIDESHOW FUNCTIONALITY ---
-             const bizboxSlideshows = document.querySelectorAll('.bizbox-slideshow');
-             
-             bizboxSlideshows.forEach(slideshow => {
-                 const slides = slideshow.querySelectorAll('.bizbox-slide');
-                 const prevBtn = slideshow.parentElement.querySelector('.bizbox-prev');
-                 const nextBtn = slideshow.parentElement.querySelector('.bizbox-next');
-                 let currentSlide = 0;
-                 
-                 function showSlide(index) {
-                     slides.forEach((slide, i) => {
-                         if (i === index) {
-                             slide.classList.add('active');
-                         } else {
-                             slide.classList.remove('active');
-                         }
-                     });
-                 }
-                 
-                 function nextSlide() {
-                     currentSlide = (currentSlide + 1) % slides.length;
-                     showSlide(currentSlide);
-                 }
-                 
-                 function prevSlide() {
-                     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                     showSlide(currentSlide);
-                 }
-                 
-                 // Event listeners for navigation buttons
-                 if (prevBtn) {
-                     prevBtn.addEventListener('click', (e) => {
-                         e.stopPropagation();
-                         prevSlide();
-                     });
-                 }
-                 
-                 if (nextBtn) {
-                     nextBtn.addEventListener('click', (e) => {
-                         e.stopPropagation();
-                         nextSlide();
-                     });
-                 }
-                 
-                 // Auto-advance slides every 3 seconds
-                 setInterval(() => {
-                     nextSlide();
-                 }, 3000);
-             });
-         });
-     </script>
+    <!-- External JavaScript -->
+    <script src="js/index.js"></script>
 
 </body>
 </html>
