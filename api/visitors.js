@@ -15,34 +15,94 @@ module.exports = async function handler(req, res) {
   async function getVisitorLocation() {
     try {
       // Get IP address from various headers (for different hosting platforms)
-      const ip = req.headers['x-forwarded-for'] || 
-                 req.headers['x-real-ip'] || 
-                 req.headers['x-client-ip'] || 
-                 req.connection?.remoteAddress || 
-                 req.socket?.remoteAddress ||
-                 '127.0.0.1';
+      let ip = req.headers['x-forwarded-for'] || 
+               req.headers['x-real-ip'] || 
+               req.headers['x-client-ip'] || 
+               req.connection?.remoteAddress || 
+               req.socket?.remoteAddress ||
+               '127.0.0.1';
 
-      // Use ipapi.co for free IP geolocation
-      const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`, {
-        timeout: 5000
-      });
-      
-      if (locationResponse.ok) {
-        const locationData = await locationResponse.json();
+      // Clean up IP (remove port if present)
+      if (ip.includes(',')) {
+        ip = ip.split(',')[0].trim();
+      }
+      if (ip.includes(':')) {
+        ip = ip.split(':')[0].trim();
+      }
+
+      // Skip geolocation for localhost/private IPs
+      if (ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.')) {
         return {
           ip: ip,
-          country: locationData.country_name || 'Unknown',
-          countryCode: locationData.country_code || 'Unknown',
-          city: locationData.city || 'Unknown',
-          region: locationData.region || 'Unknown',
-          timezone: locationData.timezone || 'Unknown'
+          country: 'Local Development',
+          countryCode: 'LOCAL',
+          city: 'Localhost',
+          region: 'Development',
+          timezone: 'Asia/Manila'
         };
+      }
+
+      // Try multiple geolocation services for better reliability
+      const services = [
+        `https://ipapi.co/${ip}/json/`,
+        `http://ip-api.com/json/${ip}`,
+        `https://ipinfo.io/${ip}/json`
+      ];
+
+      for (const serviceUrl of services) {
+        try {
+          console.log(`Trying geolocation service: ${serviceUrl}`);
+          const response = await fetch(serviceUrl, {
+            timeout: 3000,
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (compatible; Portfolio/1.0)'
+            }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Geolocation data received:', data);
+            
+            // Handle different service response formats
+            if (serviceUrl.includes('ipapi.co')) {
+              return {
+                ip: ip,
+                country: data.country_name || 'Unknown',
+                countryCode: data.country_code || 'Unknown',
+                city: data.city || 'Unknown',
+                region: data.region || 'Unknown',
+                timezone: data.timezone || 'Unknown'
+              };
+            } else if (serviceUrl.includes('ip-api.com')) {
+              return {
+                ip: ip,
+                country: data.country || 'Unknown',
+                countryCode: data.countryCode || 'Unknown',
+                city: data.city || 'Unknown',
+                region: data.regionName || 'Unknown',
+                timezone: data.timezone || 'Unknown'
+              };
+            } else if (serviceUrl.includes('ipinfo.io')) {
+              return {
+                ip: ip,
+                country: data.country || 'Unknown',
+                countryCode: data.country || 'Unknown',
+                city: data.city || 'Unknown',
+                region: data.region || 'Unknown',
+                timezone: data.timezone || 'Unknown'
+              };
+            }
+          }
+        } catch (serviceError) {
+          console.log(`Service ${serviceUrl} failed:`, serviceError.message);
+          continue;
+        }
       }
     } catch (error) {
       console.log('Location fetch failed:', error.message);
     }
     
-    // Fallback if location service fails
+    // Final fallback if all services fail
     return {
       ip: 'Unknown',
       country: 'Unknown',
