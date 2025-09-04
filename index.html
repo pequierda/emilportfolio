@@ -679,6 +679,17 @@
 
     <!-- External JavaScript -->
     <script src="js/index.js"></script>
+    
+    <!-- Fallback to hide loading screen -->
+    <script>
+        // Fallback: hide loading screen after 3 seconds regardless
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 
 </body>
 </html>
