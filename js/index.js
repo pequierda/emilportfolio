@@ -340,7 +340,6 @@ class LikesSystem {
         try {
            
             const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`);
-            console.log('Like count response status:', res.status);
             if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
             const data = await res.json();
            
@@ -1286,5 +1285,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
 
 
