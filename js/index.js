@@ -3,6 +3,31 @@
  * Organized and modularized for better maintainability
  */
 
+// Performance/Debug flags
+const ENABLE_DEBUG = false;
+
+// Helpers for scheduling
+function runWhenIdle(callback) {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(callback, { timeout: 1500 });
+    } else {
+        setTimeout(callback, 1);
+    }
+}
+
+function initWhenVisible(element, initCallback, options = { rootMargin: '200px', threshold: 0.1 }) {
+    if (!element) return;
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                initCallback();
+                io.disconnect();
+            }
+        });
+    }, options);
+    io.observe(element);
+}
+
 // ============================================================================
 // GLOBAL VARIABLES AND UTILITIES
 // ============================================================================
@@ -106,6 +131,11 @@ class ThemeManager {
     }
     
     startMatrixAnimation() {
+        // Respect reduced motion
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.stopMatrixAnimation();
+            return;
+        }
         if (this.matrixInterval) clearInterval(this.matrixInterval);
         
         const matrixCtx = this.matrixCanvas.getContext('2d');
@@ -132,7 +162,8 @@ class ThemeManager {
                 drops[i]++;
             }
         };
-        this.matrixInterval = setInterval(draw, 33);
+        // Slightly lower frame rate to reduce CPU/GPU usage
+        this.matrixInterval = setInterval(draw, 50);
     }
 
     stopMatrixAnimation() {
@@ -182,12 +213,21 @@ class ScrollProgress {
         scrollIndicator.className = 'scroll-indicator';
         document.body.appendChild(scrollIndicator);
 
-        window.addEventListener('scroll', () => {
+        let ticking = false;
+        const update = () => {
             const scrollTop = window.pageYOffset;
-            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const docHeight = Math.max(1, document.body.offsetHeight - window.innerHeight);
             const scrollPercent = (scrollTop / docHeight) * 100;
             scrollIndicator.style.transform = `scaleX(${scrollPercent / 100})`;
-        });
+            ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(update);
+                ticking = true;
+            }
+        }, { passive: true });
     }
 }
 
@@ -257,13 +297,18 @@ class ParticleAnimation {
         const particlesContainer = document.getElementById('particles-bg');
         if (!particlesContainer) return;
 
-        for (let i = 0; i < 50; i++) {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return; // Skip particles for users who prefer reduced motion
+        }
+
+        const particleCount = window.innerWidth < 768 ? 18 : 36;
+        for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.className = 'absolute w-1 h-1 bg-blue-500/20 rounded-full';
             particle.style.left = Math.random() * 100 + '%';
             particle.style.top = Math.random() * 100 + '%';
             particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 12) + 's';
             particle.style.animation = 'particleFloat infinite ease-in-out';
             particlesContainer.appendChild(particle);
         }
@@ -338,11 +383,12 @@ class LikesSystem {
     
     async fetchLikeCount(projectId) {
         try {
-           
+            console.log('Fetching like count for project:', projectId);
             const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`);
+            console.log('Like count response status:', res.status);
             if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
             const data = await res.json();
-           
+            console.log('Like count data:', data);
             return typeof data.count === 'number' ? data.count : 0;
         } catch (e) {
             console.warn('Like count fallback to 0 for', projectId, e);
@@ -593,21 +639,19 @@ class LoadingAnimations {
     }
     
     init() {
-        // Check if page is already loaded
-        if (document.readyState === 'complete') {
+        // Hide as soon as DOM is ready to improve perceived load
+        requestAnimationFrame(() => this.hideLoadingScreen());
+
+        // Still hide on full load in case something re-showed it
+        window.addEventListener('load', () => {
             this.hideLoadingScreen();
-        } else {
-            // Hide loading screen when page is fully loaded
-            window.addEventListener('load', () => {
-                this.hideLoadingScreen();
-            });
-        }
-        
-        // Fallback: hide loading screen after 2 seconds max
+        });
+
+        // Fallback: hide loading screen after 1.2 seconds max
         setTimeout(() => {
             this.hideLoadingScreen();
-        }, 2000);
-        
+        }, 1200);
+
         // Add smooth page transitions
         this.addPageTransitions();
     }
@@ -1209,10 +1253,10 @@ class BizboxSlideshow {
                 });
             }
             
-            // Auto-advance slides every 3 seconds
+            // Auto-advance slides every 4 seconds at lower rate
             setInterval(() => {
                 nextSlide();
-            }, 3000);
+            }, 4000);
         });
     }
 }
@@ -1228,7 +1272,7 @@ class DebugUtils {
     
     init() {
         this.debugImageLoading();
-        this.forceShowImages();
+        // this.forceShowImages(); // Disabled in production for performance
     }
     
     debugImageLoading() {
@@ -1261,21 +1305,43 @@ class DebugUtils {
 
 document.addEventListener('DOMContentLoaded', function() {
     try {
-        // Initialize all modules with error handling
+        // Critical, lightweight modules first
         new ThemeManager();
         new ScrollProgress();
-        new ParticleAnimation();
         new MobileMenu();
         new AnimationController();
-        new LikesSystem();
-        new VisitorCounter();
-        new ContactForm();
         new LoadingAnimations();
-        new TicTacToe();
-        new ProjectCards();
         new ImageModal();
-        new BizboxSlideshow();
-        new DebugUtils();
+
+        // Defer heavier/secondary modules until idle or visibility
+        runWhenIdle(() => {
+            new ParticleAnimation();
+        });
+
+        // Initialize likes and visitors when projects section is near viewport
+        const projectsSection = document.getElementById('projects');
+        initWhenVisible(projectsSection, () => {
+            new LikesSystem();
+            new VisitorCounter();
+            new ProjectCards();
+            new BizboxSlideshow();
+        });
+
+        // Initialize game logic when game section approaches viewport
+        const gameSection = document.getElementById('game');
+        initWhenVisible(gameSection, () => {
+            new TicTacToe();
+        });
+
+        // Contact form is light but not critical; idle load
+        runWhenIdle(() => {
+            new ContactForm();
+        });
+
+        // Debug utilities only when explicitly enabled
+        if (ENABLE_DEBUG) {
+            runWhenIdle(() => new DebugUtils());
+        }
     } catch (error) {
         console.error('Error initializing modules:', error);
         // Ensure loading screen is hidden even if there's an error
@@ -1285,6 +1351,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
-
-
