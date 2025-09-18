@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emil Lawrence - System Developer & IT Consultant Expert</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <script>try{if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark')}}catch(e){}</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -22,7 +30,8 @@
       }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"></noscript>
     <link href="css/index.css" rel="stylesheet">
     
 </head>
@@ -43,10 +52,10 @@
         </div>
     </div>
 
-    <canvas id="matrix-bg"></canvas>
+    <canvas id="matrix-bg" aria-hidden="true"></canvas>
 
     <!-- Animated background particles -->
-    <div id="particles-bg" class="fixed inset-0 z-0 opacity-30 dark:opacity-20"></div>
+    <div id="particles-bg" class="fixed inset-0 z-0 opacity-30 dark:opacity-20" aria-hidden="true"></div>
 
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -172,7 +181,7 @@
                 <div class="grid lg:grid-cols-2 gap-16 items-center content-to-animate">
                     <div class="relative">
                         <div class="relative z-10">
-                            <img src="images/emil.png" alt="A portrait of Emil" class="rounded-3xl shadow-2xl w-full max-w-md mx-auto object-cover border-8 border-white dark:border-gray-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <img src="images/emil.png" alt="A portrait of Emil" loading="lazy" decoding="async" class="rounded-3xl shadow-2xl w-full max-w-md mx-auto object-cover border-8 border-white dark:border-gray-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div class="hidden rounded-3xl shadow-2xl w-full max-w-md mx-auto h-96 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
                                 Emil Lawrence
                             </div>
@@ -259,7 +268,7 @@
                                          <!-- Dental Management System -->
                      <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
                                                  <div class="relative overflow-hidden rounded-t-2xl">
-                             <img src="images/dentalsystem.gif" alt="Dental Management Information System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Dental Management Information System" onclick="openModal('images/dentalsystem.gif', 'Dental Management Information System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="images/dentalsystem.gif" alt="Dental Management Information System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Dental Management Information System" onclick="openModal('images/dentalsystem.gif', 'Dental Management Information System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                              <div class="hidden w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
                                  <i class="fas fa-tooth mr-2"></i>Dental System
                              </div>
@@ -286,7 +295,7 @@
                                          <!-- POS System -->
                      <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
                                                  <div class="relative overflow-hidden rounded-t-2xl">
-                             <img src="images/pos.gif" alt="POS System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="POS with Inventory Management" onclick="openModal('images/pos.gif', 'POS with Inventory Management')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="images/pos.gif" alt="POS System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="POS with Inventory Management" onclick="openModal('images/pos.gif', 'POS with Inventory Management')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                              <div class="hidden w-full h-48 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
                                  <i class="fas fa-cash-register mr-2"></i>POS System
                              </div>
@@ -313,7 +322,7 @@
                                          <!-- Travel Management System -->
                      <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
                                                  <div class="relative overflow-hidden rounded-t-2xl">
-                             <img src="images/travel.gif" alt="Travel and Tour System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Travel and Tour Management System" onclick="openModal('images/travel.gif', 'Travel and Tour Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="images/travel.gif" alt="Travel and Tour System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Travel and Tour Management System" onclick="openModal('images/travel.gif', 'Travel and Tour Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                              <div class="hidden w-full h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-lg">
                                  <i class="fas fa-plane mr-2"></i>Travel System
                              </div>
@@ -340,7 +349,7 @@
                                          <!-- Patient Scheduler -->
                      <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
                                                  <div class="relative overflow-hidden rounded-t-2xl">
-                             <img src="images/patient.gif" alt="Patient Scheduler Management System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Patient Scheduler Management System" onclick="openModal('images/patient.gif', 'Patient Scheduler Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="images/patient.gif" alt="Patient Scheduler Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Patient Scheduler Management System" onclick="openModal('images/patient.gif', 'Patient Scheduler Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                              <div class="hidden w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
                                  <i class="fas fa-calendar-check mr-2"></i>Patient Scheduler
                              </div>
@@ -367,7 +376,7 @@
                                              <!-- Departmental item cleaning -->
                                              <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/itemclean.gif" alt="Patient Scheduler Management System" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Departmental Item Cleanup" onclick="openModal('images/itemclean.gif', 'Bizbox Departmental Item Cleanup')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="images/itemclean.gif" alt="Patient Scheduler Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Departmental Item Cleanup" onclick="openModal('images/itemclean.gif', 'Bizbox Departmental Item Cleanup')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
                                 <i class="fas fa-calendar-check mr-2"></i>Departmental item cleaning
                             </div>
@@ -396,7 +405,7 @@
                                          <!-- Price Generator -->
                      <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
                                                  <div class="relative overflow-hidden rounded-t-2xl">
-                             <img src="images/price_gen.gif" alt="Bizbox Price Generator" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Price Generator" onclick="openModal('images/price_gen.gif', 'Bizbox Price Generator')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="images/price_gen.gif" alt="Bizbox Price Generator" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Price Generator" onclick="openModal('images/price_gen.gif', 'Bizbox Price Generator')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                              <div class="hidden w-full h-48 bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg">
                                  <i class="fas fa-dollar-sign mr-2"></i>Price Generator
                              </div>
@@ -521,7 +530,7 @@
                     <div class="text-center lg:text-left">
                         <div class="relative mb-8">
                             <div class="relative z-10">
-                                <img src="images/me.png" alt="Emil Lawrence" class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-cover mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <img src="images/me.png" alt="Emil Lawrence" loading="lazy" decoding="async" class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-cover mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="hidden w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
                                     EL
                                 </div>
@@ -678,7 +687,7 @@
     </div>
 
     <!-- External JavaScript -->
-    <script src="js/index.js"></script>
+    <script src="js/index.js" defer></script>
     
     <!-- Fallback to hide loading screen -->
     <script>
@@ -688,7 +697,7 @@
             if (loadingScreen) {
                 loadingScreen.style.display = 'none';
             }
-        }, 3000);
+        }, 2000);
     </script>
 
 </body>
