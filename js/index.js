@@ -34,7 +34,12 @@ function initWhenVisible(element, initCallback, options = { rootMargin: '200px',
 
 // Global modal function
 function openModal(imageSrc, title, slides = null, slideIndex = 0) {
-   
+    // Check if this is a certificate URL (Coursera link)
+    if (imageSrc.includes('coursera.org/account/accomplishments')) {
+        // Open certificate URL in new tab
+        window.open(imageSrc, '_blank', 'noopener,noreferrer');
+        return;
+    }
     
     const modal = document.getElementById('image-modal');
     const modalImage = document.getElementById('modal-image');
