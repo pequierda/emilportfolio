@@ -629,14 +629,17 @@ class LikesSystem {
     async fetchLikeCount(projectId) {
         try {
             console.log('Fetching like count for project:', projectId);
-            const res = await fetch(`/api/likes.php?project=${encodeURIComponent(projectId)}`);
+            const url = `/api/likes.php?project=${encodeURIComponent(projectId)}`;
+            console.log('Fetching from URL:', url);
+            const res = await fetch(url);
             console.log('Like count response status:', res.status);
+            console.log('Like count response headers:', res.headers);
             if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
             const data = await res.json();
             console.log('Like count data:', data);
             return typeof data.count === 'number' ? data.count : 0;
         } catch (e) {
-            console.warn('Like count fallback to 0 for', projectId, e);
+            console.error('Like count fetch error for', projectId, e);
             return 0;
         }
     }
@@ -662,21 +665,33 @@ class LikesSystem {
     }
 
     async init() {
+        console.log('LikesSystem initializing...');
         const likeButtons = document.querySelectorAll('.like-btn');
+        console.log('Found like buttons:', likeButtons.length);
+        if (!likeButtons.length) {
+            console.warn('No like buttons found!');
+            return;
+        }
+        
         const updates = [];
         likeButtons.forEach(btn => {
             const projectId = btn.getAttribute('data-project');
             const countSpan = btn.querySelector('.like-count');
+            console.log('Processing like button for project:', projectId);
 
             // Load initial count
             updates.push((async () => {
                 const count = await this.fetchLikeCount(projectId);
-                if (countSpan) countSpan.textContent = String(count);
+                if (countSpan) {
+                    countSpan.textContent = String(count);
+                    console.log('Set initial count for', projectId, 'to', count);
+                }
             })());
 
             // Restore liked state from localStorage
             if (localStorage.getItem(`liked:${projectId}`) === '1') {
                 this.markLiked(btn);
+                console.log('Restored liked state for', projectId);
             }
 
             // Click handler
@@ -702,6 +717,7 @@ class LikesSystem {
         });
 
         await Promise.allSettled(updates);
+        console.log('LikesSystem initialization complete');
     }
 }
 
@@ -716,15 +732,18 @@ class VisitorCounter {
     
     async fetchVisitorCount() {
         try {
+            console.log('Fetching visitor count...');
             const res = await fetch('/api/visitors.php');
+            console.log('Visitor count response status:', res.status);
             if (!res.ok) throw new Error('Failed to fetch visitor count');
             const data = await res.json();
+            console.log('Visitor count data:', data);
             return {
                 count: typeof data.count === 'number' ? data.count : 0,
                 lastVisit: data.lastVisit || null
             };
         } catch (e) {
-            console.warn('Visitor count fallback to 0:', e);
+            console.error('Visitor count fetch error:', e);
             return { count: 0, lastVisit: null };
         }
     }
@@ -763,20 +782,32 @@ class VisitorCounter {
     }
 
     async init() {
+        console.log('VisitorCounter initializing...');
         const visitorCountElement = document.getElementById('visitor-count');
-        if (!visitorCountElement) return;
+        if (!visitorCountElement) {
+            console.error('Visitor count element not found!');
+            return;
+        }
+        console.log('Visitor count element found:', visitorCountElement);
 
         const hasVisited = sessionStorage.getItem('hasVisited');
+        console.log('Has visited before:', hasVisited);
         
         if (!hasVisited) {
+            console.log('First visit - incrementing counter...');
             const result = await this.incrementVisitorCount();
+            console.log('Increment result:', result);
             if (result && result.count !== null) {
                 visitorCountElement.textContent = result.count.toLocaleString();
                 sessionStorage.setItem('hasVisited', 'true');
+                console.log('Visitor count updated to:', result.count);
             }
         } else {
+            console.log('Returning visitor - fetching count...');
             const result = await this.fetchVisitorCount();
+            console.log('Fetch result:', result);
             visitorCountElement.textContent = result.count.toLocaleString();
+            console.log('Visitor count displayed as:', result.count);
         }
     }
 }
@@ -1564,11 +1595,13 @@ document.addEventListener('DOMContentLoaded', function() {
             new ParticleAnimation();
         });
 
-        // Initialize likes and visitors when projects section is near viewport
+        // Initialize visitor counter immediately (needs to be available on page load)
+        new VisitorCounter();
+        
+        // Initialize likes when projects section is near viewport
         const projectsSection = document.getElementById('projects');
         initWhenVisible(projectsSection, () => {
             new LikesSystem();
-            new VisitorCounter();
             new ProjectCards();
             new BizboxSlideshow();
         });
