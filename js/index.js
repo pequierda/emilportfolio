@@ -628,12 +628,12 @@ class LikesSystem {
     
     async fetchLikeCount(projectId) {
         try {
-            //console.log('Fetching like count for project:', projectId);
-            const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`);
-          //  console.log('Like count response status:', res.status);
+            console.log('Fetching like count for project:', projectId);
+            const res = await fetch(`/api/likes.php?project=${encodeURIComponent(projectId)}`);
+            console.log('Like count response status:', res.status);
             if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
             const data = await res.json();
-          //  console.log('Like count data:', data);
+            console.log('Like count data:', data);
             return typeof data.count === 'number' ? data.count : 0;
         } catch (e) {
             console.warn('Like count fallback to 0 for', projectId, e);
@@ -644,7 +644,7 @@ class LikesSystem {
     async incrementLike(projectId) {
         try {
             console.log('Incrementing like for project:', projectId);
-            const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`, { method: 'POST' });
+            const res = await fetch(`/api/likes.php?project=${encodeURIComponent(projectId)}`, { method: 'POST' });
             console.log('Increment like response status:', res.status);
             if (!res.ok) throw new Error(`Failed to increment: ${res.status}`);
             const data = await res.json();
@@ -716,7 +716,7 @@ class VisitorCounter {
     
     async fetchVisitorCount() {
         try {
-            const res = await fetch('/api/visitors');
+            const res = await fetch('/api/visitors.php');
             if (!res.ok) throw new Error('Failed to fetch visitor count');
             const data = await res.json();
             return {
@@ -731,7 +731,7 @@ class VisitorCounter {
 
     async incrementVisitorCount() {
         try {
-            const res = await fetch('/api/visitors', { method: 'POST' });
+            const res = await fetch('/api/visitors.php', { method: 'POST' });
             if (!res.ok) throw new Error('Failed to increment visitor count');
             const data = await res.json();
             return {
