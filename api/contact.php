@@ -51,6 +51,9 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
+// Log the contact form submission
+error_log("Contact form submission: Name=$name, Email=$email, Subject=$subject");
+
 // Email configuration
 $to = 'e.pequierda@yahoo.com';
 $emailSubject = "Portfolio Contact: $subject";

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        .error {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Contact API Test</h1>
+    <p>Test your contact form API to see if it's working properly.</p>
+
+    <div class="test-section">
+        <h2>1. Test Contact API</h2>
+        <button onclick="testContactAPI()">Test Contact API</button>
+        <div id="contactResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test with Custom Data</h2>
+        <div class="form-group">
+            <label for="testName">Name:</label>
+            <input type="text" id="testName" value="Test User" />
+        </div>
+        <div class="form-group">
+            <label for="testEmail">Email:</label>
+            <input type="email" id="testEmail" value="test@example.com" />
+        </div>
+        <div class="form-group">
+            <label for="testSubject">Subject:</label>
+            <input type="text" id="testSubject" value="Test Subject" />
+        </div>
+        <div class="form-group">
+            <label for="testMessage">Message:</label>
+            <textarea id="testMessage" rows="3">This is a test message from the contact API test page.</textarea>
+        </div>
+        <button onclick="testCustomContact()">Test with Custom Data</button>
+        <div id="customResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test API Endpoints</h2>
+        <button onclick="testAPIEndpoints()">Test All Endpoints</button>
+        <div id="endpointsResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testContactAPI() {
+            const resultDiv = document.getElementById('contactResult');
+            resultDiv.textContent = 'Testing...';
+            
+            try {
+                const testData = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    subject: 'API Test',
+                    message: 'This is a test message to verify the contact API is working.'
+                };
+                
+                const response = await fetch('/api/contact.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.textContent = `✅ SUCCESS\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.textContent = `❌ ERROR\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.textContent = `❌ NETWORK ERROR\n${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testCustomContact() {
+            const resultDiv = document.getElementById('customResult');
+            resultDiv.textContent = 'Testing...';
+            
+            try {
+                const testData = {
+                    name: document.getElementById('testName').value,
+                    email: document.getElementById('testEmail').value,
+                    subject: document.getElementById('testSubject').value,
+                    message: document.getElementById('testMessage').value
+                };
+                
+                const response = await fetch('/api/contact.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.textContent = `✅ SUCCESS\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.textContent = `❌ ERROR\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.textContent = `❌ NETWORK ERROR\n${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testAPIEndpoints() {
+            const resultDiv = document.getElementById('endpointsResult');
+            resultDiv.textContent = 'Testing all endpoints...';
+            
+            const endpoints = [
+                { name: 'Contact API', url: '/api/contact.php', method: 'POST' },
+                { name: 'Likes API', url: '/api/likes.php?project=test', method: 'GET' },
+                { name: 'Visitors API', url: '/api/visitors.php', method: 'GET' }
+            ];
+            
+            let results = [];
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const options = {
+                        method: endpoint.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    
+                    if (endpoint.method === 'POST' && endpoint.name === 'Contact API') {
+                        options.body = JSON.stringify({
+                            name: 'Test',
+                            email: 'test@example.com',
+                            subject: 'Test',
+                            message: 'Test message'
+                        });
+                    }
+                    
+                    const response = await fetch(endpoint.url, options);
+                    const data = await response.json();
+                    
+                    results.push(`${endpoint.name}: ${response.ok ? '✅' : '❌'} (${response.status})`);
+                } catch (error) {
+                    results.push(`${endpoint.name}: ❌ ERROR (${error.message})`);
+                }
+            }
+            
+            resultDiv.textContent = results.join('\n');
+            resultDiv.className = 'result';
+        }
+    </script>
+</body>
+</html>
