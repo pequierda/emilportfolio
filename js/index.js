@@ -113,6 +113,13 @@ class HeartbeatMonitor {
         this.heartbeatInterval = null;
         this.currentBpm = 72;
         this.points = [];
+        
+        // Check if required elements exist
+        if (!this.heartbeatLine) {
+            console.warn('HeartbeatMonitor: heartbeat-line element not found');
+            return;
+        }
+        
         this.init();
     }
     
@@ -212,16 +219,20 @@ class HeartbeatMonitor {
         } else {
             this.currentBpm = Math.floor(Math.random() * 20) + 65; // Normal BPM range
         }
-        this.heartbeatBpm.textContent = this.currentBpm;
+        if (this.heartbeatBpm) {
+            this.heartbeatBpm.textContent = this.currentBpm;
+        }
     }
     
     updateStatus() {
-        if (this.isDarkMode) {
-            this.heartbeatStatus.textContent = 'FLAT';
-            this.heartbeatStatus.className = 'text-xs font-mono font-bold text-gray-500 flat';
-        } else {
-            this.heartbeatStatus.textContent = 'ALIVE';
-            this.heartbeatStatus.className = 'text-xs font-mono font-bold text-green-500 alive';
+        if (this.heartbeatStatus) {
+            if (this.isDarkMode) {
+                this.heartbeatStatus.textContent = 'FLAT';
+                this.heartbeatStatus.className = 'text-xs font-mono font-bold text-gray-500 flat';
+            } else {
+                this.heartbeatStatus.textContent = 'ALIVE';
+                this.heartbeatStatus.className = 'text-xs font-mono font-bold text-green-500 alive';
+            }
         }
     }
     
@@ -674,14 +685,6 @@ class LikesSystem {
             return;
         }
         
-        // Test if we can find the like count spans
-        const likeCounts = document.querySelectorAll('.like-count');
-        console.log('Found like count spans:', likeCounts.length);
-        likeCounts.forEach((span, index) => {
-            console.log(`Like count ${index}:`, span);
-            // Set a test value to see if elements work
-            span.textContent = 'TEST';
-        });
         
         const updates = [];
         likeButtons.forEach(btn => {
@@ -801,9 +804,6 @@ class VisitorCounter {
         }
         console.log('Visitor count element found:', visitorCountElement);
 
-        // Force set a test value first to see if the element works
-        visitorCountElement.textContent = 'TEST';
-        console.log('Set test value, element now shows:', visitorCountElement.textContent);
 
         const hasVisited = sessionStorage.getItem('hasVisited');
         console.log('Has visited before:', hasVisited);
@@ -1618,14 +1618,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize visitor counter immediately (needs to be available on page load)
         console.log('Initializing VisitorCounter...');
         
-        // Quick test to see if visitor count element exists
-        const testElement = document.getElementById('visitor-count');
-        if (testElement) {
-            console.log('✅ Visitor count element found, setting test value...');
-            testElement.textContent = 'TESTING';
-        } else {
-            console.log('❌ Visitor count element NOT found!');
-        }
         
         new VisitorCounter();
         
