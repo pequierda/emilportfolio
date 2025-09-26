@@ -113,46 +113,37 @@ IP: ${data.ip}
       `
     };
 
-    // Send email using Resend
+    // Send email using Zapier webhook
     try {
-      // Get Resend API key from environment variables
-      const resendApiKey = process.env.RESEND_API_KEY;
+      // Replace this URL with your actual Zapier webhook URL
+      const webhookUrl = 'https://hooks.zapier.com/hooks/catch/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_KEY/';
       
-      if (!resendApiKey) {
-        console.log('RESEND_API_KEY not found in environment variables');
-        console.log('Email data prepared:', emailData);
-        return false;
-      }
-      
-      // Send email via Resend API
-      const response = await fetch('https://api.resend.com/emails', {
+      // Send data to Zapier webhook
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Emil Portfolio <noreply@emilportfolio.vercel.app>', // Using Vercel domain
-          to: [emailData.to],
-          subject: emailData.subject,
-          html: emailData.html,
-          text: emailData.text,
-          reply_to: data.email
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          timestamp: data.timestamp,
+          ip: data.ip
         })
       });
       
-      const result = await response.json();
-      
       if (response.ok) {
-        console.log('Email sent successfully via Resend:', result.id);
+        console.log('Email sent successfully via Zapier webhook');
         return true;
       } else {
-        console.log('Resend API failed:', result);
+        console.log('Zapier webhook failed, falling back to logging');
         console.log('Email data prepared:', emailData);
         return false;
       }
-    } catch (resendError) {
-      console.log('Resend API error:', resendError);
+    } catch (webhookError) {
+      console.log('Zapier webhook failed:', webhookError);
       console.log('Email data prepared:', emailData);
       return false;
     }
