@@ -113,34 +113,47 @@ IP: ${data.ip}
       `
     };
 
-    // Send email using a simple webhook approach
+    // Send email using Resend
     try {
-      // Using a free webhook service - you can set this up easily
-      const webhookUrl = 'https://hooks.zapier.com/hooks/catch/your-webhook-url/'; // Replace with your webhook
+      // Get Resend API key from environment variables
+      const resendApiKey = process.env.RESEND_API_KEY;
       
-      // For immediate testing, we'll use a simple approach
-      // You can replace this with any email service you prefer
+      if (!resendApiKey) {
+        console.log('RESEND_API_KEY not found in environment variables');
+        console.log('Email data prepared:', emailData);
+        return false;
+      }
       
-      // Log the email data for now (you can check Vercel logs)
-      console.log('=== CONTACT FORM SUBMISSION ===');
-      console.log('To:', emailData.to);
-      console.log('From:', emailData.from);
-      console.log('Subject:', emailData.subject);
-      console.log('Message:', data.message);
-      console.log('Time:', data.timestamp);
-      console.log('IP:', data.ip);
-      console.log('===============================');
+      // Send email via Resend API
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Emil Portfolio <noreply@emilportfolio.vercel.app>', // Using Vercel domain
+          to: [emailData.to],
+          subject: emailData.subject,
+          html: emailData.html,
+          text: emailData.text,
+          reply_to: data.email
+        })
+      });
       
-      // For now, we'll return true but you should set up a real email service
-      // Options:
-      // 1. SendGrid (free tier: 100 emails/day)
-      // 2. Mailgun (free tier: 10,000 emails/month)
-      // 3. AWS SES (very cheap)
-      // 4. Zapier webhook (free tier available)
+      const result = await response.json();
       
-      return true;
-    } catch (webhookError) {
-      console.log('Email service failed:', webhookError);
+      if (response.ok) {
+        console.log('Email sent successfully via Resend:', result.id);
+        return true;
+      } else {
+        console.log('Resend API failed:', result);
+        console.log('Email data prepared:', emailData);
+        return false;
+      }
+    } catch (resendError) {
+      console.log('Resend API error:', resendError);
+      console.log('Email data prepared:', emailData);
       return false;
     }
   } catch (error) {
