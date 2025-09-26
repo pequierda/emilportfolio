@@ -980,9 +980,8 @@ class ContactForm {
         this.hideMessage();
         
         try {
-            console.log('Sending contact form data:', data);
             // Try server-side API first
-            const response = await fetch('/api/contact.php', {
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -990,9 +989,7 @@ class ContactForm {
                 body: JSON.stringify(data)
             });
             
-            console.log('Contact form response status:', response.status);
             const result = await response.json();
-            console.log('Contact form response:', result);
             
             if (result.success) {
                 this.showMessage(result.message, 'success');
