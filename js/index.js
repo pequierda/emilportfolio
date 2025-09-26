@@ -670,8 +670,18 @@ class LikesSystem {
         console.log('Found like buttons:', likeButtons.length);
         if (!likeButtons.length) {
             console.warn('No like buttons found!');
+            console.log('Available elements with "like" in class:', document.querySelectorAll('[class*="like"]'));
             return;
         }
+        
+        // Test if we can find the like count spans
+        const likeCounts = document.querySelectorAll('.like-count');
+        console.log('Found like count spans:', likeCounts.length);
+        likeCounts.forEach((span, index) => {
+            console.log(`Like count ${index}:`, span);
+            // Set a test value to see if elements work
+            span.textContent = 'TEST';
+        });
         
         const updates = [];
         likeButtons.forEach(btn => {
@@ -786,9 +796,14 @@ class VisitorCounter {
         const visitorCountElement = document.getElementById('visitor-count');
         if (!visitorCountElement) {
             console.error('Visitor count element not found!');
+            console.log('Available elements with "visitor" in id:', document.querySelectorAll('[id*="visitor"]'));
             return;
         }
         console.log('Visitor count element found:', visitorCountElement);
+
+        // Force set a test value first to see if the element works
+        visitorCountElement.textContent = 'TEST';
+        console.log('Set test value, element now shows:', visitorCountElement.textContent);
 
         const hasVisited = sessionStorage.getItem('hasVisited');
         console.log('Has visited before:', hasVisited);
@@ -801,6 +816,11 @@ class VisitorCounter {
                 visitorCountElement.textContent = result.count.toLocaleString();
                 sessionStorage.setItem('hasVisited', 'true');
                 console.log('Visitor count updated to:', result.count);
+            } else {
+                // Fallback to show 1 if API fails
+                visitorCountElement.textContent = '1';
+                sessionStorage.setItem('hasVisited', 'true');
+                console.log('Fallback: Set visitor count to 1');
             }
         } else {
             console.log('Returning visitor - fetching count...');
@@ -1596,11 +1616,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Initialize visitor counter immediately (needs to be available on page load)
+        console.log('Initializing VisitorCounter...');
+        
+        // Quick test to see if visitor count element exists
+        const testElement = document.getElementById('visitor-count');
+        if (testElement) {
+            console.log('✅ Visitor count element found, setting test value...');
+            testElement.textContent = 'TESTING';
+        } else {
+            console.log('❌ Visitor count element NOT found!');
+        }
+        
         new VisitorCounter();
         
         // Initialize likes when projects section is near viewport
         const projectsSection = document.getElementById('projects');
+        console.log('Projects section found:', projectsSection);
         initWhenVisible(projectsSection, () => {
+            console.log('Projects section is visible, initializing LikesSystem...');
             new LikesSystem();
             new ProjectCards();
             new BizboxSlideshow();
