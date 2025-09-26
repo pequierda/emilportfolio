@@ -2,6 +2,51 @@
 body {
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    position: relative;
+}
+
+/* Enhanced background gradients */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 60% 40%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
+    z-index: -2;
+    animation: backgroundShift 20s ease-in-out infinite;
+}
+
+.dark body::before {
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 60% 40%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+}
+
+@keyframes backgroundShift {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+    }
+    25% { 
+        transform: translateX(-10px) translateY(-5px) scale(1.02);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateX(5px) translateY(-10px) scale(0.98);
+        opacity: 0.9;
+    }
+    75% { 
+        transform: translateX(-5px) translateY(5px) scale(1.01);
+        opacity: 0.85;
+    }
 }
 
 #matrix-bg {
@@ -15,7 +60,7 @@ body {
     display: none; 
 }
 
-/* Particle background animation */
+/* Enhanced particle background animation */
 #particles-bg {
     position: fixed;
     top: 0;
@@ -24,10 +69,21 @@ body {
     height: 100%;
     z-index: -1;
     background-image: 
-        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
-    animation: particleFloat 24s ease-in-out infinite;
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 60% 60%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 10% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+    animation: particleFloat 24s ease-in-out infinite, particlePulse 8s ease-in-out infinite;
+}
+
+.dark #particles-bg {
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 60% 60%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 10% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
 }
 
 @keyframes particleFloat {
@@ -36,10 +92,68 @@ body {
     66% { transform: translateY(8px) rotate(-0.5deg); }
 }
 
+@keyframes particlePulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+}
+
+.animate-float-reverse {
+    animation: float-reverse 6s ease-in-out infinite;
+}
+
+.animate-float-diagonal {
+    animation: float-diagonal 8s ease-in-out infinite;
+}
+
+/* Enhanced dynamic background styles */
+#dynamic-bg {
+    animation: dynamicBgShift 30s ease-in-out infinite;
+}
+
+@keyframes dynamicBgShift {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) scale(1);
+        filter: hue-rotate(0deg);
+    }
+    25% { 
+        transform: translateX(-20px) translateY(-10px) scale(1.02);
+        filter: hue-rotate(90deg);
+    }
+    50% { 
+        transform: translateX(10px) translateY(-20px) scale(0.98);
+        filter: hue-rotate(180deg);
+    }
+    75% { 
+        transform: translateX(-10px) translateY(10px) scale(1.01);
+        filter: hue-rotate(270deg);
+    }
+}
+
 /* Custom animations */
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-20px); }
+}
+
+@keyframes float-reverse {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(20px); }
+}
+
+@keyframes float-diagonal {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-15px) translateX(10px); }
+    50% { transform: translateY(-10px) translateX(-5px); }
+    75% { transform: translateY(15px) translateX(-10px); }
 }
 
 @keyframes glow {
@@ -70,24 +184,7 @@ body {
     position: relative;
 }
 
-.name-animation::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
-    border-radius: 2px;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: nameUnderline 3s ease-in-out infinite;
-}
-
-@keyframes nameUnderline {
-    0%, 100% { transform: scaleX(0); }
-    50% { transform: scaleX(1); }
-}
+/* Removed the decorative line below the name */
 
 .glass-card {
     backdrop-filter: blur(12px);
@@ -240,15 +337,45 @@ section {
     }
 }
 
-/* Dark mode enhancements */
+/* Enhanced dark mode with dynamic effects */
 .dark .glass-card {
     background: rgba(17, 24, 39, 0.8);
     border-color: rgba(75, 85, 99, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .dark .project-card {
     background: rgba(17, 24, 39, 0.9);
     border-color: rgba(75, 85, 99, 0.5);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Dynamic background patterns */
+.dark #dynamic-bg {
+    filter: brightness(0.8) contrast(1.2);
+}
+
+.dark #dynamic-bg .absolute {
+    opacity: 0.6;
+}
+
+/* Enhanced particle effects for dark mode */
+.dark #particles-bg {
+    animation: particleFloat 24s ease-in-out infinite, particlePulse 8s ease-in-out infinite, darkModeGlow 12s ease-in-out infinite;
+}
+
+@keyframes darkModeGlow {
+    0%, 100% { 
+        filter: brightness(1) hue-rotate(0deg);
+    }
+    33% { 
+        filter: brightness(1.1) hue-rotate(120deg);
+    }
+    66% { 
+        filter: brightness(0.9) hue-rotate(240deg);
+    }
 }
 
 /* Loading animation */
@@ -302,6 +429,191 @@ section {
     to {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+/* Interactive background hover effects */
+#dynamic-bg .absolute:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Enhanced gradient text with animation */
+.gradient-text-animated {
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444, #3b82f6);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 8s ease-in-out infinite;
+}
+
+/* Dynamic section backgrounds */
+section {
+    position: relative;
+    overflow: hidden;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 0%, rgba(59, 130, 246, 0.02) 50%, transparent 100%);
+    z-index: -1;
+    animation: sectionGlow 15s ease-in-out infinite;
+}
+
+@keyframes sectionGlow {
+    0%, 100% { opacity: 0.3; transform: translateX(-100%); }
+    50% { opacity: 0.6; transform: translateX(100%); }
+}
+
+/* ============================================================================
+   HEARTBEAT MONITOR STYLES
+   ============================================================================ */
+
+#heartbeat-monitor {
+    /* Removed background and borders for clean look */
+}
+
+.heartbeat-display {
+    position: relative;
+    background: transparent;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Responsive heartbeat display */
+@media (max-width: 640px) {
+    .heartbeat-display {
+        height: 4rem; /* 64px */
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .heartbeat-display {
+        height: 5rem; /* 80px */
+    }
+}
+
+@media (min-width: 1025px) {
+    .heartbeat-display {
+        height: 6rem; /* 96px */
+    }
+}
+
+#heartbeat-svg {
+    /* Movement is now handled by JavaScript for smoother animation */
+}
+
+/* Removed scan line effects for clean transparent look */
+
+@keyframes heartbeatGlow {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.5);
+        border-color: #ef4444;
+    }
+    50% { 
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.7);
+        border-color: #dc2626;
+    }
+}
+
+@keyframes scanLine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes scanLineFlat {
+    0% { transform: translateX(-100%); opacity: 0.3; }
+    100% { transform: translateX(100%); opacity: 0.1; }
+}
+
+/* Enhanced heartbeat line animations */
+.heartbeat-line-alive {
+    animation: heartbeatPulse 1.2s ease-in-out infinite;
+    stroke-width: 3;
+    filter: drop-shadow(0 0 8px #10b981);
+}
+
+.heartbeat-line-flat {
+    animation: heartbeatFlat 0.5s ease-in-out infinite;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 3px #6b7280);
+}
+
+@keyframes heartbeatPulse {
+    0%, 100% { 
+        stroke-width: 3;
+        filter: drop-shadow(0 0 8px #10b981);
+    }
+    50% { 
+        stroke-width: 4;
+        filter: drop-shadow(0 0 12px #059669);
+    }
+}
+
+@keyframes heartbeatFlat {
+    0%, 100% { 
+        stroke-width: 2;
+        filter: drop-shadow(0 0 3px #6b7280);
+    }
+    50% { 
+        stroke-width: 2;
+        filter: drop-shadow(0 0 2px #4b5563);
+    }
+}
+
+/* Status indicators */
+#heartbeat-status.alive {
+    color: #10b981;
+    text-shadow: 0 0 5px #10b981;
+    animation: statusPulse 1.5s ease-in-out infinite;
+}
+
+#heartbeat-status.flat {
+    color: #6b7280;
+    text-shadow: none;
+    animation: none;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* BPM counter animation */
+#heartbeat-bpm {
+    animation: bpmCounter 1.2s ease-in-out infinite;
+}
+
+.dark #heartbeat-bpm {
+    animation: bpmCounterFlat 0.5s ease-in-out infinite;
+}
+
+@keyframes bpmCounter {
+    0%, 100% { 
+        color: #ef4444;
+        text-shadow: 0 0 5px #ef4444;
+    }
+    50% { 
+        color: #dc2626;
+        text-shadow: 0 0 8px #dc2626;
+    }
+}
+
+@keyframes bpmCounterFlat {
+    0%, 100% { 
+        color: #6b7280;
+        text-shadow: none;
+    }
+    50% { 
+        color: #4b5563;
+        text-shadow: none;
     }
 }
 
