@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact API Test - Emil Portfolio</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #f7fafc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4299e1;
+        }
+        .test-section h2 {
+            color: #2d3748;
+            margin-top: 0;
+        }
+        button {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin: 5px;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        .result {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .success {
+            border-color: #48bb78;
+            background: #f0fff4;
+            color: #22543d;
+        }
+        .error {
+            border-color: #f56565;
+            background: #fff5f5;
+            color: #742a2a;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status.success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        .status.error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Contact API Test</h1>
+        <p class="subtitle">Test your contact form API on Vercel deployment</p>
+
+        <div class="test-section">
+            <h2>1. Quick Test</h2>
+            <p>Test the contact API with default data:</p>
+            <button onclick="testContactAPI()">Test Contact API</button>
+            <div id="contactResult" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>2. Custom Test</h2>
+            <p>Test with your own data:</p>
+            <div class="form-group">
+                <label for="testName">Name:</label>
+                <input type="text" id="testName" value="Test User" />
+            </div>
+            <div class="form-group">
+                <label for="testEmail">Email:</label>
+                <input type="email" id="testEmail" value="test@example.com" />
+            </div>
+            <div class="form-group">
+                <label for="testSubject">Subject:</label>
+                <input type="text" id="testSubject" value="API Test from Vercel" />
+            </div>
+            <div class="form-group">
+                <label for="testMessage">Message:</label>
+                <textarea id="testMessage" rows="3">This is a test message to verify the contact API is working on Vercel deployment.</textarea>
+            </div>
+            <button onclick="testCustomContact()">Test with Custom Data</button>
+            <div id="customResult" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>3. All APIs Test</h2>
+            <p>Test all API endpoints:</p>
+            <button onclick="testAllAPIs()">Test All APIs</button>
+            <div id="allResults" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testContactAPI() {
+            const resultDiv = document.getElementById('contactResult');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing contact API...';
+            resultDiv.className = 'result';
+            
+            try {
+                const testData = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    subject: 'API Test',
+                    message: 'This is a test message to verify the contact API is working.'
+                };
+                
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.textContent = `✅ SUCCESS\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.textContent = `❌ ERROR\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.textContent = `❌ NETWORK ERROR\n${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testCustomContact() {
+            const resultDiv = document.getElementById('customResult');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing with custom data...';
+            resultDiv.className = 'result';
+            
+            try {
+                const testData = {
+                    name: document.getElementById('testName').value,
+                    email: document.getElementById('testEmail').value,
+                    subject: document.getElementById('testSubject').value,
+                    message: document.getElementById('testMessage').value
+                };
+                
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.textContent = `✅ SUCCESS\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.textContent = `❌ ERROR\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.textContent = `❌ NETWORK ERROR\n${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testAllAPIs() {
+            const resultDiv = document.getElementById('allResults');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing all APIs...';
+            resultDiv.className = 'result';
+            
+            const endpoints = [
+                { name: 'Contact API', url: '/api/contact', method: 'POST', data: { name: 'Test', email: 'test@example.com', subject: 'Test', message: 'Test' } },
+                { name: 'Likes API', url: '/api/likes?project=test', method: 'GET' },
+                { name: 'Visitors API', url: '/api/visitors', method: 'GET' }
+            ];
+            
+            let results = [];
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const options = {
+                        method: endpoint.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    
+                    if (endpoint.data) {
+                        options.body = JSON.stringify(endpoint.data);
+                    }
+                    
+                    const response = await fetch(endpoint.url, options);
+                    const data = await response.json();
+                    
+                    const status = response.ok ? '✅' : '❌';
+                    results.push(`${endpoint.name}: ${status} (${response.status})`);
+                    
+                    if (!response.ok) {
+                        results.push(`  Error: ${data.error || 'Unknown error'}`);
+                    }
+                } catch (error) {
+                    results.push(`${endpoint.name}: ❌ ERROR (${error.message})`);
+                }
+            }
+            
+            resultDiv.textContent = results.join('\n');
+            resultDiv.className = 'result';
+        }
+    </script>
+</body>
+</html>
