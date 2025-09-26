@@ -388,12 +388,12 @@ class LikesSystem {
     
     async fetchLikeCount(projectId) {
         try {
-            console.log('Fetching like count for project:', projectId);
+            //console.log('Fetching like count for project:', projectId);
             const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`);
-            console.log('Like count response status:', res.status);
+          //  console.log('Like count response status:', res.status);
             if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
             const data = await res.json();
-            console.log('Like count data:', data);
+          //  console.log('Like count data:', data);
             return typeof data.count === 'number' ? data.count : 0;
         } catch (e) {
             console.warn('Like count fallback to 0 for', projectId, e);
