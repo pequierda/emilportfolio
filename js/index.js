@@ -604,9 +604,6 @@ class AnimationController {
             const content = container.querySelector('.content-to-animate');
             if (content) {
                 content.classList.add('visible');
-                if (container.id === 'home') { 
-                    new NameAnimation();
-                }
             }
         });
 
@@ -1569,6 +1566,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Initialize visitor counter immediately (needs to be available on page load)
         new VisitorCounter();
+        
+        // Initialize name animation immediately
+        new NameAnimation();
         
         // Initialize likes when projects section is near viewport
         const projectsSection = document.getElementById('projects');
