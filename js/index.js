@@ -629,7 +629,7 @@ class LikesSystem {
     async fetchLikeCount(projectId) {
         try {
             console.log('Fetching like count for project:', projectId);
-            const url = `/api/likes.php?project=${encodeURIComponent(projectId)}`;
+            const url = `/api/likes?project=${encodeURIComponent(projectId)}`;
             console.log('Fetching from URL:', url);
             const res = await fetch(url);
             console.log('Like count response status:', res.status);
@@ -647,7 +647,7 @@ class LikesSystem {
     async incrementLike(projectId) {
         try {
             console.log('Incrementing like for project:', projectId);
-            const res = await fetch(`/api/likes.php?project=${encodeURIComponent(projectId)}`, { method: 'POST' });
+            const res = await fetch(`/api/likes?project=${encodeURIComponent(projectId)}`, { method: 'POST' });
             console.log('Increment like response status:', res.status);
             if (!res.ok) throw new Error(`Failed to increment: ${res.status}`);
             const data = await res.json();
@@ -733,7 +733,7 @@ class VisitorCounter {
     async fetchVisitorCount() {
         try {
             console.log('Fetching visitor count...');
-            const res = await fetch('/api/visitors.php');
+            const res = await fetch('/api/visitors');
             console.log('Visitor count response status:', res.status);
             if (!res.ok) throw new Error('Failed to fetch visitor count');
             const data = await res.json();
@@ -750,7 +750,7 @@ class VisitorCounter {
 
     async incrementVisitorCount() {
         try {
-            const res = await fetch('/api/visitors.php', { method: 'POST' });
+            const res = await fetch('/api/visitors', { method: 'POST' });
             if (!res.ok) throw new Error('Failed to increment visitor count');
             const data = await res.json();
             return {
@@ -1011,7 +1011,7 @@ class ContactForm {
         
         try {
             // Try server-side API first
-            const response = await fetch('/api/contact.php', {
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
