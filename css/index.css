@@ -326,6 +326,7 @@ section {
     background: linear-gradient(180deg, #2563eb, #7c3aed);
 }
 
+
 /* Responsive improvements */
 @media (max-width: 768px) {
     .name-animation {

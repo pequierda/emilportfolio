@@ -99,6 +99,7 @@ window.closeModalFunc = function() {
     if (modalNext) modalNext.classList.add('hidden');
 }
 
+
 // ============================================================================
 // HEARTBEAT MONITOR SYSTEM
 // ============================================================================
@@ -979,8 +980,9 @@ class ContactForm {
         this.hideMessage();
         
         try {
+            console.log('Sending contact form data:', data);
             // Try server-side API first
-            const response = await fetch('/api/contact', {
+            const response = await fetch('/api/contact.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -988,7 +990,9 @@ class ContactForm {
                 body: JSON.stringify(data)
             });
             
+            console.log('Contact form response status:', response.status);
             const result = await response.json();
+            console.log('Contact form response:', result);
             
             if (result.success) {
                 this.showMessage(result.message, 'success');
@@ -1569,6 +1573,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize name animation immediately
         new NameAnimation();
+        
         
         // Initialize likes when projects section is near viewport
         const projectsSection = document.getElementById('projects');
