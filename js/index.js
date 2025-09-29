@@ -388,39 +388,9 @@ class ThemeManager {
     }
     
     startMatrixAnimation() {
-        // Respect reduced motion
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            this.stopMatrixAnimation();
-            return;
-        }
-        if (this.matrixInterval) clearInterval(this.matrixInterval);
-        
-        const matrixCtx = this.matrixCanvas.getContext('2d');
-        this.matrixCanvas.style.display = 'block';
-        this.matrixCanvas.width = window.innerWidth;
-        this.matrixCanvas.height = window.innerHeight;
-        const chars = "010101010100001101110010101010101010101010101";
-        const charArray = chars.split('');
-        const fontSize = 14;
-        const columns = this.matrixCanvas.width / fontSize;
-        let drops = Array(Math.floor(columns)).fill(1);
-
-        const draw = () => {
-            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            matrixCtx.fillRect(0, 0, this.matrixCanvas.width, this.matrixCanvas.height);
-            matrixCtx.fillStyle = '#0F0'; // Classic green color
-            matrixCtx.font = fontSize + 'px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const text = charArray[Math.floor(Math.random() * charArray.length)];
-                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > this.matrixCanvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        };
-        // Slightly lower frame rate to reduce CPU/GPU usage
-        this.matrixInterval = setInterval(draw, 50);
+        // Matrix animation disabled for better performance
+        this.stopMatrixAnimation();
+        return;
     }
 
     stopMatrixAnimation() {

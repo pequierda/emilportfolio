@@ -116,7 +116,7 @@ IP: ${data.ip}
     // Send email using Zapier webhook
     try {
       // Replace this URL with your actual Zapier webhook URL
-  
+      const webhookUrl = 'https://hooks.zapier.com';
       
       // Send data to Zapier webhook
       const response = await fetch(webhookUrl, {
