@@ -370,12 +370,6 @@ class ThemeManager {
         const isDarkMode = localStorage.getItem('theme') === 'dark';
         this.setTheme(isDarkMode);
         
-        // Set initial portrait based on theme
-        const emilPortrait = document.querySelector('#about img[src*="emil"]');
-        if (emilPortrait && isDarkMode) {
-            emilPortrait.src = 'images/emil1.png';
-        }
-        
         this.themeToggleBtn.addEventListener('click', () => 
             this.setTheme(!document.documentElement.classList.contains('dark'))
         );
@@ -400,28 +394,18 @@ class ThemeManager {
     }
 
     setTheme(isDark) {
-        const emilPortrait = document.querySelector('#about img[src*="emil"]');
-        
         if (isDark) {
             document.documentElement.classList.add('dark');
             this.themeToggleLightIcon.classList.remove('hidden');
             this.themeToggleDarkIcon.classList.add('hidden');
             localStorage.setItem('theme', 'dark');
             this.startMatrixAnimation();
-            
-            if (emilPortrait) {
-                emilPortrait.src = 'images/emil1.png';
-            }
         } else {
             document.documentElement.classList.remove('dark');
             this.themeToggleDarkIcon.classList.remove('hidden');
             this.themeToggleLightIcon.classList.add('hidden');
             localStorage.setItem('theme', 'light');
             this.stopMatrixAnimation();
-            
-            if (emilPortrait) {
-                emilPortrait.src = 'images/emil.png';
-            }
         }
     }
 }
@@ -466,6 +450,21 @@ class NameAnimation {
     constructor() {
         this.init();
     }
+
+    renderName(text) {
+        const nameContainer = document.getElementById('animated-name');
+        if (!nameContainer) return;
+
+        const spaceIndex = text.indexOf(' ');
+        if (spaceIndex === -1) {
+            nameContainer.innerHTML = `<span class="name-first">${text}</span>`;
+            return;
+        }
+
+        const first = text.slice(0, spaceIndex);
+        const last = text.slice(spaceIndex + 1);
+        nameContainer.innerHTML = `<span class="name-first">${first}</span> <span class="name-last">${last}</span>`;
+    }
     
     init() {
         const nameContainer = document.getElementById('animated-name');
@@ -473,41 +472,155 @@ class NameAnimation {
         
         const nameChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!<>-_\\/[]{}—=+*^?#";
         const originalName = nameContainer.getAttribute('data-name');
-        const colors = ['#3B82F6', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'];
-        let colorIndex = 0, iteration = 0, direction = -1, interval = null;
-        nameContainer.innerText = originalName;
-        
-        const changeColor = () => { 
-            nameContainer.style.color = colors[colorIndex]; 
-            nameContainer.style.textShadow = `0 0 8px ${colors[colorIndex]}60, 0 0 20px ${colors[colorIndex]}30`; 
-            colorIndex = (colorIndex + 1) % colors.length; 
-        };
+        let iteration = 0;
+        let interval = null;
 
+        this.renderName(originalName);
+        
         const animate = () => {
             clearInterval(interval);
-            iteration = (direction === 1) ? 0 : originalName.length;
+            iteration = 0;
             interval = setInterval(() => {
-                nameContainer.innerText = originalName.split("").map((_, index) => { 
-                    if (originalName[index] === ' ') return ' '; 
-                    if ( (direction === 1 && index < iteration) || (direction === -1 && index < iteration) ) { 
-                        return originalName[index]; 
-                    } 
-                    return nameChars[Math.floor(Math.random() * nameChars.length)]; 
+                const display = originalName.split("").map((char, index) => {
+                    if (char === ' ') return ' ';
+                    if (index < iteration) return originalName[index];
+                    return nameChars[Math.floor(Math.random() * nameChars.length)];
                 }).join("");
-                if ((direction === 1 && iteration >= originalName.length) || (direction === -1 && iteration <= 0)) {
-                    direction *= -1;
+
+                this.renderName(display);
+                
+                if (iteration >= originalName.length) {
                     clearInterval(interval);
-                    if (direction === -1) { 
-                        setInterval(changeColor, 1000); 
-                        setTimeout(animate, 5000); 
-                    } else { 
-                        setTimeout(animate, 1000); 
-                    }
+                    this.renderName(originalName);
+                    setTimeout(animate, 8000);
                 }
-                iteration += (1 / 8) * direction;
-            }, 50);
+                iteration += 1 / 3;
+            }, 40);
         };
-        setTimeout(animate, 2000);
+        
+        setTimeout(animate, 1500);
+    }
+}
+
+// ============================================================================
+// TYPEWRITER EFFECT
+// ============================================================================
+
+class TypewriterEffect {
+    constructor() {
+        this.element = document.getElementById('typewriter');
+        if (!this.element) return;
+        this.phrases = [
+            'custom software solutions',
+            'POS & inventory systems',
+            'Bizbox automation tools',
+            'IT infrastructure projects',
+            'digital business solutions'
+        ];
+        this.phraseIndex = 0;
+        this.charIndex = 0;
+        this.isDeleting = false;
+        this.type();
+    }
+
+    type() {
+        const current = this.phrases[this.phraseIndex];
+        const displayed = this.isDeleting
+            ? current.substring(0, this.charIndex - 1)
+            : current.substring(0, this.charIndex + 1);
+
+        this.element.textContent = displayed;
+
+        if (!this.isDeleting && this.charIndex === current.length) {
+            setTimeout(() => { this.isDeleting = true; this.type(); }, 2000);
+            return;
+        }
+        if (this.isDeleting && this.charIndex === 0) {
+            this.isDeleting = false;
+            this.phraseIndex = (this.phraseIndex + 1) % this.phrases.length;
+        }
+
+        this.charIndex += this.isDeleting ? -1 : 1;
+        const speed = this.isDeleting ? 40 : 80;
+        setTimeout(() => this.type(), speed);
+    }
+}
+
+// ============================================================================
+// HEADER SCROLL & NAV ACTIVE STATE
+// ============================================================================
+
+class HeaderController {
+    constructor() {
+        this.header = document.getElementById('site-header');
+        this.navLinks = document.querySelectorAll('#main-nav a[data-section]');
+        this.sections = document.querySelectorAll('section[id]');
+        this.init();
+    }
+
+    init() {
+        if (!this.header) return;
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    this.header.classList.toggle('scrolled', window.scrollY > 20);
+                    this.updateActiveNav();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        this.header.classList.toggle('scrolled', window.scrollY > 20);
+        this.updateActiveNav();
+    }
+
+    updateActiveNav() {
+        let current = 'home';
+        const scrollPos = window.scrollY + 120;
+
+        this.sections.forEach(section => {
+            if (section.offsetTop <= scrollPos) {
+                current = section.id;
+            }
+        });
+
+        this.navLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === current);
+        });
+    }
+}
+
+// ============================================================================
+// PROJECT FILTER
+// ============================================================================
+
+class ProjectFilter {
+    constructor() {
+        this.filters = document.querySelectorAll('.filter-tab');
+        this.cards = document.querySelectorAll('.project-card[data-category]');
+        if (!this.filters.length) return;
+        this.init();
+    }
+
+    init() {
+        this.filters.forEach(tab => {
+            tab.addEventListener('click', () => {
+                this.filters.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const filter = tab.dataset.filter;
+
+                this.cards.forEach(card => {
+                    const show = filter === 'all' || card.dataset.category === filter;
+                    card.classList.toggle('hidden-filter', !show);
+                    if (show) {
+                        card.style.animation = 'fadeIn 0.4s ease-out both';
+                    }
+                });
+            });
+        });
     }
 }
 
@@ -528,10 +641,13 @@ class ParticleAnimation {
             return; // Skip particles for users who prefer reduced motion
         }
 
-        const particleCount = window.innerWidth < 768 ? 18 : 36;
+        const particleCount = window.innerWidth < 768 ? 12 : 24;
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
-            particle.className = 'absolute w-1 h-1 bg-blue-500/20 rounded-full';
+            particle.className = 'absolute rounded-full';
+            particle.style.width = (Math.random() * 3 + 1) + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgba(${Math.random() > 0.5 ? '6,182,212' : '139,92,246'}, ${Math.random() * 0.3 + 0.1})`;
             particle.style.left = Math.random() * 100 + '%';
             particle.style.top = Math.random() * 100 + '%';
             particle.style.animationDelay = Math.random() * 20 + 's';
@@ -554,7 +670,13 @@ class MobileMenu {
     init() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        if (!mobileMenuButton || !mobileMenu) return;
+
         mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
     }
 }
 
@@ -568,31 +690,20 @@ class AnimationController {
     }
     
     init() {
-        const animateContainers = document.querySelectorAll('.animate-container');
-        
-        // Immediately show all content
-        animateContainers.forEach(container => {
-            const content = container.querySelector('.content-to-animate');
-            if (content) {
-                content.classList.add('visible');
-            }
-        });
-
-        // Optional: Keep intersection observer for future animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const container = entry.target;
-                    const content = container.querySelector('.content-to-animate');
-                    if (content && !content.classList.contains('visible')) {
-                        content.classList.add('visible');
-                    }
-                    observer.unobserve(container);
+                    const content = entry.target.querySelector('.content-to-animate');
+                    if (content) content.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        animateContainers.forEach(container => observer.observe(container));
+        document.querySelectorAll('.animate-container').forEach(container => observer.observe(container));
+
+        const heroContent = document.querySelector('#home .content-to-animate');
+        if (heroContent) heroContent.classList.add('visible');
     }
 }
 
@@ -1281,22 +1392,7 @@ class TicTacToe {
 
 class ProjectCards {
     constructor() {
-        this.init();
-    }
-    
-    init() {
-        const projectCards = document.querySelectorAll('.group');
-        projectCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-                this.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-                this.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
-            });
-        });
+        // Hover effects handled via CSS .project-card:hover
     }
 }
 
@@ -1524,29 +1620,26 @@ document.addEventListener('DOMContentLoaded', function() {
         // Critical, lightweight modules first
         new ThemeManager();
         new ScrollProgress();
+        new HeaderController();
         new MobileMenu();
         new AnimationController();
         new LoadingAnimations();
         new ImageModal();
         new HeartbeatMonitor();
+        new TypewriterEffect();
 
-        // Defer heavier/secondary modules until idle or visibility
         runWhenIdle(() => {
             new ParticleAnimation();
         });
 
-        // Initialize visitor counter immediately (needs to be available on page load)
         new VisitorCounter();
-        
-        // Initialize name animation immediately
         new NameAnimation();
         
-        
-        // Initialize likes when projects section is near viewport
         const projectsSection = document.getElementById('projects');
         initWhenVisible(projectsSection, () => {
             new LikesSystem();
             new ProjectCards();
+            new ProjectFilter();
             new BizboxSlideshow();
         });
 

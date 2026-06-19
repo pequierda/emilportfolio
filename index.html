@@ -29,26 +29,19 @@
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"></noscript>
     <link href="css/index.css" rel="stylesheet">
     
 </head>
-<body class="antialiased bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-black dark:to-gray-900 text-gray-900 dark:text-gray-200 transition-all duration-500 relative overflow-x-hidden">
+<body class="antialiased transition-all duration-500 relative overflow-x-hidden">
     
     <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-black dark:to-gray-900 flex items-center justify-center">
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center" style="background: var(--bg-primary);">
         <div class="text-center">
-            <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mb-4 animate-pulse">
-                EL
-            </div>
-            <div class="flex space-x-1">
-                <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0ms;"></div>
-                <div class="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style="animation-delay: 150ms;"></div>
-                <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 300ms;"></div>
-            </div>
-            <p class="text-gray-600 dark:text-gray-400 mt-4 text-sm">Loading Portfolio...</p>
+            <div class="loading-logo mx-auto mb-6">EL</div>
+            <p class="text-sm font-mono tracking-widest uppercase" style="color: var(--text-muted);">Loading</p>
         </div>
     </div>
 
@@ -58,238 +51,183 @@
     <div id="particles-bg" class="fixed inset-0 z-0 opacity-30 dark:opacity-20" aria-hidden="true"></div>
     
 
-    <!-- Dynamic Background Elements -->
+    <!-- Subtle ambient orbs -->
     <div id="dynamic-bg" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <!-- Floating geometric shapes -->
-        <div class="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-full animate-float opacity-60"></div>
-        <div class="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-pink-400/20 to-red-500/20 rounded-full animate-float opacity-50" style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-40 left-20 w-40 h-40 bg-gradient-to-br from-green-400/20 to-teal-500/20 rounded-full animate-float opacity-40" style="animation-delay: 4s;"></div>
-        <div class="absolute bottom-20 right-10 w-28 h-28 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full animate-float opacity-50" style="animation-delay: 6s;"></div>
-        
-        <!-- Geometric shapes -->
-        <div class="absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-br from-indigo-400/30 to-purple-600/30 rotate-45 animate-spin-slow opacity-40"></div>
-        <div class="absolute top-3/4 right-1/4 w-20 h-20 bg-gradient-to-br from-cyan-400/30 to-blue-600/30 rotate-12 animate-pulse opacity-30"></div>
-        <div class="absolute bottom-1/4 left-1/3 w-12 h-12 bg-gradient-to-br from-emerald-400/30 to-green-600/30 rounded-full animate-bounce opacity-50" style="animation-delay: 3s;"></div>
-        
-        <!-- Gradient orbs -->
-        <div class="absolute top-1/2 left-1/6 w-36 h-36 bg-gradient-to-br from-violet-400/10 to-purple-600/10 rounded-full blur-xl animate-pulse opacity-60"></div>
-        <div class="absolute top-1/3 right-1/6 w-48 h-48 bg-gradient-to-br from-blue-400/10 to-cyan-600/10 rounded-full blur-2xl animate-pulse opacity-40" style="animation-delay: 2s;"></div>
-        <div class="absolute bottom-1/3 left-1/2 w-32 h-32 bg-gradient-to-br from-pink-400/10 to-rose-600/10 rounded-full blur-xl animate-pulse opacity-50" style="animation-delay: 4s;"></div>
+        <div class="absolute top-1/4 -left-20 w-96 h-96 rounded-full opacity-30 dark:opacity-20 animate-float" style="background: radial-gradient(circle, rgba(6,182,212,0.15), transparent 70%);"></div>
+        <div class="absolute bottom-1/4 -right-20 w-80 h-80 rounded-full opacity-25 dark:opacity-15 animate-float" style="animation-delay: 3s; background: radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%);"></div>
     </div>
 
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-                         <a href="#" class="group flex items-center space-x-2">
-                 <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300">
-                     EL
-                 </div>
-                 
-                                   <!-- Visitor Counter -->
-                  <div class="flex items-center space-x-2 px-3 py-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full border border-gray-200 dark:border-gray-700">
-                      <i class="fas fa-eye text-blue-600 dark:text-blue-400 text-sm"></i>
-                      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                          <span id="visitor-count">0</span> visitors
-                      </span>
-                  </div>
-             </a>
-            <div class="flex items-center space-x-6">
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#about" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
-                        About
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                    <a href="#projects" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
-                        Projects
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                    <a href="#contact" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
-                        Contact
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                    <a href="#game" class="relative text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium group">
-                        Game
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </a>
+    <header id="site-header" class="site-header">
+        <div class="container mx-auto px-6 header-inner">
+            <a href="#" class="group flex items-center gap-3">
+                <div class="logo-mark">EL</div>
+                <div class="visitor-badge hidden sm:flex">
+                    <i class="fas fa-eye" style="color: var(--accent-cyan);"></i>
+                    <span><span id="visitor-count">0</span> visitors</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-3">
+                <nav class="nav-pill hidden md:flex" id="main-nav">
+                    <a href="#about" data-section="about">About</a>
+                    <a href="#projects" data-section="projects">Projects</a>
+                    <a href="#contact" data-section="contact">Contact</a>
+                    <a href="#game" data-section="game">Game</a>
                 </nav>
 
-                <button id="theme-toggle" type="button" class="relative p-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 rounded-xl text-sm transition-all duration-300 hover:scale-110">
-                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1zM6.464 16.364l.707-.707a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414z"></path></svg>
+                <button id="theme-toggle" type="button" class="theme-btn" aria-label="Toggle theme">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1zM6.464 16.364l.707-.707a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414z"></path></svg>
                 </button>
 
-                <button id="mobile-menu-button" class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl focus:outline-none transition-all duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <button id="mobile-menu-button" class="md:hidden theme-btn" aria-label="Open menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-800/50">
-            <div class="flex flex-col space-y-4 pt-4">
-                <a href="#about" class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300 font-medium">About</a>
-                <a href="#projects" class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300 font-medium">Projects</a>
-                <a href="#contact" class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300 font-medium">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden mx-4 mb-4 glass-card p-4">
+            <div class="flex flex-col gap-1">
+                <a href="#about" class="block py-3 px-4 rounded-xl font-medium transition-colors hover:bg-white/5" style="color: var(--text-secondary);">About</a>
+                <a href="#projects" class="block py-3 px-4 rounded-xl font-medium transition-colors hover:bg-white/5" style="color: var(--text-secondary);">Projects</a>
+                <a href="#contact" class="block py-3 px-4 rounded-xl font-medium transition-colors hover:bg-white/5" style="color: var(--text-secondary);">Contact</a>
+                <a href="#game" class="block py-3 px-4 rounded-xl font-medium transition-colors hover:bg-white/5" style="color: var(--text-secondary);">Game</a>
             </div>
         </div>
     </header>
 
     <main class="container mx-auto px-6">
 
-        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center animate-container relative">
-            <!-- Enhanced floating elements -->
-            <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                <div class="absolute top-20 left-10 w-20 h-20 bg-blue-500/10 rounded-full animate-float"></div>
-                <div class="absolute top-40 right-20 w-16 h-16 bg-purple-500/10 rounded-full animate-float" style="animation-delay: 2s;"></div>
-                <div class="absolute bottom-40 left-20 w-24 h-24 bg-indigo-500/10 rounded-full animate-float" style="animation-delay: 4s;"></div>
-                <div class="absolute top-60 left-1/2 w-12 h-12 bg-pink-500/10 rounded-full animate-float-reverse" style="animation-delay: 1s;"></div>
-                <div class="absolute bottom-20 right-1/3 w-18 h-18 bg-green-500/10 rounded-full animate-float-diagonal" style="animation-delay: 3s;"></div>
-                <div class="absolute top-1/2 left-1/4 w-14 h-14 bg-yellow-500/10 rounded-full animate-float" style="animation-delay: 5s;"></div>
-                <div class="absolute bottom-60 right-1/4 w-22 h-22 bg-cyan-500/10 rounded-full animate-float-reverse" style="animation-delay: 2.5s;"></div>
-            </div>
-            
-         
-                
-                <h1 class="text-6xl md:text-8xl lg:text-9xl font-black mb-6">
-                    <div id="animated-name" class="name-animation bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent" data-name="Hello! I Am Emil Lawrence">
-                       Hello! I Am Emil Lawrence
-                    </div>
+        <section id="home" class="hero-section animate-container">
+            <div class="max-w-5xl mx-auto w-full content-to-animate">
+                <div class="hero-badge animate-fade-in">
+                    <span class="pulse-dot"></span>
+                    Available for new projects
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="block" style="color: var(--text-primary);">Hello, I'm</span>
+                    <span id="animated-name" class="line-accent name-animation" data-name="Emil Lawrence"><span class="name-first">Emil</span> <span class="name-last">Lawrence</span></span>
                 </h1>
-                
-                <!-- Heartbeat Line Display -->
-                <div id="heartbeat-monitor" class="mx-auto mb-8 px-4 sm:px-6 lg:px-8 animate-fade-in" style="animation-delay: 0.5s;">
-                    <div class="heartbeat-display w-full h-16 sm:h-20 lg:h-24 relative overflow-hidden">
+
+                <p class="hero-subtitle animate-fade-in" style="animation-delay: 0.3s;">
+                    I build <span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span>
+                    that transform businesses across the Philippines.
+                </p>
+
+                <div id="heartbeat-monitor" class="mb-8 animate-fade-in" style="animation-delay: 0.5s;">
+                    <div class="heartbeat-display h-16 sm:h-20 relative overflow-hidden">
                         <svg id="heartbeat-svg" class="w-full h-full" viewBox="0 0 400 80">
                             <defs>
                                 <linearGradient id="heartbeatGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:#059669;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+                                    <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
                                 </linearGradient>
                             </defs>
-                            <path id="heartbeat-line" d="" stroke="url(#heartbeatGradient)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path id="heartbeat-line" d="" stroke="url(#heartbeatGradient)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                 </div>
-                
-                <div class="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 font-light mb-8">
-                    <span class="inline-block animate-fade-in" style="animation-delay: 1s;">I build</span>
-                    <span class="inline-block animate-fade-in ml-2 text-blue-600 dark:text-blue-400 font-semibold" style="animation-delay: 1.5s;">digital solutions</span>
-                    <span class="inline-block animate-fade-in ml-2" style="animation-delay: 2s;">that</span>
-                    <span class="inline-block animate-fade-in ml-2 text-purple-600 dark:text-purple-400 font-semibold" style="animation-delay: 2.5s;">transform</span>
-                    <span class="inline-block animate-fade-in ml-2" style="animation-delay: 3s;">businesses</span>
+
+                <div class="hero-stats animate-fade-in" style="animation-delay: 0.6s;">
+                    <div>
+                        <div class="hero-stat-value">7+</div>
+                        <div class="hero-stat-label">Projects Delivered</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-value">2</div>
+                        <div class="hero-stat-label">Google Certifications</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-value">5+</div>
+                        <div class="hero-stat-label">Years Experience</div>
+                    </div>
                 </div>
-                
-            
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style="animation-delay: 3.5s;">
-                    <a href="#projects" class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
-                        <i class="fas fa-rocket mr-3"></i>
+
+                <div class="flex flex-col sm:flex-row gap-4 animate-fade-in" style="animation-delay: 0.8s;">
+                    <a href="#projects" class="btn-primary">
                         View My Work
-                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="#contact" class="group inline-flex items-center px-8 py-4 border-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105">
-                        <i class="fas fa-envelope mr-3"></i>
+                    <a href="#contact" class="btn-secondary">
+                        <i class="fas fa-envelope"></i>
                         Get In Touch
                     </a>
                 </div>
-                
-                                 <!-- Tech stack badges -->
-                 <div class="mt-16 flex flex-wrap justify-center gap-3 animate-fade-in" style="animation-delay: 4s;">
-                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">PHP</span>
-                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">JavaScript</span>
-                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">MySQL</span>
-                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">HTML/CSS</span>
-                     <span class="px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">Bizbox</span>
-                 </div>
-                 
-                                 
-               
+
+                <div class="mt-12 flex flex-wrap gap-2 animate-fade-in" style="animation-delay: 1s;">
+                    <span class="tech-pill">PHP</span>
+                    <span class="tech-pill">JavaScript</span>
+                    <span class="tech-pill">MySQL</span>
+                    <span class="tech-pill">HTML/CSS</span>
+                    <span class="tech-pill">Bizbox</span>
+                </div>
+            </div>
+
+            <div class="scroll-cue" aria-hidden="true">
+                <div class="mouse"></div>
+                <span>Scroll</span>
             </div>
         </section>
 
-        <section id="about" class="py-20 lg:py-32 animate-container">
+        <section id="about" class="py-24 lg:py-32 animate-container">
             <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16 content-to-animate">
-                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">About Me</h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
+                <div class="mb-16 content-to-animate">
+                    <span class="section-label">About Me</span>
+                    <h2 class="section-title">Crafting <span class="gradient-text">digital solutions</span> with purpose</h2>
                 </div>
                 
-                <div class="grid lg:grid-cols-2 gap-16 items-center content-to-animate">
+                <div class="grid lg:grid-cols-2 gap-16 items-start content-to-animate">
                     <div class="relative">
-                        <div class="relative z-10">
-                            <img src="images/emil.png" alt="A portrait of Emil" loading="lazy" decoding="async" class="rounded-3xl shadow-2xl w-full max-w-md mx-auto object-cover border-8 border-white dark:border-gray-800 hidden" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <div class="hidden rounded-3xl shadow-2xl w-full max-w-md mx-auto h-96 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
-                                Emil Lawrence
+                        <div class="portrait-glow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                        <div class="portrait-frame max-w-md mx-auto">
+                            <div class="w-full aspect-[3/4] flex flex-col items-center justify-center font-display" style="background: var(--gradient-brand); color: white;">
+                                <span class="text-6xl font-extrabold tracking-tight">EL</span>
+                                <span class="text-sm font-medium mt-3 opacity-90 tracking-wide">Emil Lawrence</span>
                             </div>
                         </div>
-                        <!-- Decorative elements -->
-                        <div class="absolute -top-4 -left-4 w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-20 animate-float"></div>
-                        <div class="absolute -bottom-4 -right-4 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-float" style="animation-delay: 2s;"></div>
                     </div>
                     
                     <div class="space-y-8">
-                        <div class="space-y-6">
-                            <h3 class="text-3xl font-bold text-gray-900 dark:text-white">System Developer & IT Consultant Expert</h3>
-                            <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                                "I develop and implement custom technology solutions—from building standalone software and creating specialized Bizbox scripts and RDL reports, to configuring networks and installing CCTV systems. I also provide expert IT consulting to address your unique challenges."
+                        <div>
+                            <h3 class="font-display text-2xl font-bold mb-4" style="color: var(--text-primary);">System Developer & IT Consultant</h3>
+                            <p class="text-lg leading-relaxed" style="color: var(--text-secondary);">
+                                I develop and implement custom technology solutions—from building standalone software and creating specialized Bizbox scripts and RDL reports, to configuring networks and installing CCTV systems. I also provide expert IT consulting to address your unique challenges.
                             </p>
                         </div>
-                   
-                        <div class="space-y-6">
-                            <h4 class="text-xl font-semibold text-gray-900 dark:text-white">What I Do</h4>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
-                                    <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-code text-blue-600 dark:text-blue-400"></i>
-                                    </div>
-                                    <span class="font-medium text-gray-700 dark:text-gray-300">Custom Software</span>
-                                </div>
-                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
-                                    <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-database text-purple-600 dark:text-purple-400"></i>
-                                    </div>
-                                    <span class="font-medium text-gray-700 dark:text-gray-300">Database Management</span>
-                                </div>
-                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
-                                    <div class="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-network-wired text-green-600 dark:text-green-400"></i>
-                                    </div>
-                                    <span class="font-medium text-gray-700 dark:text-gray-300">Network Configuration</span>
-                                </div>
-                                <div class="flex items-center space-x-3 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200 dark:border-gray-700">
-                                    <div class="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-cogs text-orange-600 dark:text-orange-400"></i>
-                                    </div>
-                                    <span class="font-medium text-gray-700 dark:text-gray-300">IT Consulting</span>
-                                </div>
+
+                        <div class="bento-grid">
+                            <div class="bento-item">
+                                <div class="bento-icon" style="background: rgba(6,182,212,0.1); color: var(--accent-cyan);"><i class="fas fa-code"></i></div>
+                                <span class="text-sm font-medium" style="color: var(--text-primary);">Custom Software</span>
+                            </div>
+                            <div class="bento-item">
+                                <div class="bento-icon" style="background: rgba(139,92,246,0.1); color: var(--accent-violet);"><i class="fas fa-database"></i></div>
+                                <span class="text-sm font-medium" style="color: var(--text-primary);">Database Mgmt</span>
+                            </div>
+                            <div class="bento-item">
+                                <div class="bento-icon" style="background: rgba(16,185,129,0.1); color: var(--accent-emerald);"><i class="fas fa-network-wired"></i></div>
+                                <span class="text-sm font-medium" style="color: var(--text-primary);">Networking</span>
+                            </div>
+                            <div class="bento-item">
+                                <div class="bento-icon" style="background: rgba(59,130,246,0.1); color: var(--accent-blue);"><i class="fas fa-cogs"></i></div>
+                                <span class="text-sm font-medium" style="color: var(--text-primary);">IT Consulting</span>
                             </div>
                         </div>
                         
-                        <!-- Experience highlights -->
-                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
-                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Key Expertise</h4>
-                            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
-                                <li class="flex items-center space-x-2">
-                                    <i class="fas fa-check-circle text-green-500"></i>
-                                    <span>Bizbox Scripts & RDL Reports</span>
-                                </li>
-                                <li class="flex items-center space-x-2">
-                                    <i class="fas fa-check-circle text-green-500"></i>
-                                    <span>CCTV System Installation</span>
-                                </li>
-                                <li class="flex items-center space-x-2">
-                                    <i class="fas fa-check-circle text-green-500"></i>
-                                    <span>Network Configuration</span>
-                                </li>
-                                <li class="flex items-center space-x-2">
-                                    <i class="fas fa-check-circle text-green-500"></i>
-                                    <span>Custom Business Solutions</span>
-                                </li>
+                        <div class="expertise-card">
+                            <h4 class="font-semibold mb-3" style="color: var(--text-primary);">Key Expertise</h4>
+                            <ul class="space-y-2 text-sm" style="color: var(--text-secondary);">
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Bizbox Scripts & RDL Reports</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> CCTV System Installation</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Network Configuration</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Custom Business Solutions</li>
                             </ul>
                         </div>
                         
                         <!-- Professional Certificates -->
-                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-2xl border border-green-200 dark:border-green-800">
-                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                                <i class="fas fa-certificate text-green-600 dark:text-green-400 mr-2"></i>
+                        <div class="glass-card p-6">
+                            <h4 class="font-semibold mb-4 flex items-center gap-2" style="color: var(--text-primary);">
+                                <i class="fas fa-certificate" style="color: var(--accent-emerald);"></i>
                                 Google Professional Certificates
                             </h4>
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -450,31 +388,36 @@
             </div>
         </section>
 
-        <section id="projects" class="py-20 lg:py-32 animate-container">
+        <section id="projects" class="py-24 lg:py-32 animate-container">
             <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16 content-to-animate">
-                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">Featured Projects</h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mb-8"></div>
-                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Explore my latest work in custom software development, business solutions, and IT infrastructure</p>
+                <div class="mb-12 content-to-animate">
+                    <span class="section-label">Portfolio</span>
+                    <h2 class="section-title mb-4">Featured <span class="gradient-text">Projects</span></h2>
+                    <p class="section-subtitle">Explore my latest work in custom software development, business solutions, and IT infrastructure.</p>
+                </div>
+
+                <div class="filter-tabs content-to-animate" id="project-filters">
+                    <button class="filter-tab active" data-filter="all">All</button>
+                    <button class="filter-tab" data-filter="web">Web Apps</button>
+                    <button class="filter-tab" data-filter="bizbox">Bizbox</button>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 content-to-animate">
-                                         <!-- Dental Management System -->
-                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/dentalsystem.gif" alt="Dental Management Information System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Dental Management Information System" onclick="openModal('images/dentalsystem.gif', 'Dental Management Information System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                             <div class="hidden w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                                 <i class="fas fa-tooth mr-2"></i>Dental System
-                             </div>
-                             
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 content-to-animate" id="projects-grid">
+                     <div class="project-card group" data-category="web">
+                        <div class="project-image-wrap">
+                            <img src="images/dentalsystem.gif" alt="Dental Management Information System" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="Dental Management Information System" onclick="openModal('images/dentalsystem.gif', 'Dental Management Information System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-tooth mr-2"></i>Dental System
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
                         </div>
-                        <div class="p-6">
-                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Dental Management Information System</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Comprehensive dental practice management solution with patient records, appointment scheduling, and automated reporting capabilities.</p>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">Dental Management Information System</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Comprehensive dental practice management solution with patient records, appointment scheduling, and automated reporting capabilities.</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
-                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full">JavaScript</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">MySQL</span>
+                                <span class="project-tag">JavaScript</span>
                             </div>
                             <div class="mt-4 flex items-center gap-3">
                                 <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="dental">
@@ -488,22 +431,21 @@
 
                     
 
-                                         <!-- POS System -->
-                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/pos.gif" alt="POS System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="POS with Inventory Management" onclick="openModal('images/pos.gif', 'POS with Inventory Management')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                             <div class="hidden w-full h-48 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
-                                 <i class="fas fa-cash-register mr-2"></i>POS System
-                             </div>
-                             
+                     <div class="project-card group" data-category="web">
+                        <div class="project-image-wrap">
+                            <img src="images/pos.gif" alt="POS System" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="POS with Inventory Management" onclick="openModal('images/pos.gif', 'POS with Inventory Management')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-cash-register mr-2"></i>POS System
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
                         </div>
-                        <div class="p-6">
-                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">POS with Inventory Management</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Complete point-of-sale solution with real-time inventory tracking, customer management, and comprehensive sales analytics.</p>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">POS with Inventory Management</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Complete point-of-sale solution with real-time inventory tracking, customer management, and comprehensive sales analytics.</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
-                                <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded-full">Bootstrap</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">MySQL</span>
+                                <span class="project-tag">Bootstrap</span>
                             </div>
                             <div class="mt-4 flex items-center gap-3">
                                 <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="pos">
@@ -515,22 +457,21 @@
                         </div>
                     </div>
 
-                                         <!-- Travel Management System -->
-                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/travel.gif" alt="Travel and Tour System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Travel and Tour Management System" onclick="openModal('images/travel.gif', 'Travel and Tour Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                             <div class="hidden w-full h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-lg">
-                                 <i class="fas fa-plane mr-2"></i>Travel System
-                             </div>
-                             
+                     <div class="project-card group" data-category="web">
+                        <div class="project-image-wrap">
+                            <img src="images/travel.gif" alt="Travel and Tour System" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="Travel and Tour Management System" onclick="openModal('images/travel.gif', 'Travel and Tour Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-plane mr-2"></i>Travel System
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
                         </div>
-                        <div class="p-6">
-                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Travel and Tour Management System</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Comprehensive travel agency management platform with booking automation and customer notification systems.</p>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">Travel and Tour Management System</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Comprehensive travel agency management platform with booking automation and customer notification systems.</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
-                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-medium rounded-full">SMTP</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">MySQL</span>
+                                <span class="project-tag">SMTP</span>
                             </div>
                             <div class="mt-4 flex items-center gap-3">
                                 <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="travel">
@@ -542,22 +483,21 @@
                         </div>
                     </div>
 
-                                         <!-- Patient Scheduler -->
-                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/patient.gif" alt="Patient Scheduler Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Patient Scheduler Management System" onclick="openModal('images/patient.gif', 'Patient Scheduler Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                             <div class="hidden w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                                 <i class="fas fa-calendar-check mr-2"></i>Patient Scheduler
-                             </div>
-                                   
-                                 </div>
-                        <div class="p-6">
-                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Patient Scheduler Management System</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Intelligent appointment scheduling system with automated patient notifications and calendar management.</p>
+                     <div class="project-card group" data-category="web">
+                        <div class="project-image-wrap">
+                            <img src="images/patient.gif" alt="Patient Scheduler Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="Patient Scheduler Management System" onclick="openModal('images/patient.gif', 'Patient Scheduler Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-calendar-check mr-2"></i>Patient Scheduler
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">Patient Scheduler Management System</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Intelligent appointment scheduling system with automated patient notifications and calendar management.</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
-                                <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full">SMTP</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">MySQL</span>
+                                <span class="project-tag">SMTP</span>
                             </div>
                             <div class="mt-4 flex items-center gap-3">
                                 <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="patient">
@@ -569,23 +509,21 @@
                         </div>
                     </div>
 
-                                             <!-- Departmental item cleaning -->
-                                             <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/itemclean.gif" alt="Patient Scheduler Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Departmental Item Cleanup" onclick="openModal('images/itemclean.gif', 'Bizbox Departmental Item Cleanup')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                                <i class="fas fa-calendar-check mr-2"></i>Departmental item cleaning
+                     <div class="project-card group" data-category="bizbox">
+                        <div class="project-image-wrap">
+                            <img src="images/itemclean.gif" alt="Bizbox Departmental Item Cleanup" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="Bizbox Departmental Item Cleanup" onclick="openModal('images/itemclean.gif', 'Bizbox Departmental Item Cleanup')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-broom mr-2"></i>Item Cleanup
                             </div>
-                            
-                       </div>
-                       <div class="p-6">
-                                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Bizbox Departmental Item Cleanup</h3>
-                           <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Automated script solution for cleaning and organizing departmental items within the Bizbox system</p>
-                           <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">Bizbox</span>
-                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full">Scripting</span>
-                            <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full">Pricing</span>
-                           </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">Bizbox Departmental Item Cleanup</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Automated script solution for cleaning and organizing departmental items within the Bizbox system.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="project-tag">Bizbox</span>
+                                <span class="project-tag">Scripting</span>
+                            </div>
                            <div class="mt-4 flex items-center gap-3">
                                <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="itemclean">
                                    <i class="fas fa-heart"></i>
@@ -598,22 +536,21 @@
 
                 
 
-                                         <!-- Price Generator -->
-                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/price_gen.gif" alt="Bizbox Price Generator" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Bizbox Price Generator" onclick="openModal('images/price_gen.gif', 'Bizbox Price Generator')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                             <div class="hidden w-full h-48 bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-white font-bold text-lg">
-                                 <i class="fas fa-dollar-sign mr-2"></i>Price Generator
-                             </div>
-                             
+                     <div class="project-card group" data-category="bizbox">
+                        <div class="project-image-wrap">
+                            <img src="images/price_gen.gif" alt="Bizbox Price Generator" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="Bizbox Price Generator" onclick="openModal('images/price_gen.gif', 'Bizbox Price Generator')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-dollar-sign mr-2"></i>Price Generator
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
                         </div>
-                        <div class="p-6">
-                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Bizbox Price Generator</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Dynamic pricing system supporting HMO markup calculations and standard pricing management.</p>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">Bizbox Price Generator</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Dynamic pricing system supporting HMO markup calculations and standard pricing management.</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">Bizbox</span>
-                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full">Scripting</span>
-                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full">Pricing</span>
+                                <span class="project-tag">Bizbox</span>
+                                <span class="project-tag">Scripting</span>
+                                <span class="project-tag">Pricing</span>
                             </div>
                             <div class="mt-4 flex items-center gap-3">
                                 <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="price_gen">
@@ -625,23 +562,22 @@
                          </div>
 </div>
 
-                                         <!-- Food POS Management System -->
-                     <div class="group relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all duration-500">
-                                                 <div class="relative overflow-hidden rounded-t-2xl">
-                            <img src="images/foodPOS.gif" alt="Food POS Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image w-full h-48 object-cover cursor-pointer" data-title="Food POS Management System" onclick="openModal('images/foodpos.gif', 'Food POS Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                             <div class="hidden w-full h-48 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold text-lg">
-                                 <i class="fas fa-utensils mr-2"></i>Food POS System
-                             </div>
-                             
+                     <div class="project-card group" data-category="web">
+                        <div class="project-image-wrap">
+                            <img src="images/foodPOS.gif" alt="Food POS Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="Food POS Management System" onclick="openModal('images/foodpos.gif', 'Food POS Management System')" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-utensils mr-2"></i>Food POS System
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
                         </div>
-                        <div class="p-6">
-                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Food POS Management System</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">Complete food service point-of-sale solution with cashier user management, order processing, and comprehensive revenue reporting analytics.</p>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">Food POS Management System</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Complete food service point-of-sale solution with cashier user management, order processing, and comprehensive revenue reporting analytics.</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">PHP</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">MySQL</span>
-                                <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full">Bootstrap</span>
-                                <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded-full">Chart.js</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">MySQL</span>
+                                <span class="project-tag">Bootstrap</span>
+                                <span class="project-tag">Chart.js</span>
                             </div>
                             <div class="mt-4 flex items-center gap-3">
                                 <button class="like-btn inline-flex items-center gap-2 px-3 py-2 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300 hover:bg-rose-200 dark:hover:bg-rose-900/50 transition" data-project="foodpos">
@@ -682,17 +618,16 @@
              </div>
          </div>
 
-        <section id="game" class="py-20 lg:py-32 animate-container">
+        <section id="game" class="py-24 lg:py-32 animate-container">
             <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-16 content-to-animate">
-                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">Play Me</h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mb-8"></div>
-                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Challenge the AI in a classic game of Tic-Tac-Toe!</p>
+                <div class="mb-12 content-to-animate text-center">
+                    <span class="section-label justify-center">Interactive</span>
+                    <h2 class="section-title mb-4">Play <span class="gradient-text">Me</span></h2>
+                    <p class="section-subtitle mx-auto">Challenge the AI in a classic game of Tic-Tac-Toe!</p>
                 </div>
                 
                 <div class="flex flex-col items-center content-to-animate">
-                    <!-- Game Container -->
-                    <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-xl mb-8 w-full max-w-md">
+                    <div class="glass-card p-8 mb-8 w-full max-w-md">
                         <div class="status" id="status">Your turn (X)</div>
                         
                         <div class="game-board" id="gameBoard">
@@ -721,20 +656,12 @@
                         </div>
                     </div>
 
-                    <!-- Game Instructions -->
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800 max-w-2xl">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">How to Play</h3>
-                        <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-sm">
-                            
-                            <li class="flex items-center space-x-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>You are X, the AI is O</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>if you win, You're not dumb</span>
-                            </li>
-                         
+                    <div class="glass-card p-6 max-w-2xl w-full">
+                        <h3 class="font-semibold mb-3" style="color: var(--text-primary);">How to Play</h3>
+                        <ul class="space-y-2 text-sm" style="color: var(--text-secondary);">
+                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> You are X, the AI is O</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Take turns placing marks on the 3×3 grid</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> First to get three in a row wins!</li>
                         </ul>
                     </div>
                 </div>
@@ -742,94 +669,68 @@
         </section>
 
 
-        <section id="contact" class="py-20 lg:py-32 animate-container">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-16 content-to-animate">
-                    <h2 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">Let's Connect</h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full mb-8"></div>
-                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">I'm currently open to new opportunities and collaborations. Let's discuss how we can work together!</p>
+        <section id="contact" class="py-24 lg:py-32 animate-container">
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-16 content-to-animate">
+                    <span class="section-label">Contact</span>
+                    <h2 class="section-title mb-4">Let's <span class="gradient-text">Connect</span></h2>
+                    <p class="section-subtitle">I'm currently open to new opportunities and collaborations. Let's discuss how we can work together!</p>
                 </div>
                 
-                <div class="grid lg:grid-cols-2 gap-12 items-center content-to-animate">
-                    <div class="text-center lg:text-left">
-                        <div class="relative mb-8">
-                            <div class="relative z-10">
-                                <img src="images/me.png" alt="Emil Lawrence" loading="lazy" decoding="async" class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-cover mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800 hidden" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="hidden w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto lg:mx-0 rounded-3xl shadow-2xl border-8 border-white dark:border-gray-800 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold">
-                                    EL
-                                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-start content-to-animate">
+                    <div>
+                        <div class="relative mb-8 max-w-xs">
+                            <div class="portrait-glow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                            <div class="portrait-frame">
+                                <img src="images/me.png" alt="Emil Lawrence" loading="lazy" decoding="async" class="w-full aspect-square object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="hidden w-full aspect-square items-center justify-center font-display text-2xl font-bold" style="background: var(--gradient-brand); color: white;">EL</div>
                             </div>
-                            <!-- Decorative elements -->
-                            <div class="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-20 animate-float"></div>
-                            <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-float" style="animation-delay: 2s;"></div>
                         </div>
                         
-                        <div class="space-y-6">
-                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Ready to Start a Project?</h3>
-                            <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                                Whether you need custom software development, IT consulting, I'm here to help bring your ideas to life.
-                            </p>
-                            
-                            <!-- Contact Info -->
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-center lg:justify-start space-x-3 text-gray-600 dark:text-gray-400">
-                                    <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
-                                    </div>
-                                    <span class="font-medium">Available for new opportunities</span>
-                                </div>
-                                <div class="flex items-center justify-center lg:justify-start space-x-3 text-gray-600 dark:text-gray-400">
-                                    <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-globe text-purple-600 dark:text-purple-400"></i>
-                                    </div>
-                                    <span class="font-medium">Remote & on-site work available near puerto princesa city</span>
-                                </div>
+                        <h3 class="font-display text-xl font-bold mb-3" style="color: var(--text-primary);">Ready to Start a Project?</h3>
+                        <p class="leading-relaxed mb-6" style="color: var(--text-secondary);">
+                            Whether you need custom software development or IT consulting, I'm here to help bring your ideas to life.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3" style="color: var(--text-secondary);">
+                                <div class="bento-icon" style="background: rgba(6,182,212,0.1); color: var(--accent-cyan); width: 2.5rem; height: 2.5rem; margin: 0;"><i class="fas fa-envelope"></i></div>
+                                <span class="font-medium text-sm">Available for new opportunities</span>
+                            </div>
+                            <div class="flex items-center gap-3" style="color: var(--text-secondary);">
+                                <div class="bento-icon" style="background: rgba(139,92,246,0.1); color: var(--accent-violet); width: 2.5rem; height: 2.5rem; margin: 0;"><i class="fas fa-map-marker-alt"></i></div>
+                                <span class="font-medium text-sm">Remote & on-site near Puerto Princesa City</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-xl">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Me a Message</h3>
+                    <div class="glass-card p-8">
+                        <h3 class="font-display text-xl font-bold mb-6" style="color: var(--text-primary);">Send Me a Message</h3>
                         
-                        <form id="contactForm" class="space-y-6">
+                        <form id="contactForm" class="space-y-5">
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name *</label>
-                                    <input type="text" id="name" name="name" required 
-                                           class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                                           placeholder="Your name">
+                                    <label for="name" class="form-label">Name *</label>
+                                    <input type="text" id="name" name="name" required class="form-input" placeholder="Your name">
                                 </div>
                                 <div>
-                                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
-                                    <input type="email" id="email" name="email" required 
-                                           class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                                           placeholder="your@email.com">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" id="email" name="email" required class="form-input" placeholder="your@email.com">
                                 </div>
                             </div>
-                        
                             <div>
-                                <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject *</label>
-                                <input type="text" id="subject" name="subject" required 
-                                       class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                                       placeholder="What's this about?">
-                                </div>
-                            
-                                <div>
-                                <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message *</label>
-                                <textarea id="message" name="message" rows="5" required 
-                                          class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none"
-                                          placeholder="Tell me about your project or question..."></textarea>
-                        </div>
-                        
-                            <button type="submit" id="submitBtn" 
-                                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <input type="text" id="subject" name="subject" required class="form-input" placeholder="What's this about?">
+                            </div>
+                            <div>
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea id="message" name="message" rows="5" required class="form-input resize-none" placeholder="Tell me about your project or question..."></textarea>
+                            </div>
+                            <button type="submit" id="submitBtn" class="btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                                 <span id="submitText">Send Message</span>
-                                <span id="submitLoading" class="hidden">
-                                    <i class="fas fa-spinner fa-spin mr-2"></i>Sending...
-                                </span>
+                                <span id="submitLoading" class="hidden"><i class="fas fa-spinner fa-spin mr-2"></i>Sending...</span>
                             </button>
-                            
-                            <div id="formMessage" class="hidden p-4 rounded-xl text-center font-medium"></div>
+                            <div id="formMessage" class="hidden p-4 rounded-xl text-center font-medium text-sm"></div>
                         </form>
                     </div>
                 </div>
@@ -838,75 +739,48 @@
 
     </main>
 
-    <footer class="border-t border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-black/50 backdrop-blur-sm">
-        <div class="container mx-auto px-6 py-8">
+    <footer class="site-footer">
+        <div class="container mx-auto px-6 py-12">
             <div class="text-center">
-                <div class="flex justify-center items-center space-x-4 mb-4">
-                    <a href="https://www.linkedin.com/in/emil-lawrence-villanueva-pequierda-53a1571b3/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+                <div class="flex justify-center items-center gap-3 mb-6">
+                    <a href="https://www.linkedin.com/in/emil-lawrence-villanueva-pequierda-53a1571b3/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a href="https://m.me/pequierda123" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+                    <a href="https://m.me/pequierda123" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Messenger">
                         <i class="fab fa-facebook-messenger"></i>
                     </a>
                 </div>
                 
-                <!-- Share Buttons -->
-                <div class="mb-6">
-                    <h4 class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Share this portfolio</h4>
-                    <div class="flex justify-center items-center space-x-3">
-                        <button onclick="shareOnTwitter()" class="w-10 h-10 bg-blue-400 hover:bg-blue-500 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button onclick="shareOnFacebook()" class="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-                        <button onclick="shareOnLinkedIn()" class="w-10 h-10 bg-blue-700 hover:bg-blue-800 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </button>
-                        <button onclick="shareOnWhatsApp()" class="w-10 h-10 bg-green-500 hover:bg-green-600 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Share on WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </button>
-                        <button onclick="copyLink()" class="w-10 h-10 bg-gray-600 hover:bg-gray-700 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300" title="Copy Link">
-                            <i class="fas fa-link"></i>
-                        </button>
+                <div class="mb-8">
+                    <p class="text-xs font-mono uppercase tracking-widest mb-3" style="color: var(--text-muted);">Share this portfolio</p>
+                    <div class="flex justify-center items-center gap-2">
+                        <button onclick="shareOnTwitter()" class="social-link" title="Share on Twitter"><i class="fab fa-twitter"></i></button>
+                        <button onclick="shareOnFacebook()" class="social-link" title="Share on Facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button onclick="shareOnLinkedIn()" class="social-link" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></button>
+                        <button onclick="shareOnWhatsApp()" class="social-link" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                        <button onclick="copyLink()" class="social-link" title="Copy Link"><i class="fas fa-link"></i></button>
                     </div>
                 </div>
                 
-                <p class="text-gray-500 dark:text-gray-400">&copy; 2025 Emil Lawrence. All Rights Reserved.</p>
-                <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Built with 🤖🧠 and lots of 🤔🧠🤓💡</p>
+                <p class="text-sm" style="color: var(--text-muted);">&copy; 2026 Emil Lawrence. All Rights Reserved.</p>
+                <p class="text-xs mt-2 font-mono" style="color: var(--text-muted);">Built with passion & precision</p>
             </div>
         </div>
     </footer>
     
     <!-- Floating Share Button -->
     <div id="floatingShareBtn" class="fixed bottom-6 right-6 z-40">
-        <button onclick="toggleShareMenu()" class="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300">
-            <i class="fas fa-share-alt text-lg"></i>
+        <button onclick="toggleShareMenu()" class="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300" style="background: var(--gradient-brand);" aria-label="Share">
+            <i class="fas fa-share-alt"></i>
         </button>
         
-        <!-- Share Menu -->
-        <div id="shareMenu" class="hidden absolute bottom-16 right-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-3 space-y-2 min-w-48">
-            <div class="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2 text-center">Share Portfolio</div>
-            <button onclick="shareOnTwitter()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <i class="fab fa-twitter text-blue-400 w-4"></i>
-                <span>Twitter</span>
-            </button>
-            <button onclick="shareOnFacebook()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <i class="fab fa-facebook-f text-blue-600 w-4"></i>
-                <span>Facebook</span>
-            </button>
-            <button onclick="shareOnLinkedIn()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <i class="fab fa-linkedin-in text-blue-700 w-4"></i>
-                <span>LinkedIn</span>
-            </button>
-            <button onclick="shareOnWhatsApp()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <i class="fab fa-whatsapp text-green-500 w-4"></i>
-                <span>WhatsApp</span>
-            </button>
-            <button onclick="copyLink()" class="w-full flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <i class="fas fa-link text-gray-600 w-4"></i>
-                <span>Copy Link</span>
-            </button>
+        <div id="shareMenu" class="hidden absolute bottom-14 right-0 glass-card p-3 space-y-1 min-w-44">
+            <div class="text-xs font-mono uppercase tracking-wider mb-2 text-center" style="color: var(--text-muted);">Share</div>
+            <button onclick="shareOnTwitter()" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors hover:bg-white/5" style="color: var(--text-secondary);"><i class="fab fa-twitter w-4" style="color: var(--accent-cyan);"></i> Twitter</button>
+            <button onclick="shareOnFacebook()" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors hover:bg-white/5" style="color: var(--text-secondary);"><i class="fab fa-facebook-f w-4" style="color: var(--accent-blue);"></i> Facebook</button>
+            <button onclick="shareOnLinkedIn()" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors hover:bg-white/5" style="color: var(--text-secondary);"><i class="fab fa-linkedin-in w-4" style="color: var(--accent-blue);"></i> LinkedIn</button>
+            <button onclick="shareOnWhatsApp()" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors hover:bg-white/5" style="color: var(--text-secondary);"><i class="fab fa-whatsapp w-4" style="color: var(--accent-emerald);"></i> WhatsApp</button>
+            <button onclick="copyLink()" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors hover:bg-white/5" style="color: var(--text-secondary);"><i class="fas fa-link w-4"></i> Copy Link</button>
         </div>
     </div>
 
