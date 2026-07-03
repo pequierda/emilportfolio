@@ -495,9 +495,19 @@ class AnimationController {
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
         document.querySelectorAll('.animate-container').forEach(container => observer.observe(container));
+    }
 
+    revealAboveFold() {
         const heroContent = document.querySelector('#home .content-to-animate');
         if (heroContent) heroContent.classList.add('visible');
+
+        document.querySelectorAll('.animate-container').forEach(container => {
+            const rect = container.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.9) {
+                const content = container.querySelector('.content-to-animate');
+                if (content) content.classList.add('visible');
+            }
+        });
     }
 }
 
@@ -750,44 +760,150 @@ document.addEventListener('click', (e) => {
 });
 
 // ============================================================================
+// PAGE LOADER — wait for assets before revealing content
+// ============================================================================
+
+class PageLoader {
+    constructor() {
+        this.loadingScreen = document.getElementById('loadingScreen');
+        this.startTime = Date.now();
+        this.minDisplayMs = 800;
+        this.maxWaitMs = 45000;
+        this.animationController = null;
+    }
+
+    waitForImage(img, timeoutMs = 20000) {
+        return new Promise((resolve) => {
+            if (img.complete && img.naturalWidth > 0) {
+                resolve();
+                return;
+            }
+
+            if (img.loading === 'lazy') {
+                img.loading = 'eager';
+            }
+
+            const finish = () => {
+                clearTimeout(timer);
+                resolve();
+            };
+
+            const timer = setTimeout(finish, timeoutMs);
+            img.addEventListener('load', finish, { once: true });
+            img.addEventListener('error', finish, { once: true });
+
+            if (!img.complete && img.src) {
+                const src = img.getAttribute('src');
+                if (src) img.src = src;
+            }
+        });
+    }
+
+    waitForFonts() {
+        if (document.fonts && document.fonts.ready) {
+            return document.fonts.ready.catch(() => {});
+        }
+        return Promise.resolve();
+    }
+
+    waitForWindowLoad() {
+        if (document.readyState === 'complete') {
+            return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+            window.addEventListener('load', resolve, { once: true });
+        });
+    }
+
+    waitForStylesheets() {
+        const links = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+        const pending = links.filter((link) => !link.sheet);
+
+        if (!pending.length) {
+            return Promise.resolve();
+        }
+
+        return Promise.all(pending.map((link) => new Promise((resolve) => {
+            link.addEventListener('load', resolve, { once: true });
+            link.addEventListener('error', resolve, { once: true });
+        })));
+    }
+
+    waitForImages() {
+        const images = Array.from(document.querySelectorAll('img[src]'));
+        if (!images.length) {
+            return Promise.resolve();
+        }
+        return Promise.all(images.map((img) => this.waitForImage(img)));
+    }
+
+    async waitForReady() {
+        const ready = Promise.all([
+            this.waitForWindowLoad(),
+            this.waitForStylesheets(),
+            this.waitForFonts(),
+            this.waitForImages()
+        ]);
+
+        const timeout = new Promise((resolve) => setTimeout(resolve, this.maxWaitMs));
+        await Promise.race([ready, timeout]);
+    }
+
+    async ensureMinDisplay() {
+        const elapsed = Date.now() - this.startTime;
+        const remaining = this.minDisplayMs - elapsed;
+        if (remaining > 0) {
+            await new Promise((resolve) => setTimeout(resolve, remaining));
+        }
+    }
+
+    revealPage() {
+        document.documentElement.classList.remove('site-loading');
+        document.body.classList.remove('site-loading');
+        document.documentElement.style.overflow = '';
+
+        if (this.animationController) {
+            this.animationController.revealAboveFold();
+        }
+
+        if (!this.loadingScreen) return;
+
+        this.loadingScreen.style.opacity = '0';
+        this.loadingScreen.style.transition = 'opacity 0.6s ease-out';
+
+        setTimeout(() => {
+            this.loadingScreen.style.display = 'none';
+        }, 600);
+    }
+
+    setAnimationController(controller) {
+        this.animationController = controller;
+    }
+
+    async start() {
+        try {
+            await this.waitForReady();
+            await this.ensureMinDisplay();
+        } catch (error) {
+            console.error('PageLoader:', error);
+        } finally {
+            this.revealPage();
+        }
+    }
+}
+
+// ============================================================================
 // LOADING ANIMATIONS & PAGE TRANSITIONS
 // ============================================================================
 
 class LoadingAnimations {
     constructor() {
-        this.loadingScreen = document.getElementById('loadingScreen');
         this.init();
     }
     
     init() {
-        // Hide as soon as DOM is ready to improve perceived load
-        requestAnimationFrame(() => this.hideLoadingScreen());
-
-        // Still hide on full load in case something re-showed it
-        window.addEventListener('load', () => {
-            this.hideLoadingScreen();
-        });
-
-        // Fallback: hide loading screen after 1.2 seconds max
-        setTimeout(() => {
-            this.hideLoadingScreen();
-        }, 1200);
-
-        // Add smooth page transitions
         this.addPageTransitions();
     }
-    
-    hideLoadingScreen() {
-        if (this.loadingScreen && this.loadingScreen.style.display !== 'none') {
-            this.loadingScreen.style.opacity = '0';
-            this.loadingScreen.style.transition = 'opacity 0.5s ease-out';
-            
-            setTimeout(() => {
-                this.loadingScreen.style.display = 'none';
-            }, 500);
-        }
-    }
-    
     addPageTransitions() {
         // Add smooth transitions to all links
         const links = document.querySelectorAll('a[href^="#"]');
@@ -1459,12 +1575,16 @@ class DebugUtils {
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    const pageLoader = new PageLoader();
+    const animationController = new AnimationController();
+    pageLoader.setAnimationController(animationController);
+
+    pageLoader.start();
+
     try {
-        // Critical, lightweight modules first
         new ScrollProgress();
         new HeaderController();
         new MobileMenu();
-        new AnimationController();
         new LoadingAnimations();
         new ImageModal();
         new TypewriterEffect();
@@ -1502,7 +1622,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } catch (error) {
         console.error('Error initializing modules:', error);
-        // Ensure loading screen is hidden even if there's an error
+        document.documentElement.classList.remove('site-loading');
+        document.body.classList.remove('site-loading');
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
             loadingScreen.style.display = 'none';

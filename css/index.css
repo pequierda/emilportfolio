@@ -1253,6 +1253,11 @@ section {
 #loadingScreen {
     transition: opacity 0.6s ease-out;
     background: #000000 !important;
+    z-index: 99999;
+}
+
+html.site-loading #loadingScreen {
+    display: flex;
 }
 
 .loading-logo {

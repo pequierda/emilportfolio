@@ -31,9 +31,14 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"></noscript>
     <link href="css/index.css" rel="stylesheet">
+    <style>
+        html.site-loading body > :not(#loadingScreen) { visibility: hidden; }
+        html.site-loading { overflow: hidden; }
+    </style>
+    <script>document.documentElement.classList.add('site-loading');</script>
     
 </head>
-<body class="netflix-theme antialiased transition-all duration-500 relative overflow-x-hidden">
+<body class="netflix-theme antialiased transition-all duration-500 relative overflow-x-hidden site-loading">
     
     <!-- Loading Screen -->
     <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center" style="background: var(--bg-primary);">
@@ -851,17 +856,6 @@
 
     <!-- External JavaScript -->
     <script src="js/index.js" defer></script>
-    
-    <!-- Fallback to hide loading screen -->
-    <script>
-        // Fallback: hide loading screen after 3 seconds regardless
-        setTimeout(() => {
-            const loadingScreen = document.getElementById('loadingScreen');
-            if (loadingScreen) {
-                loadingScreen.style.display = 'none';
-            }
-        }, 2000);
-    </script>
 
 </body>
 </html>
