@@ -338,6 +338,7 @@ class HeroSlideshow {
 class HeaderController {
     constructor() {
         this.header = document.getElementById('site-header');
+        this.heroTitle = document.querySelector('#home .hero-title');
         this.navLinks = document.querySelectorAll('#main-nav a[data-section]');
         this.sections = document.querySelectorAll('section[id]');
         this.init();
@@ -351,6 +352,7 @@ class HeaderController {
             if (!ticking) {
                 requestAnimationFrame(() => {
                     this.header.classList.toggle('scrolled', window.scrollY > 20);
+                    this.updateBrandVisibility();
                     this.updateActiveNav();
                     ticking = false;
                 });
@@ -358,8 +360,22 @@ class HeaderController {
             }
         }, { passive: true });
 
+        window.addEventListener('resize', () => this.updateBrandVisibility(), { passive: true });
+        window.addEventListener('portfolio:revealed', () => this.updateBrandVisibility());
+
         this.header.classList.toggle('scrolled', window.scrollY > 20);
+        this.updateBrandVisibility();
         this.updateActiveNav();
+    }
+
+    updateBrandVisibility() {
+        if (!this.header || !this.heroTitle) return;
+
+        const titleRect = this.heroTitle.getBoundingClientRect();
+        const headerBottom = this.header.offsetHeight;
+        const titleOnScreen = titleRect.bottom > headerBottom && titleRect.top < window.innerHeight;
+
+        this.header.classList.toggle('hide-brand-overlap', titleOnScreen);
     }
 
     updateActiveNav() {
@@ -480,47 +496,56 @@ class MobileMenu {
 
 class AnimationController {
     constructor() {
+        this.staggerMs = 100;
+        this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         this.init();
     }
-    
+
     init() {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        const observerOptions = isMobile
-            ? { threshold: 0.05, rootMargin: '0px' }
-            : { threshold: 0.15, rootMargin: '0px 0px -40px 0px' };
+        if (this.reducedMotion) {
+            document.querySelectorAll('.content-to-animate').forEach(el => el.classList.add('visible'));
+            return;
+        }
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const content = entry.target.querySelector('.content-to-animate');
-                    if (content) content.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
+                if (!entry.isIntersecting) return;
+
+                const items = entry.target.classList.contains('content-to-animate')
+                    ? [entry.target]
+                    : [...entry.target.querySelectorAll('.content-to-animate')];
+
+                items.forEach((el, index) => {
+                    el.style.setProperty('--reveal-delay', `${index * 0.1}s`);
+                    requestAnimationFrame(() => el.classList.add('visible'));
+                });
+
+                observer.unobserve(entry.target);
             });
-        }, observerOptions);
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -6% 0px'
+        });
 
         document.querySelectorAll('.animate-container').forEach(container => observer.observe(container));
     }
 
     revealAboveFold() {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-        if (isMobile) {
-            document.querySelectorAll('.content-to-animate').forEach((content) => {
-                content.classList.add('visible');
-            });
+        if (this.reducedMotion) {
+            document.querySelectorAll('.content-to-animate').forEach(el => el.classList.add('visible'));
             return;
         }
 
-        const heroContent = document.querySelector('#home .content-to-animate');
-        if (heroContent) heroContent.classList.add('visible');
-
         document.querySelectorAll('.animate-container').forEach(container => {
             const rect = container.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.9) {
-                const content = container.querySelector('.content-to-animate');
-                if (content) content.classList.add('visible');
-            }
+            if (rect.top >= window.innerHeight * 0.92) return;
+
+            const items = container.querySelectorAll('.content-to-animate');
+            items.forEach((el, index) => {
+                if (el.classList.contains('visible')) return;
+                el.style.setProperty('--reveal-delay', `${index * 0.1}s`);
+                el.classList.add('visible');
+            });
         });
     }
 }
@@ -888,6 +913,10 @@ class PageLoader {
             this.animationController.revealAboveFold();
         }
 
+        requestAnimationFrame(() => {
+            window.dispatchEvent(new CustomEvent('portfolio:revealed'));
+        });
+
         if (!this.loadingScreen) return;
 
         this.loadingScreen.style.opacity = '0';
@@ -942,12 +971,16 @@ class LoadingAnimations {
     
     smoothScrollTo(target) {
         const element = document.querySelector(target);
-        if (element) {
-            element.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        if (!element) return;
+
+        const header = document.getElementById('site-header');
+        const offset = header ? header.offsetHeight : 0;
+        const top = element.getBoundingClientRect().top + window.scrollY - offset;
+
+        window.scrollTo({ top, behavior: 'smooth' });
+
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu) mobileMenu.classList.add('hidden');
     }
 }
 
@@ -1178,29 +1211,56 @@ class TicTacToe {
     }
     
     checkWin() {
+        const winner = this.getWinner(this.board);
+        if (!winner || winner === 'draw') return null;
+
         const winConditions = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-            [0, 4, 8], [2, 4, 6] // Diagonals
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
         ];
-        
-        for (let condition of winConditions) {
-            const [a, b, c] = condition;
+
+        for (const [a, b, c] of winConditions) {
             if (this.board[a] && this.board[a] === this.board[b] && this.board[a] === this.board[c]) {
-                // Highlight winning cells
                 this.cells[a].classList.add('winning');
                 this.cells[b].classList.add('winning');
                 this.cells[c].classList.add('winning');
-                return this.board[a]; // Return the winning player (X or O)
+                break;
             }
         }
-        return null; // No winner
+
+        return winner;
+    }
+
+    getWinner(board) {
+        const winConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        for (const [a, b, c] of winConditions) {
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                return board[a];
+            }
+        }
+
+        if (board.every(cell => cell !== '')) return 'draw';
+        return null;
     }
     
     checkDraw() {
         return this.board.every(cell => cell !== '');
     }
     
+    setStatusState(state) {
+        const states = ['status--player', 'status--ai', 'status--win', 'status--lose', 'status--draw'];
+        this.statusElement.classList.remove(...states);
+        if (state) this.statusElement.classList.add(`status--${state}`);
+        this.statusElement.style.background = '';
+        this.statusElement.style.borderColor = '';
+    }
+
     handleGameEnd(result, winner = null) {
         this.gameActive = false;
         
@@ -1209,17 +1269,14 @@ class TicTacToe {
             
             if (winner === this.currentPlayer) {
                 this.statusElement.textContent = `You win! 🎉`;
-                this.statusElement.style.background = 'linear-gradient(45deg, #c6f6d5, #9ae6b4)';
-                this.statusElement.style.borderColor = '#68d391';
+                this.setStatusState('win');
             } else {
                 this.statusElement.textContent = `AI wins! 🤖`;
-                this.statusElement.style.background = 'linear-gradient(45deg, #fed7d7, #feb2b2)';
-                this.statusElement.style.borderColor = '#fc8181';
+                this.setStatusState('lose');
             }
         } else {
             this.statusElement.textContent = "It's a draw! 🤝";
-            this.statusElement.style.background = 'linear-gradient(45deg, #f7fafc, #edf2f7)';
-            this.statusElement.style.borderColor = '#e2e8f0';
+            this.setStatusState('draw');
         }
         
         this.updateScores();
@@ -1243,57 +1300,62 @@ class TicTacToe {
     }
     
     getBestMove() {
-        // Check for winning move
+        let bestScore = -Infinity;
+        let bestMove = -1;
+
         for (let i = 0; i < 9; i++) {
-            if (this.board[i] === '') {
-                this.board[i] = this.aiPlayer;
-                if (this.checkWin()) {
-                    this.board[i] = '';
-                    return i;
-                }
-                this.board[i] = '';
+            if (this.board[i] !== '') continue;
+
+            this.board[i] = this.aiPlayer;
+            const score = this.minimax(this.board, false, 1);
+            this.board[i] = '';
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = i;
             }
         }
-        
-        // Check for blocking player's winning move
-        for (let i = 0; i < 9; i++) {
-            if (this.board[i] === '') {
-                this.board[i] = this.currentPlayer;
-                if (this.checkWin()) {
-                    this.board[i] = '';
-                    return i;
-                }
-                this.board[i] = '';
+
+        return bestMove >= 0 ? bestMove : this.board.findIndex(cell => cell === '');
+    }
+
+    minimax(board, isMaximizing, depth) {
+        const winner = this.getWinner(board);
+
+        if (winner === this.aiPlayer) return 10 - depth;
+        if (winner === this.currentPlayer) return depth - 10;
+        if (winner === 'draw') return 0;
+
+        if (isMaximizing) {
+            let bestScore = -Infinity;
+            for (let i = 0; i < 9; i++) {
+                if (board[i] !== '') continue;
+                board[i] = this.aiPlayer;
+                bestScore = Math.max(bestScore, this.minimax(board, false, depth + 1));
+                board[i] = '';
             }
+            return bestScore;
         }
-        
-        // Take center if available
-        if (this.board[4] === '') return 4;
-        
-        // Take corners
-        const corners = [0, 2, 6, 8];
-        for (let corner of corners) {
-            if (this.board[corner] === '') return corner;
+
+        let bestScore = Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] !== '') continue;
+            board[i] = this.currentPlayer;
+            bestScore = Math.min(bestScore, this.minimax(board, true, depth + 1));
+            board[i] = '';
         }
-        
-        // Take any available edge
-        const edges = [1, 3, 5, 7];
-        for (let edge of edges) {
-            if (this.board[edge] === '') return edge;
-        }
-        
-        return 0; // Fallback
+        return bestScore;
     }
     
     updateStatus() {
         if (this.gameActive) {
             if (this.isPlayerTurn) {
                 this.statusElement.textContent = `Your turn (${this.currentPlayer})`;
+                this.setStatusState('player');
             } else {
                 this.statusElement.textContent = `AI is thinking...`;
+                this.setStatusState('ai');
             }
-            this.statusElement.style.background = 'linear-gradient(45deg, #f7fafc, #edf2f7)';
-            this.statusElement.style.borderColor = '#e2e8f0';
         }
     }
     

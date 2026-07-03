@@ -58,6 +58,11 @@
    BASE
    ============================================================================ */
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+}
+
 body {
     font-family: var(--font-body);
     overflow-x: hidden;
@@ -167,6 +172,13 @@ main, header, footer {
     padding: 0 var(--netflix-row-pad);
 }
 
+.site-header.hide-brand-overlap .netflix-logo {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(0.92);
+}
+
 .netflix-logo {
     font-family: var(--font-display);
     font-size: 2rem;
@@ -174,7 +186,7 @@ main, header, footer {
     letter-spacing: 0.08em;
     color: var(--accent-red);
     line-height: 1;
-    transition: transform var(--transition-fast);
+    transition: opacity var(--transition-smooth), visibility var(--transition-smooth), transform var(--transition-fast);
 }
 
 .netflix-brand:hover .netflix-logo {
@@ -349,8 +361,12 @@ section {
 
 .content-to-animate {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(28px);
+    transition:
+        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+    will-change: opacity, transform;
 }
 
 .content-to-animate.visible {
@@ -1531,13 +1547,42 @@ body.modal-open #floatingShareBtn {
 .status {
     font-size: 1rem;
     margin-bottom: 1.5rem;
-    color: #ffffff !important;
     font-weight: 600;
     padding: 0.75rem 1rem;
-    background: rgba(25, 25, 25, 0.95);
     border-radius: var(--radius-sm);
     border: 1px solid rgba(255, 255, 255, 0.12);
     text-align: center;
+    transition: background var(--transition-smooth), border-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+.status--player {
+    color: #ffffff;
+    background: rgba(229, 9, 20, 0.22);
+    border-color: rgba(229, 9, 20, 0.5);
+}
+
+.status--ai {
+    color: #f5f5f5;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.status--win {
+    color: #ffffff;
+    background: rgba(70, 211, 105, 0.22);
+    border-color: rgba(70, 211, 105, 0.55);
+}
+
+.status--lose {
+    color: #ffffff;
+    background: rgba(229, 9, 20, 0.3);
+    border-color: rgba(229, 9, 20, 0.6);
+}
+
+.status--draw {
+    color: #e5e5e5;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.28);
 }
 
 .game-board {
@@ -1741,8 +1786,13 @@ body.modal-open #floatingShareBtn {
     .netflix-nav { display: none; }
     .netflix-hero {
         min-height: 75vh;
+        padding-top: calc(var(--header-height) + 1rem);
         padding-bottom: 3rem;
         margin-bottom: -2rem;
+        align-items: flex-end;
+    }
+    .hero-content {
+        padding-top: 0.25rem;
     }
     .hero-title {
         font-size: clamp(2rem, 11vw, 3.5rem);
