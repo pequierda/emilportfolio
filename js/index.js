@@ -484,6 +484,11 @@ class AnimationController {
     }
     
     init() {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        const observerOptions = isMobile
+            ? { threshold: 0.05, rootMargin: '0px' }
+            : { threshold: 0.15, rootMargin: '0px 0px -40px 0px' };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -492,12 +497,21 @@ class AnimationController {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, observerOptions);
 
         document.querySelectorAll('.animate-container').forEach(container => observer.observe(container));
     }
 
     revealAboveFold() {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (isMobile) {
+            document.querySelectorAll('.content-to-animate').forEach((content) => {
+                content.classList.add('visible');
+            });
+            return;
+        }
+
         const heroContent = document.querySelector('#home .content-to-animate');
         if (heroContent) heroContent.classList.add('visible');
 
@@ -830,14 +844,21 @@ class PageLoader {
     }
 
     waitForImages() {
-        const images = Array.from(document.querySelectorAll('img[src]'));
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        const images = isMobile
+            ? Array.from(document.querySelectorAll('#hero-slideshow .hero-bg-media.is-active, .cast-avatar img'))
+            : Array.from(document.querySelectorAll('img[src]'));
+
         if (!images.length) {
             return Promise.resolve();
         }
-        return Promise.all(images.map((img) => this.waitForImage(img)));
+
+        const timeout = isMobile ? 12000 : 20000;
+        return Promise.all(images.map((img) => this.waitForImage(img, timeout)));
     }
 
     async waitForReady() {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const ready = Promise.all([
             this.waitForWindowLoad(),
             this.waitForStylesheets(),
@@ -845,7 +866,8 @@ class PageLoader {
             this.waitForImages()
         ]);
 
-        const timeout = new Promise((resolve) => setTimeout(resolve, this.maxWaitMs));
+        const timeoutMs = isMobile ? 20000 : this.maxWaitMs;
+        const timeout = new Promise((resolve) => setTimeout(resolve, timeoutMs));
         await Promise.race([ready, timeout]);
     }
 

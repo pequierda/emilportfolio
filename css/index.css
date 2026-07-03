@@ -1531,12 +1531,12 @@ body.modal-open #floatingShareBtn {
 .status {
     font-size: 1rem;
     margin-bottom: 1.5rem;
-    color: var(--text-primary) !important;
+    color: #ffffff !important;
     font-weight: 600;
     padding: 0.75rem 1rem;
-    background: var(--bg-surface);
+    background: rgba(25, 25, 25, 0.95);
     border-radius: var(--radius-sm);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     text-align: center;
 }
 
@@ -1724,6 +1724,14 @@ body.modal-open #floatingShareBtn {
 }
 
 /* ============================================================================
+   CONTACT LAYOUT
+   ============================================================================ */
+
+.contact-layout {
+    width: 100%;
+}
+
+/* ============================================================================
    RESPONSIVE
    ============================================================================ */
 
@@ -1734,6 +1742,7 @@ body.modal-open #floatingShareBtn {
     .netflix-hero {
         min-height: 75vh;
         padding-bottom: 3rem;
+        margin-bottom: -2rem;
     }
     .hero-title {
         font-size: clamp(2rem, 11vw, 3.5rem);
@@ -1746,6 +1755,108 @@ body.modal-open #floatingShareBtn {
     section {
         content-visibility: visible;
         contain-intrinsic-size: auto;
+    }
+
+    .main-sections {
+        padding: 0 1rem;
+    }
+
+    .netflix-section-head,
+    .row-title,
+    .filter-tabs,
+    .cast-row {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .row-slider {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .netflix-hero {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .cast-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .cast-member,
+    .cast-resume {
+        max-width: 100%;
+        width: min(100%, 16rem);
+    }
+
+    .cast-resume-actions {
+        width: 100%;
+    }
+
+    .bento-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .bento-item {
+        padding: 1rem;
+    }
+
+    .bento-item span {
+        font-size: 0.75rem;
+    }
+
+    .project-card {
+        flex: 0 0 min(78vw, 280px);
+    }
+
+    .project-card:hover {
+        transform: none;
+    }
+
+    .filter-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 0.4rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-tab {
+        flex-shrink: 0;
+    }
+
+    .contact-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .glass-card.p-8 {
+        padding: 1.25rem;
+    }
+
+    .py-24,
+    .lg\:py-32 {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .cell {
+        min-height: 3.5rem;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .game-board {
+        touch-action: manipulation;
     }
 
     .modal-hint-desktop {
@@ -1773,6 +1884,13 @@ body.modal-open #floatingShareBtn {
 @media (min-width: 769px) {
     .modal-close-floating {
         display: none !important;
+    }
+
+    .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
     }
 }
 
