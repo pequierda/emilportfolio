@@ -32,11 +32,14 @@ function initWhenVisible(element, initCallback, options = { rootMargin: '200px',
 // GLOBAL VARIABLES AND UTILITIES
 // ============================================================================
 
+function isMobileView() {
+    return window.matchMedia('(max-width: 768px), (hover: none) and (pointer: coarse)').matches;
+}
+
 // Global modal function
 function openModal(imageSrc, title, slides = null, slideIndex = 0) {
     // Check if this is a certificate URL (Coursera link)
     if (imageSrc.includes('coursera.org/account/accomplishments')) {
-        // Open certificate URL in new tab
         window.open(imageSrc, '_blank', 'noopener,noreferrer');
         return;
     }
@@ -49,24 +52,22 @@ function openModal(imageSrc, title, slides = null, slideIndex = 0) {
         console.error('Modal elements not found!');
         return;
     }
-    
+
+    modalImage.classList.remove('is-fullscreen');
+    modal.classList.remove('is-mobile-fullview');
     modalImage.src = imageSrc;
     modalImage.alt = title;
     modalTitle.textContent = title;
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
+
+    if (isMobileView()) {
+        modal.classList.add('is-mobile-fullview');
+        modalImage.classList.add('is-fullscreen');
+    }
     
-    // Add zoom effect
-    modalImage.style.transform = 'scale(0.8)';
-    modalImage.style.opacity = '0';
-    
-    setTimeout(() => {
-        modalImage.style.transform = 'scale(1)';
-        modalImage.style.opacity = '1';
-    }, 50);
-    
-    // Check if this is a Bizbox slideshow image
     const modalPrev = document.getElementById('modal-prev');
     const modalNext = document.getElementById('modal-next');
     
@@ -80,18 +81,50 @@ function openModal(imageSrc, title, slides = null, slideIndex = 0) {
         if (modalPrev) modalPrev.classList.add('hidden');
         if (modalNext) modalNext.classList.add('hidden');
     }
+
+    if (window.imageModalInstance) {
+        window.imageModalInstance.updateFullscreenIcon();
+    }
+}
+
+function toggleModalFullscreen() {
+    const modalImage = document.getElementById('modal-image');
+    const modalStage = document.getElementById('modal-stage');
+    if (!modalImage) return;
+
+    const isFullscreen = modalImage.classList.toggle('is-fullscreen');
+
+    if (isFullscreen && modalStage?.requestFullscreen) {
+        modalStage.requestFullscreen().catch(() => {});
+    } else if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+    }
+
+    if (window.imageModalInstance) {
+        window.imageModalInstance.updateFullscreenIcon();
+    }
 }
 
 // Global close modal function
 window.closeModalFunc = function() {
     const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
     const modalPrev = document.getElementById('modal-prev');
     const modalNext = document.getElementById('modal-next');
+    
+    if (modalImage) {
+        modalImage.classList.remove('is-fullscreen');
+    }
+
+    if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+    }
     
     if (modal) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
-        document.body.style.overflow = ''; // Restore scrolling
+        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
     }
     
     window.currentModalSlides = [];
@@ -99,316 +132,6 @@ window.closeModalFunc = function() {
     if (modalNext) modalNext.classList.add('hidden');
 }
 
-
-// ============================================================================
-// HEARTBEAT MONITOR SYSTEM
-// ============================================================================
-
-class HeartbeatMonitor {
-    constructor() {
-        this.isDarkMode = false;
-        this.heartbeatLine = document.getElementById('heartbeat-line');
-        this.heartbeatBpm = document.getElementById('heartbeat-bpm');
-        this.heartbeatStatus = document.getElementById('heartbeat-status');
-        this.audioContext = null;
-        this.heartbeatInterval = null;
-        this.currentBpm = 72;
-        this.points = [];
-        
-        // Check if required elements exist
-        if (!this.heartbeatLine) {
-            console.warn('HeartbeatMonitor: heartbeat-line element not found');
-            return;
-        }
-        
-        this.init();
-    }
-    
-    init() {
-        this.setupAudioContext();
-        this.startHeartbeat();
-        this.updateHeartbeatLine();
-        
-        // Listen for theme changes
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                setTimeout(() => this.updateTheme(), 100);
-            });
-        }
-        
-        this.updateTheme();
-    }
-    
-    setupAudioContext() {
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        } catch (e) {
-            console.warn('Web Audio API not supported');
-        }
-    }
-    
-    updateTheme() {
-        this.isDarkMode = document.documentElement.classList.contains('dark');
-        this.updateHeartbeatLine();
-        this.updateStatus();
-    }
-    
-    startHeartbeat() {
-        if (this.heartbeatInterval) {
-            clearInterval(this.heartbeatInterval);
-        }
-        
-        const interval = this.isDarkMode ? 2000 : 1200; // Slower for dark mode
-        this.heartbeatInterval = setInterval(() => {
-            // Removed sound - just update BPM
-            this.updateBpm();
-        }, interval);
-        
-        // Continuous moving animation for the heartbeat line
-        this.animationOffset = 0;
-        const animateHeartbeat = () => {
-            this.animationOffset += 2; // Move 2 pixels per frame
-            this.updateHeartbeatLine();
-            requestAnimationFrame(animateHeartbeat);
-        };
-        animateHeartbeat();
-    }
-    
-    playHeartbeatSound() {
-        if (!this.audioContext) return;
-        
-        try {
-            const oscillator = this.audioContext.createOscillator();
-            const gainNode = this.audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(this.audioContext.destination);
-            
-            if (this.isDarkMode) {
-                // Flat line sound - low, monotone
-                oscillator.frequency.setValueAtTime(100, this.audioContext.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(80, this.audioContext.currentTime + 0.1);
-                gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
-                oscillator.start(this.audioContext.currentTime);
-                oscillator.stop(this.audioContext.currentTime + 0.3);
-            } else {
-                // Normal heartbeat sound - "tit tittt titt"
-                const times = [0, 0.1, 0.15, 0.25, 0.3, 0.4];
-                const frequencies = [200, 0, 200, 0, 200, 0];
-                const gains = [0.2, 0, 0.3, 0, 0.2, 0];
-                
-                times.forEach((time, index) => {
-                    if (frequencies[index] > 0) {
-                        oscillator.frequency.setValueAtTime(frequencies[index], this.audioContext.currentTime + time);
-                        gainNode.gain.setValueAtTime(gains[index], this.audioContext.currentTime + time);
-                    }
-                });
-                
-                oscillator.start(this.audioContext.currentTime);
-                oscillator.stop(this.audioContext.currentTime + 0.5);
-            }
-        } catch (e) {
-            console.warn('Audio playback failed:', e);
-        }
-    }
-    
-    updateBpm() {
-        if (this.isDarkMode) {
-            this.currentBpm = Math.floor(Math.random() * 10) + 20; // Low BPM for flat line
-        } else {
-            this.currentBpm = Math.floor(Math.random() * 20) + 65; // Normal BPM range
-        }
-        if (this.heartbeatBpm) {
-            this.heartbeatBpm.textContent = this.currentBpm;
-        }
-    }
-    
-    updateStatus() {
-        if (this.heartbeatStatus) {
-            if (this.isDarkMode) {
-                this.heartbeatStatus.textContent = 'FLAT';
-                this.heartbeatStatus.className = 'text-xs font-mono font-bold text-gray-500 flat';
-            } else {
-                this.heartbeatStatus.textContent = 'ALIVE';
-                this.heartbeatStatus.className = 'text-xs font-mono font-bold text-green-500 alive';
-            }
-        }
-    }
-    
-    updateHeartbeatLine() {
-        if (!this.heartbeatLine) return;
-        
-        this.points = [];
-        const width = 400;
-        const height = 60;
-        const centerY = height / 2;
-        const time = Date.now() * 0.001;
-        
-        if (this.isDarkMode) {
-            // Flat line for dark mode with slight random movement
-            this.points.push(`M 0 ${centerY}`);
-            for (let x = 0; x <= width; x += 2) {
-                const y = centerY + (Math.random() - 0.5) * 3; // Slight random noise
-                this.points.push(`L ${x} ${y}`);
-            }
-            this.heartbeatLine.classList.remove('heartbeat-line-alive');
-            this.heartbeatLine.classList.add('heartbeat-line-flat');
-        } else {
-            // Realistic ECG waveform with random variations
-            this.points.push(`M 0 ${centerY}`);
-            
-            let x = 0;
-            while (x <= width) {
-                // Create realistic ECG pattern with animation offset
-                const globalX = x + (this.animationOffset || 0);
-                const heartbeatCycle = Math.floor(globalX / 120); // Heartbeat every 120 pixels
-                const cyclePosition = (globalX % 120) / 120; // Position within current heartbeat
-                
-                // Generate unique random variations for each wave
-                const cycleSeed = heartbeatCycle * 7; // Different seed for each cycle
-                const positionSeed = Math.floor(cyclePosition * 100); // Position-based seed
-                const timeSeed = Math.floor(this.animationOffset / 10); // Time-based seed
-                
-                // Unique random values for each wave
-                const randomP = (Math.sin(cycleSeed + positionSeed + timeSeed) + 1) * 0.5;
-                const randomQ = (Math.sin(cycleSeed * 1.3 + positionSeed * 0.7 + timeSeed * 0.5) + 1) * 0.5;
-                const randomR = (Math.sin(cycleSeed * 0.8 + positionSeed * 1.2 + timeSeed * 0.3) + 1) * 0.5;
-                const randomS = (Math.sin(cycleSeed * 1.7 + positionSeed * 0.9 + timeSeed * 0.8) + 1) * 0.5;
-                const randomT = (Math.sin(cycleSeed * 0.5 + positionSeed * 1.1 + timeSeed * 0.6) + 1) * 0.5;
-                const randomBaseline = (Math.sin(cycleSeed * 2.1 + positionSeed * 0.3 + timeSeed * 1.2) + 1) * 0.5;
-                
-                let y = centerY;
-                
-                if (cyclePosition < 0.15) {
-                    // TP Segment - unique baseline variation
-                    const baselineShift = (randomBaseline - 0.5) * 6; // -3 to +3
-                    y = centerY + baselineShift + (Math.random() - 0.5) * 2;
-                } else if (cyclePosition < 0.2) {
-                    // P Wave - unique amplitude and shape
-                    const pAmplitude = 4 + (randomP * 12); // 4-16
-                    const pWidth = 0.03 + (randomP * 0.02); // Variable width
-                    const pWave = Math.sin((cyclePosition - 0.15) * Math.PI / pWidth) * pAmplitude;
-                    y = centerY - pWave + (Math.random() - 0.5) * 3;
-                } else if (cyclePosition < 0.25) {
-                    // PR Segment - unique variation
-                    const prShift = (randomBaseline - 0.5) * 4;
-                    y = centerY + prShift + (Math.random() - 0.5) * 2;
-                } else if (cyclePosition < 0.3) {
-                    // Q Wave - unique amplitude and timing
-                    const qAmplitude = 5 + (randomQ * 20); // 5-25
-                    const qWidth = 0.03 + (randomQ * 0.02);
-                    const qWave = Math.sin((cyclePosition - 0.25) * Math.PI / qWidth) * qAmplitude;
-                    y = centerY + qWave + (Math.random() - 0.5) * 3;
-                } else if (cyclePosition < 0.35) {
-                    // R Wave - unique amplitude (main spike)
-                    const rAmplitude = 20 + (randomR * 30); // 20-50
-                    const rWidth = 0.03 + (randomR * 0.02);
-                    const rWave = Math.sin((cyclePosition - 0.3) * Math.PI / rWidth) * rAmplitude;
-                    y = centerY - rWave + (Math.random() - 0.5) * 4;
-                } else if (cyclePosition < 0.4) {
-                    // S Wave - unique amplitude and shape
-                    const sAmplitude = 10 + (randomS * 25); // 10-35
-                    const sWidth = 0.03 + (randomS * 0.02);
-                    const sWave = Math.sin((cyclePosition - 0.35) * Math.PI / sWidth) * sAmplitude;
-                    y = centerY + sWave + (Math.random() - 0.5) * 3;
-                } else if (cyclePosition < 0.5) {
-                    // ST Segment - unique variation
-                    const stShift = (randomBaseline - 0.5) * 5;
-                    y = centerY + stShift + (Math.random() - 0.5) * 2;
-                } else if (cyclePosition < 0.6) {
-                    // T Wave - unique amplitude and width
-                    const tAmplitude = 8 + (randomT * 18); // 8-26
-                    const tWidth = 0.08 + (randomT * 0.04); // Variable width
-                    const tWave = Math.sin((cyclePosition - 0.5) * Math.PI / tWidth) * tAmplitude;
-                    y = centerY - tWave + (Math.random() - 0.5) * 3;
-                } else if (cyclePosition < 0.85) {
-                    // TP Segment - unique baseline variation
-                    const tpShift = (randomBaseline - 0.5) * 8;
-                    y = centerY + tpShift + (Math.random() - 0.5) * 4;
-                } else {
-                    // Transition to next cycle - unique variation
-                    const transitionShift = (randomBaseline - 0.5) * 6;
-                    y = centerY + transitionShift + (Math.random() - 0.5) * 3;
-                }
-                
-                // Add random noise to all segments
-                y += (Math.random() - 0.5) * 2;
-                
-                // Ensure y stays within bounds
-                y = Math.max(5, Math.min(height - 5, y));
-                
-                this.points.push(`L ${x} ${y}`);
-                x += 2;
-            }
-            
-            this.heartbeatLine.classList.remove('heartbeat-line-flat');
-            this.heartbeatLine.classList.add('heartbeat-line-alive');
-        }
-        
-        this.heartbeatLine.setAttribute('d', this.points.join(' '));
-    }
-}
-
-// ============================================================================
-// THEME AND MATRIX ANIMATION MODULE
-// ============================================================================
-
-class ThemeManager {
-    constructor() {
-        this.themeToggleBtn = document.getElementById('theme-toggle');
-        this.themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-        this.themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-        this.matrixCanvas = document.getElementById('matrix-bg');
-        this.matrixInterval = null;
-        
-        this.init();
-    }
-    
-    init() {
-        const isDarkMode = localStorage.getItem('theme') === 'dark';
-        this.setTheme(isDarkMode);
-        
-        this.themeToggleBtn.addEventListener('click', () => 
-            this.setTheme(!document.documentElement.classList.contains('dark'))
-        );
-        
-        window.addEventListener('resize', () => {
-            if (document.documentElement.classList.contains('dark')) {
-                this.startMatrixAnimation();
-            }
-        });
-    }
-    
-    startMatrixAnimation() {
-        // Matrix animation disabled for better performance
-        this.stopMatrixAnimation();
-        return;
-    }
-
-    stopMatrixAnimation() {
-        if (this.matrixInterval) clearInterval(this.matrixInterval);
-        this.matrixInterval = null;
-        this.matrixCanvas.style.display = 'none';
-    }
-
-    setTheme(isDark) {
-        if (isDark) {
-            document.documentElement.classList.add('dark');
-            this.themeToggleLightIcon.classList.remove('hidden');
-            this.themeToggleDarkIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'dark');
-            this.startMatrixAnimation();
-        } else {
-            document.documentElement.classList.remove('dark');
-            this.themeToggleDarkIcon.classList.remove('hidden');
-            this.themeToggleLightIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'light');
-            this.stopMatrixAnimation();
-        }
-    }
-}
 
 // ============================================================================
 // SCROLL PROGRESS INDICATOR
@@ -547,6 +270,68 @@ class TypewriterEffect {
 }
 
 // ============================================================================
+// HERO BACKDROP SLIDESHOW
+// ============================================================================
+
+class HeroSlideshow {
+    constructor() {
+        this.container = document.getElementById('hero-slideshow');
+        this.titleEl = document.getElementById('hero-now-playing-title');
+        if (!this.container) return;
+
+        this.slides = Array.from(this.container.querySelectorAll('.hero-bg-media'));
+        if (!this.slides.length) return;
+
+        this.currentIndex = 0;
+        this.intervalMs = 5500;
+        this.timer = null;
+
+        this.updateNowPlaying();
+
+        if (this.slides.length < 2) return;
+
+        this.init();
+    }
+
+    init() {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
+        this.preloadSlide(1);
+        this.timer = setInterval(() => this.next(), this.intervalMs);
+    }
+
+    updateNowPlaying() {
+        const slide = this.slides[this.currentIndex];
+        if (!slide || !this.titleEl) return;
+
+        const title = slide.dataset.title || 'Featured Project';
+        this.titleEl.style.opacity = '0';
+
+        requestAnimationFrame(() => {
+            this.titleEl.textContent = title;
+            this.titleEl.style.opacity = '1';
+        });
+    }
+
+    next() {
+        this.slides[this.currentIndex].classList.remove('is-active');
+        this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+        this.slides[this.currentIndex].classList.add('is-active');
+        this.updateNowPlaying();
+        this.preloadSlide((this.currentIndex + 1) % this.slides.length);
+    }
+
+    preloadSlide(index) {
+        const slide = this.slides[index];
+        if (!slide || slide.complete) return;
+        const img = new Image();
+        img.src = slide.getAttribute('src');
+    }
+}
+
+// ============================================================================
 // HEADER SCROLL & NAV ACTIVE STATE
 // ============================================================================
 
@@ -601,6 +386,7 @@ class ProjectFilter {
     constructor() {
         this.filters = document.querySelectorAll('.filter-tab');
         this.cards = document.querySelectorAll('.project-card[data-category]');
+        this.row = document.querySelector('.netflix-row');
         if (!this.filters.length) return;
         this.init();
     }
@@ -619,8 +405,16 @@ class ProjectFilter {
                         card.style.animation = 'fadeIn 0.4s ease-out both';
                     }
                 });
+
+                this.updateRowVisibility();
             });
         });
+    }
+
+    updateRowVisibility() {
+        if (!this.row) return;
+        const hasVisible = Array.from(this.cards).some(card => !card.classList.contains('hidden-filter'));
+        this.row.classList.toggle('row-hidden', !hasVisible);
     }
 }
 
@@ -647,7 +441,7 @@ class ParticleAnimation {
             particle.className = 'absolute rounded-full';
             particle.style.width = (Math.random() * 3 + 1) + 'px';
             particle.style.height = particle.style.width;
-            particle.style.background = `rgba(${Math.random() > 0.5 ? '6,182,212' : '139,92,246'}, ${Math.random() * 0.3 + 0.1})`;
+            particle.style.background = `rgba(229, 9, 20, ${Math.random() * 0.25 + 0.08})`;
             particle.style.left = Math.random() * 100 + '%';
             particle.style.top = Math.random() * 100 + '%';
             particle.style.animationDelay = Math.random() * 20 + 's';
@@ -1405,15 +1199,26 @@ class ImageModal {
         this.modal = document.getElementById('image-modal');
         this.modalImage = document.getElementById('modal-image');
         this.modalTitle = document.getElementById('modal-title');
+        this.modalStage = document.getElementById('modal-stage');
         this.closeModal = document.getElementById('close-modal');
+        this.fullscreenBtn = document.getElementById('modal-fullscreen');
         this.modalPrev = document.getElementById('modal-prev');
         this.modalNext = document.getElementById('modal-next');
-        this.projectImages = document.querySelectorAll('.project-image');
         
         this.currentModalSlides = [];
         this.currentModalSlideIndex = 0;
         
+        window.imageModalInstance = this;
         this.init();
+    }
+
+    updateFullscreenIcon() {
+        if (!this.fullscreenBtn) return;
+        const icon = this.fullscreenBtn.querySelector('i');
+        const isFullscreen = this.modalImage?.classList.contains('is-fullscreen');
+        if (icon) {
+            icon.className = isFullscreen ? 'fas fa-compress' : 'fas fa-expand';
+        }
     }
     
     init() {
@@ -1421,33 +1226,44 @@ class ImageModal {
         this.setupModalNavigation();
         this.setupModalCloseEvents();
     }
+
+    openProjectPreview(img) {
+        const imageSrc = img.getAttribute('data-modal-src') || img.src;
+        const title = img.getAttribute('data-title') || img.alt || 'Project Image';
+
+        if (img.classList.contains('bizbox-slide')) {
+            const slideshow = img.closest('.bizbox-slideshow');
+            const slides = slideshow.querySelectorAll('.bizbox-slide');
+            const slideIndex = Array.from(slides).indexOf(img);
+            openModal(imageSrc, title, slides, slideIndex);
+        } else {
+            openModal(imageSrc, title);
+        }
+    }
     
     setupImageClickHandlers() {
-        this.projectImages.forEach((img, index) => {
-            // Remove any existing click listeners
-            img.removeEventListener('click', img.clickHandler);
-            
-            // Create new click handler
-            img.clickHandler = (e) => {
+        document.querySelectorAll('.project-image-wrap').forEach((wrap) => {
+            const img = wrap.querySelector('.project-image');
+            if (!img || wrap.querySelector('.project-view-trigger')) return;
+
+            const title = img.getAttribute('data-title') || img.alt || 'Project';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'project-view-trigger';
+            btn.setAttribute('aria-label', `View ${title} full screen`);
+
+            const overlay = wrap.querySelector('.project-overlay');
+            if (overlay) {
+                btn.appendChild(overlay);
+            }
+
+            btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Image clicked:', img.src);
-                
-                const imageSrc = img.src;
-                const title = img.getAttribute('data-title') || 'Project Image';
-                
-                // Check if this is a Bizbox slideshow image
-                if (img.classList.contains('bizbox-slide')) {
-                    const slideshow = img.closest('.bizbox-slideshow');
-                    const slides = slideshow.querySelectorAll('.bizbox-slide');
-                    const slideIndex = Array.from(slides).indexOf(img);
-                    openModal(imageSrc, title, slides, slideIndex);
-                } else {
-                    openModal(imageSrc, title);
-                }
-            };
-            
-            img.addEventListener('click', img.clickHandler);
+                this.openProjectPreview(img);
+            });
+
+            wrap.appendChild(btn);
         });
     }
     
@@ -1471,6 +1287,23 @@ class ImageModal {
         if (this.closeModal) {
             this.closeModal.addEventListener('click', window.closeModalFunc);
         }
+
+        const closeFloating = document.getElementById('close-modal-floating');
+        if (closeFloating) {
+            closeFloating.addEventListener('click', window.closeModalFunc);
+        }
+
+        if (this.fullscreenBtn) {
+            this.fullscreenBtn.addEventListener('click', toggleModalFullscreen);
+        }
+
+        if (this.modalImage) {
+            this.modalImage.addEventListener('click', () => {
+                if (!isMobileView()) {
+                    toggleModalFullscreen();
+                }
+            });
+        }
         
         if (this.modal) {
             this.modal.addEventListener('click', (e) => {
@@ -1480,10 +1313,20 @@ class ImageModal {
             });
         }
 
-        // Close modal with Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !this.modal.classList.contains('hidden')) {
+            if (this.modal?.classList.contains('hidden')) return;
+
+            if (e.key === 'Escape') {
                 window.closeModalFunc();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleModalFullscreen();
+            }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && this.modalImage) {
+                this.modalImage.classList.remove('is-fullscreen');
+                this.updateFullscreenIcon();
             }
         });
     }
@@ -1618,15 +1461,14 @@ class DebugUtils {
 document.addEventListener('DOMContentLoaded', function() {
     try {
         // Critical, lightweight modules first
-        new ThemeManager();
         new ScrollProgress();
         new HeaderController();
         new MobileMenu();
         new AnimationController();
         new LoadingAnimations();
         new ImageModal();
-        new HeartbeatMonitor();
         new TypewriterEffect();
+        new HeroSlideshow();
 
         runWhenIdle(() => {
             new ParticleAnimation();
