@@ -696,6 +696,11 @@
                 
                 <div class="flex flex-col items-center content-to-animate">
                     <div class="glass-card p-8 mb-8 w-full max-w-md">
+                        <div class="game-first-move" id="firstMoveOptions" role="group" aria-label="Who moves first">
+                            <button type="button" class="game-first-move-btn active" data-first="player">You go first</button>
+                            <button type="button" class="game-first-move-btn" data-first="ai">AI goes first</button>
+                        </div>
+
                         <div class="status status--player" id="status">Your turn (X)</div>
                         
                         <div class="game-board" id="gameBoard">
@@ -714,12 +719,12 @@
                         
                         <div class="score-board">
                             <div class="score">
-                                <span class="player">You (X)</span>
-                                <span class="score-value" id="scoreX">0</span>
+                                <span class="player" id="scoreYouLabel">You (X)</span>
+                                <span class="score-value" id="scoreYou">0</span>
                             </div>
                             <div class="score">
-                                <span class="player">AI (O)</span>
-                                <span class="score-value" id="scoreO">0</span>
+                                <span class="player" id="scoreAILabel">AI (O)</span>
+                                <span class="score-value" id="scoreAI">0</span>
                             </div>
                         </div>
                     </div>
@@ -727,7 +732,8 @@
                     <div class="glass-card p-6 max-w-2xl w-full">
                         <h3 class="font-semibold mb-3" style="color: var(--text-primary);">How to Play</h3>
                         <ul class="space-y-2 text-sm" style="color: var(--text-secondary);">
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> You are X, the AI is O</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Choose who moves first — you or the AI</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> You are X when you go first; you play O when AI opens</li>
                             <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Take turns placing marks on the 3×3 grid</li>
                             <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> First to get three in a row wins!</li>
                         </ul>

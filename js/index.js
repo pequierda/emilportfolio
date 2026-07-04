@@ -1160,8 +1160,9 @@ Sent from your portfolio contact form
 class TicTacToe {
     constructor() {
         this.board = Array(9).fill('');
-        this.currentPlayer = 'X'; // Human player
-        this.aiPlayer = 'O'; // AI player
+        this.firstMover = 'player';
+        this.currentPlayer = 'X';
+        this.aiPlayer = 'O';
         this.gameActive = true;
         this.scores = { X: 0, O: 0 };
         this.isPlayerTurn = true;
@@ -1173,17 +1174,64 @@ class TicTacToe {
         this.cells = document.querySelectorAll('[data-cell]');
         this.statusElement = document.getElementById('status');
         this.restartBtn = document.getElementById('restartBtn');
-        this.scoreXElement = document.getElementById('scoreX');
-        this.scoreOElement = document.getElementById('scoreO');
+        this.scoreYouElement = document.getElementById('scoreYou');
+        this.scoreAIElement = document.getElementById('scoreAI');
+        this.scoreYouLabel = document.getElementById('scoreYouLabel');
+        this.scoreAILabel = document.getElementById('scoreAILabel');
+        this.firstMoveOptions = document.getElementById('firstMoveOptions');
         
         this.cells.forEach((cell, index) => {
             cell.addEventListener('click', () => this.handleCellClick(index));
         });
         
         this.restartBtn.addEventListener('click', () => this.restartGame());
-        
-        this.updateStatus();
+        this.setupFirstMoveOptions();
+        this.applyRoles();
         this.updateScores();
+        this.startTurn();
+    }
+
+    setupFirstMoveOptions() {
+        if (!this.firstMoveOptions) return;
+
+        this.firstMoveOptions.querySelectorAll('.game-first-move-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const choice = btn.dataset.first;
+                if (choice === this.firstMover) return;
+
+                this.firstMover = choice;
+                this.firstMoveOptions.querySelectorAll('.game-first-move-btn').forEach(option => {
+                    option.classList.toggle('active', option.dataset.first === choice);
+                });
+                this.restartGame();
+            });
+        });
+    }
+
+    applyRoles() {
+        if (this.firstMover === 'player') {
+            this.currentPlayer = 'X';
+            this.aiPlayer = 'O';
+        } else {
+            this.currentPlayer = 'O';
+            this.aiPlayer = 'X';
+        }
+
+        this.isPlayerTurn = this.firstMover === 'player';
+        this.updateScoreLabels();
+    }
+
+    updateScoreLabels() {
+        if (this.scoreYouLabel) this.scoreYouLabel.textContent = `You (${this.currentPlayer})`;
+        if (this.scoreAILabel) this.scoreAILabel.textContent = `AI (${this.aiPlayer})`;
+    }
+
+    startTurn() {
+        this.updateStatus();
+
+        if (this.gameActive && !this.isPlayerTurn) {
+            setTimeout(() => this.aiMove(), 500);
+        }
     }
     
     handleCellClick(index) {
@@ -1360,23 +1408,21 @@ class TicTacToe {
     }
     
     updateScores() {
-        this.scoreXElement.textContent = this.scores.X;
-        this.scoreOElement.textContent = this.scores.O;
+        if (this.scoreYouElement) this.scoreYouElement.textContent = this.scores[this.currentPlayer];
+        if (this.scoreAIElement) this.scoreAIElement.textContent = this.scores[this.aiPlayer];
     }
     
     restartGame() {
         this.board = Array(9).fill('');
-        this.currentPlayer = 'X';
-        this.aiPlayer = 'O';
         this.gameActive = true;
-        this.isPlayerTurn = true;
         
         this.cells.forEach(cell => {
             cell.textContent = '';
             cell.classList.remove('x', 'o', 'winning');
         });
-        
-        this.updateStatus();
+
+        this.applyRoles();
+        this.startTurn();
     }
 }
 

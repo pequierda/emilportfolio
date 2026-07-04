@@ -1585,6 +1585,37 @@ body.modal-open #floatingShareBtn {
     border-color: rgba(255, 255, 255, 0.28);
 }
 
+.game-first-move {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.game-first-move-btn {
+    padding: 0.55rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #b3b3b3;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.game-first-move-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.game-first-move-btn.active {
+    color: #fff;
+    background: var(--accent-red);
+    border-color: var(--accent-red);
+}
+
 .game-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
