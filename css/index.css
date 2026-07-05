@@ -1541,6 +1541,33 @@ body.modal-open #floatingShareBtn {
 .animate-float { animation: float 6s ease-in-out infinite; }
 
 /* ============================================================================
+   CONTACT FORM
+   ============================================================================ */
+
+.contact-fallback {
+    color: var(--text-muted);
+}
+
+.contact-email-link {
+    color: var(--accent-red);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.contact-email-link:hover {
+    text-decoration: underline;
+}
+
+.contact-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ============================================================================
    TIC-TAC-TOE
    ============================================================================ */
 

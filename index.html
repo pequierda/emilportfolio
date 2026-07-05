@@ -782,6 +782,7 @@
                         <h3 class="font-display text-xl font-bold mb-6" style="color: var(--text-primary);">Send Me a Message</h3>
                         
                         <form id="contactForm" class="space-y-5">
+                            <input type="checkbox" name="botcheck" class="contact-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
                                     <label for="name" class="form-label">Name *</label>
@@ -806,6 +807,10 @@
                             </button>
                             <div id="formMessage" class="hidden p-4 rounded-xl text-center font-medium text-sm"></div>
                         </form>
+                        <p class="contact-fallback text-sm text-center mt-4">
+                            Or email me directly at
+                            <a href="mailto:e.pequierda@yahoo.com" class="contact-email-link">e.pequierda@yahoo.com</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -861,6 +866,7 @@
     </div>
 
     <!-- External JavaScript -->
+    <script src="js/contact-config.js"></script>
     <script src="js/index.js" defer></script>
 
 </body>

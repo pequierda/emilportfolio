@@ -995,6 +995,7 @@ class ContactForm {
         this.submitText = document.getElementById('submitText');
         this.submitLoading = document.getElementById('submitLoading');
         this.formMessage = document.getElementById('formMessage');
+        this.config = window.CONTACT_FORM_CONFIG || {};
         
         if (this.form) {
             this.init();
@@ -1004,16 +1005,30 @@ class ContactForm {
     init() {
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     }
+
+    getAccessKey() {
+        return (this.config.accessKey || '').trim();
+    }
     
     async handleSubmit(e) {
         e.preventDefault();
+
+        const accessKey = this.getAccessKey();
+        if (!accessKey) {
+            this.showMessage(
+                'Contact form is not set up yet. Add your free Web3Forms key in js/contact-config.js, or email e.pequierda@yahoo.com directly.',
+                'error'
+            );
+            return;
+        }
         
         const formData = new FormData(this.form);
         const data = {
             name: formData.get('name'),
             email: formData.get('email'),
             subject: formData.get('subject'),
-            message: formData.get('message')
+            message: formData.get('message'),
+            botcheck: formData.get('botcheck') || '',
         };
         
         if (!this.validateForm(data)) {
@@ -1024,38 +1039,41 @@ class ContactForm {
         this.hideMessage();
         
         try {
-            const response = await fetch('/api/contact', {
+            const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Accept: 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    access_key: accessKey,
+                    name: data.name.trim(),
+                    email: data.email.trim(),
+                    subject: `Portfolio Contact: ${data.subject.trim()}`,
+                    message: data.message.trim(),
+                    botcheck: data.botcheck,
+                    from_name: 'Emil Portfolio',
+                }),
             });
-            
-            let result = null;
-            try {
-                result = await response.json();
-            } catch (parseError) {
-                console.error('Contact API response parse error:', parseError);
-            }
-            
-            if (response.ok && result?.success) {
-                this.showMessage(result.message || 'Message sent successfully! I will get back to you soon.', 'success');
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                this.showMessage('Message sent successfully! I will get back to you soon.', 'success');
                 this.form.reset();
                 return;
             }
 
-            const serverError = result?.error || 'Server could not send your message.';
-            console.warn('Server contact delivery failed:', serverError);
-            await this.sendEmailClientSide(data, serverError);
+            this.showMessage(
+                result.message || 'Could not send your message. Please try again or email e.pequierda@yahoo.com.',
+                'error'
+            );
         } catch (error) {
             console.error('Contact form error:', error);
-            try {
-                await this.sendEmailClientSide(data);
-            } catch (clientError) {
-                console.error('Client-side contact delivery failed:', clientError);
-                this.showMessage('Could not send your message. Please email e.pequierda@yahoo.com directly.', 'error');
-            }
+            this.showMessage(
+                'Network error. Please check your connection or email e.pequierda@yahoo.com directly.',
+                'error'
+            );
         } finally {
             this.setLoadingState(false);
         }
@@ -1127,51 +1145,6 @@ class ContactForm {
     
     hideMessage() {
         this.formMessage.classList.add('hidden');
-    }
-    
-    async sendEmailClientSide(data, serverError = '') {
-        try {
-            const response = await fetch('https://formsubmit.co/ajax/e.pequierda@yahoo.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify({
-                    name: data.name,
-                    email: data.email,
-                    subject: data.subject,
-                    message: data.message,
-                    _subject: `Portfolio Contact: ${data.subject}`,
-                    _template: 'table',
-                    _captcha: 'false',
-                }),
-            });
-
-            const result = await response.json();
-            const succeeded = result.success === true || result.success === 'true';
-
-            if (succeeded) {
-                this.showMessage('Message sent successfully! I will get back to you soon.', 'success');
-                this.form.reset();
-                return;
-            }
-        } catch (error) {
-            console.error('FormSubmit client fallback failed:', error);
-        }
-
-        const subject = encodeURIComponent(`Portfolio Contact: ${data.subject}`);
-        const body = encodeURIComponent(
-            `Name: ${data.name}\nEmail: ${data.email}\nSubject: ${data.subject}\n\nMessage:\n${data.message}\n\n---\nSent from your portfolio contact form`
-        );
-
-        window.location.href = `mailto:e.pequierda@yahoo.com?subject=${subject}&body=${body}`;
-
-        const hint = serverError
-            ? `${serverError} Your email app was opened as a backup — please tap Send there.`
-            : 'Your email app was opened. Please tap Send to deliver the message.';
-        this.showMessage(hint, 'error');
-        this.form.reset();
     }
 }
 
