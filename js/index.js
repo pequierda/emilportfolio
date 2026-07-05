@@ -1016,17 +1016,14 @@ class ContactForm {
             message: formData.get('message')
         };
         
-        // Validate form
         if (!this.validateForm(data)) {
             return;
         }
         
-        // Show loading state
         this.setLoadingState(true);
         this.hideMessage();
         
         try {
-            // Try server-side API first
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
@@ -1035,24 +1032,29 @@ class ContactForm {
                 body: JSON.stringify(data)
             });
             
-            const result = await response.json();
-            
-            if (result.success) {
-                this.showMessage(result.message, 'success');
-                this.form.reset();
-            } else {
-                // If server-side fails, try client-side email
-                console.log('Server-side email failed, trying client-side...');
-                await this.sendEmailClientSide(data);
+            let result = null;
+            try {
+                result = await response.json();
+            } catch (parseError) {
+                console.error('Contact API response parse error:', parseError);
             }
+            
+            if (response.ok && result?.success) {
+                this.showMessage(result.message || 'Message sent successfully! I will get back to you soon.', 'success');
+                this.form.reset();
+                return;
+            }
+
+            const serverError = result?.error || 'Server could not send your message.';
+            console.warn('Server contact delivery failed:', serverError);
+            await this.sendEmailClientSide(data, serverError);
         } catch (error) {
             console.error('Contact form error:', error);
-            // If all else fails, try client-side email
             try {
                 await this.sendEmailClientSide(data);
             } catch (clientError) {
-                console.error('Client-side email also failed:', clientError);
-                this.showMessage('Network error. Please check your connection and try again.', 'error');
+                console.error('Client-side contact delivery failed:', clientError);
+                this.showMessage('Could not send your message. Please email e.pequierda@yahoo.com directly.', 'error');
             }
         } finally {
             this.setLoadingState(false);
@@ -1127,28 +1129,48 @@ class ContactForm {
         this.formMessage.classList.add('hidden');
     }
     
-    async sendEmailClientSide(data) {
-        // Simple client-side email using mailto fallback
+    async sendEmailClientSide(data, serverError = '') {
+        try {
+            const response = await fetch('https://formsubmit.co/ajax/e.pequierda@yahoo.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                body: JSON.stringify({
+                    name: data.name,
+                    email: data.email,
+                    subject: data.subject,
+                    message: data.message,
+                    _subject: `Portfolio Contact: ${data.subject}`,
+                    _template: 'table',
+                    _captcha: 'false',
+                }),
+            });
+
+            const result = await response.json();
+            const succeeded = result.success === true || result.success === 'true';
+
+            if (succeeded) {
+                this.showMessage('Message sent successfully! I will get back to you soon.', 'success');
+                this.form.reset();
+                return;
+            }
+        } catch (error) {
+            console.error('FormSubmit client fallback failed:', error);
+        }
+
         const subject = encodeURIComponent(`Portfolio Contact: ${data.subject}`);
-        const body = encodeURIComponent(`
-Name: ${data.name}
-Email: ${data.email}
-Subject: ${data.subject}
+        const body = encodeURIComponent(
+            `Name: ${data.name}\nEmail: ${data.email}\nSubject: ${data.subject}\n\nMessage:\n${data.message}\n\n---\nSent from your portfolio contact form`
+        );
 
-Message:
-${data.message}
+        window.location.href = `mailto:e.pequierda@yahoo.com?subject=${subject}&body=${body}`;
 
----
-Sent from your portfolio contact form
-        `);
-        
-        const mailtoLink = `mailto:e.pequierda@yahoo.com?subject=${subject}&body=${body}`;
-        
-        // Try to open email client
-        window.location.href = mailtoLink;
-        
-        // Show success message
-        this.showMessage('Email client opened! Please send the email manually.', 'success');
+        const hint = serverError
+            ? `${serverError} Your email app was opened as a backup — please tap Send there.`
+            : 'Your email app was opened. Please tap Send to deliver the message.';
+        this.showMessage(hint, 'error');
         this.form.reset();
     }
 }
