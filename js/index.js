@@ -1068,9 +1068,15 @@ class SiteFeatures {
         if (!number) return '';
 
         if (number.startsWith('0')) {
-            number = `63${number.slice(1)}`;
-        } else if (number.length === 10 && number.startsWith('9')) {
-            number = `63${number}`;
+            number = number.slice(1);
+        }
+
+        if (number.startsWith('63')) {
+            return number;
+        }
+
+        if (number.length === 10 && number.startsWith('9')) {
+            return `63${number}`;
         }
 
         return number;

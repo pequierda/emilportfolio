@@ -1,7 +1,7 @@
 /**
  * Site links — update with your real URLs
  * Calendly: https://calendly.com → create free account → copy your event link
- * WhatsApp: country code + number, no + or spaces (e.g. 639171234567)
+ * WhatsApp: use 10-digit mobile (9293575217) or full intl (639293575217). Do not use leading 0.
  */
 window.SITE_CONFIG = {
     calendlyUrl: 'https://calendly.com/emilpequierda/30min',
