@@ -5,7 +5,7 @@
  */
 window.SITE_CONFIG = {
     calendlyUrl: 'https://calendly.com/emilpequierda/30min',
-    whatsappNumber: '0639293575217',
+    whatsappNumber: '9293575217',
     messengerUrl: 'https://m.me/pequierda123',
     whatsappMessage: 'Hi Emil, I found your portfolio and would like to discuss a project.',
 };
