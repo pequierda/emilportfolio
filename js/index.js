@@ -956,20 +956,21 @@ class LoadingAnimations {
         this.addPageTransitions();
     }
     addPageTransitions() {
-        // Add smooth transitions to all links
-        const links = document.querySelectorAll('a[href^="#"]');
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href && href !== '#') {
-                    e.preventDefault();
-                    this.smoothScrollTo(href);
-                }
-            });
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+
+            const href = link.getAttribute('href');
+            if (!href || !href.startsWith('#') || href === '#') return;
+
+            e.preventDefault();
+            this.smoothScrollTo(href);
         });
     }
     
     smoothScrollTo(target) {
+        if (!target?.startsWith('#')) return;
+
         const element = document.querySelector(target);
         if (!element) return;
 
@@ -1054,7 +1055,7 @@ class SiteFeatures {
     }
 
     getChatUrl() {
-        const number = (this.config.whatsappNumber || '').replace(/\D/g, '');
+        const number = this.normalizeWhatsAppNumber(this.config.whatsappNumber);
         if (number) {
             const message = encodeURIComponent(this.config.whatsappMessage || '');
             return `https://wa.me/${number}${message ? `?text=${message}` : ''}`;
@@ -1062,8 +1063,21 @@ class SiteFeatures {
         return (this.config.messengerUrl || '').trim();
     }
 
+    normalizeWhatsAppNumber(raw) {
+        let number = (raw || '').replace(/\D/g, '');
+        if (!number) return '';
+
+        if (number.startsWith('0')) {
+            number = `63${number.slice(1)}`;
+        } else if (number.length === 10 && number.startsWith('9')) {
+            number = `63${number}`;
+        }
+
+        return number;
+    }
+
     isWhatsAppChat() {
-        return Boolean((this.config.whatsappNumber || '').replace(/\D/g, ''));
+        return Boolean(this.normalizeWhatsAppNumber(this.config.whatsappNumber));
     }
 
     initChatLinks() {
