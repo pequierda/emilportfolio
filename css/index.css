@@ -1301,7 +1301,6 @@ html.site-loading #loadingScreen {
     0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4); }
     50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(229, 9, 20, 0); }
 }
-
 /* ============================================================================
    MODAL
    ============================================================================ */
@@ -1393,7 +1392,11 @@ html.site-loading #loadingScreen {
 }
 
 body.modal-open .site-header,
-body.modal-open #floatingShareBtn {
+body.modal-open #floatingShareBtn,
+body.modal-open #floatingChatBtn,
+body.service-modal-open .site-header,
+body.service-modal-open #floatingShareBtn,
+body.service-modal-open #floatingChatBtn {
     display: none;
 }
 
@@ -1565,6 +1568,310 @@ body.modal-open #floatingShareBtn {
     height: 1px;
     opacity: 0;
     pointer-events: none;
+}
+
+/* ============================================================================
+   SERVICES
+   ============================================================================ */
+
+.services-row {
+    padding-bottom: 2.5rem;
+}
+
+.service-card {
+    flex: 0 0 clamp(240px, 32vw, 300px);
+    scroll-snap-align: start;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color var(--transition-fast), box-shadow var(--transition-fast);
+    touch-action: manipulation;
+}
+
+.service-card:hover,
+.service-card:focus-visible {
+    transform: scale(1.05);
+    border-color: rgba(229, 9, 20, 0.45);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+    outline: none;
+}
+
+.service-card-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-sm);
+    background: rgba(229, 9, 20, 0.15);
+    color: var(--accent-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.service-card-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.03em;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.service-card-desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #b3b3b3;
+    margin-bottom: 1rem;
+    min-height: 4.25rem;
+}
+
+.service-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.service-card-cta i {
+    font-size: 0.65rem;
+    transition: transform var(--transition-fast);
+}
+
+.service-card:hover .service-card-cta i {
+    transform: translateX(3px);
+}
+
+.service-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.service-modal.hidden {
+    display: none;
+}
+
+.service-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(4px);
+}
+
+.service-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 32rem);
+    max-height: min(90vh, 640px);
+    overflow-y: auto;
+    background: #181818;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.service-modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.service-modal-close:hover {
+    background: rgba(229, 9, 20, 0.35);
+}
+
+.service-modal-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-sm);
+    background: rgba(229, 9, 20, 0.18);
+    color: var(--accent-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.service-modal-title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    letter-spacing: 0.04em;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+}
+
+.service-modal-tagline {
+    font-size: 0.9375rem;
+    color: var(--accent-red);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.service-modal-body {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: #b3b3b3;
+    margin-bottom: 1rem;
+}
+
+.service-modal-list {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+}
+
+.service-modal-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #d4d4d4;
+    margin-bottom: 0.5rem;
+}
+
+.service-modal-list li i {
+    color: var(--accent-emerald);
+    margin-top: 0.15rem;
+}
+
+.service-modal-timeline {
+    font-size: 0.8125rem;
+    color: #808080;
+    margin-bottom: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.service-modal-actions {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.service-modal-actions .btn-primary,
+.service-modal-actions .btn-secondary {
+    width: 100%;
+}
+
+.btn-book {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================================================
+   CONTACT QUICK ACTIONS
+   ============================================================================ */
+
+.contact-quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+}
+
+@media (max-width: 480px) {
+    .contact-quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contact-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.contact-action-btn:hover {
+    transform: scale(1.02);
+}
+
+.contact-action-btn--primary {
+    background: var(--accent-red);
+    color: #fff;
+}
+
+.contact-action-btn--primary:hover {
+    background: var(--accent-red-dark);
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.35);
+}
+
+.contact-action-btn--chat {
+    background: #25d366;
+    color: #fff;
+}
+
+.contact-action-btn--chat.is-messenger {
+    background: linear-gradient(135deg, #0084ff, #00c6ff);
+}
+
+.contact-action-btn--chat:hover {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+}
+
+.contact-action-btn--chat.is-messenger:hover {
+    box-shadow: 0 4px 20px rgba(0, 132, 255, 0.35);
+}
+
+/* ============================================================================
+   FLOATING CHAT
+   ============================================================================ */
+
+.floating-chat-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    z-index: 40;
+}
+
+.floating-chat-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    text-decoration: none;
+}
+
+.floating-chat-link.is-messenger {
+    background: linear-gradient(135deg, #0084ff, #00c6ff);
+    box-shadow: 0 4px 20px rgba(0, 132, 255, 0.4);
+}
+
+.floating-chat-link:hover {
+    transform: scale(1.08);
 }
 
 /* ============================================================================
@@ -1872,7 +2179,8 @@ body.modal-open #floatingShareBtn {
     .netflix-section-head,
     .row-title,
     .filter-tabs,
-    .cast-row {
+    .cast-row,
+    .services-row {
         padding-left: 1rem;
         padding-right: 1rem;
     }
@@ -1922,6 +2230,24 @@ body.modal-open #floatingShareBtn {
 
     .project-card:hover {
         transform: none;
+    }
+
+    .service-card {
+        flex: 0 0 min(78vw, 280px);
+    }
+
+    .service-card:hover {
+        transform: none;
+    }
+
+    .floating-chat-btn {
+        bottom: 1rem;
+        left: 1rem;
+    }
+
+    #floatingShareBtn {
+        bottom: 1rem;
+        right: 1rem;
     }
 
     .filter-tabs {

@@ -985,6 +985,215 @@ class LoadingAnimations {
 }
 
 // ============================================================================
+// SERVICES & BOOKING
+// ============================================================================
+
+const SERVICE_DETAILS = {
+    'web-apps': {
+        icon: 'fa-laptop-code',
+        title: 'Custom Web Applications',
+        tagline: 'Software shaped around how you work',
+        body: 'I design and build web-based business systems — patient schedulers, dental clinics, travel agencies, and more — using PHP, JavaScript, and MySQL with clean, maintainable code.',
+        includes: [
+            'Requirements gathering & planning',
+            'Custom UI aligned to your brand',
+            'Database design & reporting',
+            'Deployment and handover support',
+        ],
+        timeline: 'Typical timeline: 2–8 weeks depending on scope',
+    },
+    bizbox: {
+        icon: 'fa-file-code',
+        title: 'Bizbox Scripts & RDL Reports',
+        tagline: 'Automation inside your existing Bizbox stack',
+        body: 'Extend Bizbox with custom scripts, departmental item cleanup, price generators, and RDL reports — without replacing the systems you already rely on.',
+        includes: [
+            'Bizbox script development',
+            'RDL report design & fixes',
+            'Departmental data cleanup tools',
+            'Pricing & markup automation',
+        ],
+        timeline: 'Typical timeline: 3 days – 3 weeks per deliverable',
+    },
+    'warehouse-pos': {
+        icon: 'fa-warehouse',
+        title: 'Warehouse & POS Systems',
+        tagline: 'Real-time inventory and sales control',
+        body: 'Complete warehouse and point-of-sale solutions with stock tracking, categorization, movement logs, and sales analytics — built for retail and distribution teams.',
+        includes: [
+            'Stock in / out tracking',
+            'POS with inventory sync',
+            'Low-stock alerts & reports',
+            'Multi-user access controls',
+        ],
+        timeline: 'Typical timeline: 4–10 weeks for full systems',
+    },
+    infrastructure: {
+        icon: 'fa-network-wired',
+        title: 'IT Infrastructure',
+        tagline: 'On-site setup and hands-on support',
+        body: 'Beyond software — I configure office networks, install CCTV systems, and provide IT consulting for businesses in Puerto Princesa and remote clients across the Philippines.',
+        includes: [
+            'CCTV system installation',
+            'LAN / Wi-Fi network setup',
+            'Workstation & printer troubleshooting',
+            'IT consulting & recommendations',
+        ],
+        timeline: 'Typical timeline: 1–5 days for on-site work',
+    },
+};
+
+class SiteFeatures {
+    constructor() {
+        this.config = window.SITE_CONFIG || {};
+        this.serviceModal = document.getElementById('service-modal');
+        this.initChatLinks();
+        this.initBookingButtons();
+        this.initServiceCards();
+        this.initServiceModal();
+    }
+
+    getChatUrl() {
+        const number = (this.config.whatsappNumber || '').replace(/\D/g, '');
+        if (number) {
+            const message = encodeURIComponent(this.config.whatsappMessage || '');
+            return `https://wa.me/${number}${message ? `?text=${message}` : ''}`;
+        }
+        return (this.config.messengerUrl || '').trim();
+    }
+
+    isWhatsAppChat() {
+        return Boolean((this.config.whatsappNumber || '').replace(/\D/g, ''));
+    }
+
+    initChatLinks() {
+        const chatUrl = this.getChatUrl();
+        const isWhatsApp = this.isWhatsAppChat();
+        const floatingWrap = document.getElementById('floatingChatBtn');
+        const floatingLink = document.getElementById('floatingChatLink');
+        const floatingIcon = document.getElementById('floatingChatIcon');
+        const contactChatBtn = document.getElementById('contactChatBtn');
+        const contactChatIcon = document.getElementById('contactChatIcon');
+        const contactChatLabel = document.getElementById('contactChatLabel');
+
+        if (!chatUrl) {
+            if (floatingWrap) floatingWrap.hidden = true;
+            if (contactChatBtn) contactChatBtn.style.display = 'none';
+            return;
+        }
+
+        const label = isWhatsApp ? 'Chat on WhatsApp' : 'Chat on Messenger';
+        const iconClass = isWhatsApp ? 'fab fa-whatsapp' : 'fab fa-facebook-messenger';
+        const extraClass = isWhatsApp ? '' : 'is-messenger';
+
+        if (floatingWrap && floatingLink) {
+            floatingWrap.hidden = false;
+            floatingLink.href = chatUrl;
+            floatingLink.classList.toggle('is-messenger', !isWhatsApp);
+            floatingLink.setAttribute('aria-label', label);
+            if (floatingIcon) floatingIcon.className = iconClass;
+        }
+
+        if (contactChatBtn) {
+            contactChatBtn.href = chatUrl;
+            contactChatBtn.classList.toggle('is-messenger', !isWhatsApp);
+            if (contactChatIcon) contactChatIcon.className = iconClass;
+            if (contactChatLabel) contactChatLabel.textContent = label;
+        }
+    }
+
+    initBookingButtons() {
+        document.querySelectorAll('[data-book-call]').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openBooking();
+            });
+        });
+    }
+
+    openBooking() {
+        const url = (this.config.calendlyUrl || '').trim();
+
+        if (!url) {
+            this.closeServiceModal();
+            const contact = document.getElementById('contact');
+            if (contact) {
+                contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            return;
+        }
+
+        if (window.Calendly) {
+            window.Calendly.initPopupWidget({ url });
+            return;
+        }
+
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    initServiceCards() {
+        document.querySelectorAll('.service-card[data-service]').forEach((card) => {
+            const open = () => this.openServiceModal(card.dataset.service);
+            card.addEventListener('click', open);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    open();
+                }
+            });
+        });
+    }
+
+    initServiceModal() {
+        document.querySelectorAll('[data-close-service-modal]').forEach((el) => {
+            el.addEventListener('click', () => this.closeServiceModal());
+        });
+
+        const contactLink = document.querySelector('[data-close-service-modal-link]');
+        if (contactLink) {
+            contactLink.addEventListener('click', () => this.closeServiceModal());
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') this.closeServiceModal();
+        });
+    }
+
+    openServiceModal(serviceId) {
+        const data = SERVICE_DETAILS[serviceId];
+        if (!data || !this.serviceModal) return;
+
+        const iconWrap = document.getElementById('service-modal-icon');
+        const title = document.getElementById('service-modal-title');
+        const tagline = document.getElementById('service-modal-tagline');
+        const body = document.getElementById('service-modal-body');
+        const list = document.getElementById('service-modal-list');
+        const timeline = document.getElementById('service-modal-timeline');
+
+        if (iconWrap) iconWrap.innerHTML = `<i class="fas ${data.icon}"></i>`;
+        if (title) title.textContent = data.title;
+        if (tagline) tagline.textContent = data.tagline;
+        if (body) body.textContent = data.body;
+        if (timeline) timeline.textContent = data.timeline;
+
+        if (list) {
+            list.innerHTML = data.includes
+                .map((item) => `<li><i class="fas fa-check-circle"></i><span>${item}</span></li>`)
+                .join('');
+        }
+
+        this.serviceModal.classList.remove('hidden');
+        document.body.classList.add('service-modal-open');
+    }
+
+    closeServiceModal() {
+        if (!this.serviceModal) return;
+        this.serviceModal.classList.add('hidden');
+        document.body.classList.remove('service-modal-open');
+    }
+}
+
+// ============================================================================
 // CONTACT FORM SYSTEM
 // ============================================================================
 
@@ -1711,6 +1920,7 @@ document.addEventListener('DOMContentLoaded', function() {
         new HeaderController();
         new MobileMenu();
         new LoadingAnimations();
+        new SiteFeatures();
         new ImageModal();
         new TypewriterEffect();
         new HeroSlideshow();

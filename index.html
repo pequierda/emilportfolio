@@ -41,7 +41,7 @@
 <body class="netflix-theme antialiased transition-all duration-500 relative overflow-x-hidden site-loading">
     
     <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center" style="background: var(--bg-primary);">
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center">
         <div class="text-center">
             <div class="loading-logo mx-auto mb-6">EL</div>
             <p class="text-sm font-mono tracking-widest uppercase" style="color: var(--text-muted);">Loading</p>
@@ -61,6 +61,7 @@
                 <nav class="netflix-nav hidden md:flex" id="main-nav">
                     <a href="#home" data-section="home">Home</a>
                     <a href="#about" data-section="about">About</a>
+                    <a href="#services" data-section="services">Services</a>
                     <a href="#cast" data-section="cast">Cast</a>
                     <a href="#projects" data-section="projects">Projects</a>
                     <a href="#contact" data-section="contact">Contact</a>
@@ -76,6 +77,7 @@
             <div class="flex flex-col gap-1">
                 <a href="#home">Home</a>
                 <a href="#about">About</a>
+                <a href="#services">Services</a>
                 <a href="#cast">Cast</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
@@ -131,6 +133,10 @@
                         <i class="fas fa-play"></i>
                         View My Work
                     </a>
+                    <button type="button" class="btn-secondary btn-book" data-book-call>
+                        <i class="fas fa-calendar-check"></i>
+                        Book a Call
+                    </button>
                     <a href="#contact" class="btn-secondary btn-info">
                         <i class="fas fa-info-circle"></i>
                         More Info
@@ -210,6 +216,41 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="services" class="netflix-section animate-container">
+            <div class="netflix-section-head content-to-animate">
+                <span class="section-label">Browse</span>
+                <h2 class="section-title">What I Build</h2>
+                <p class="section-subtitle">End-to-end solutions for businesses across the Philippines — tap a card for details.</p>
+            </div>
+
+            <div class="row-slider services-row content-to-animate" id="services-row">
+                <article class="service-card" data-service="web-apps" tabindex="0" role="button" aria-label="Custom Web Applications — view details">
+                    <div class="service-card-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3 class="service-card-title">Custom Web Apps</h3>
+                    <p class="service-card-desc">Business systems built around your workflow — from idea to deployment.</p>
+                    <span class="service-card-cta">Learn more <i class="fas fa-chevron-right"></i></span>
+                </article>
+                <article class="service-card" data-service="bizbox" tabindex="0" role="button" aria-label="Bizbox Scripts and RDL — view details">
+                    <div class="service-card-icon"><i class="fas fa-file-code"></i></div>
+                    <h3 class="service-card-title">Bizbox &amp; RDL</h3>
+                    <p class="service-card-desc">Scripts, reports, and automation inside your existing Bizbox environment.</p>
+                    <span class="service-card-cta">Learn more <i class="fas fa-chevron-right"></i></span>
+                </article>
+                <article class="service-card" data-service="warehouse-pos" tabindex="0" role="button" aria-label="Warehouse and POS Systems — view details">
+                    <div class="service-card-icon"><i class="fas fa-warehouse"></i></div>
+                    <h3 class="service-card-title">Warehouse &amp; POS</h3>
+                    <p class="service-card-desc">Inventory, sales, and stock tracking with real-time reporting.</p>
+                    <span class="service-card-cta">Learn more <i class="fas fa-chevron-right"></i></span>
+                </article>
+                <article class="service-card" data-service="infrastructure" tabindex="0" role="button" aria-label="IT Infrastructure — view details">
+                    <div class="service-card-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="service-card-title">IT Infrastructure</h3>
+                    <p class="service-card-desc">CCTV installation, network setup, and on-site IT support.</p>
+                    <span class="service-card-cta">Learn more <i class="fas fa-chevron-right"></i></span>
+                </article>
             </div>
         </section>
 
@@ -729,59 +770,31 @@
                         </div>
                     </div>
 
-                    <div class="glass-card p-6 max-w-2xl w-full">
-                        <h3 class="font-semibold mb-3" style="color: var(--text-primary);">How to Play</h3>
-                        <ul class="space-y-2 text-sm" style="color: var(--text-secondary);">
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Choose who moves first — you or the AI</li>
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> You are X when you go first; you play O when AI opens</li>
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> Take turns placing marks on the 3×3 grid</li>
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i> First to get three in a row wins!</li>
-                        </ul>
-                    </div>
+                  
                 </div>
             </div>
         </section>
 
 
         <section id="contact" class="py-24 lg:py-32 animate-container">
-            <div class="max-w-5xl mx-auto">
-                <div class="mb-16 content-to-animate">
+            <div class="max-w-xl mx-auto px-4">
+                <div class="glass-card p-8 content-to-animate">
                     <span class="section-label">Contact</span>
-                    <h2 class="section-title mb-4">Let's Connect</h2>
-                    <p class="section-subtitle">I'm currently open to new opportunities and collaborations. Let's discuss how we can work together!</p>
-                </div>
-                
-                <div class="contact-layout content-to-animate">
-                    <div>
-                        <div class="relative mb-8 max-w-xs">
-                            <div class="portrait-glow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-                            <div class="portrait-frame">
-                                <img src="images/me.png" alt="Emil Lawrence" loading="lazy" decoding="async" class="w-full aspect-square object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="hidden w-full aspect-square items-center justify-center font-display text-2xl font-bold" style="background: var(--gradient-brand); color: white;">EL</div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="font-display text-xl font-bold mb-3" style="color: var(--text-primary);">Ready to Start a Project?</h3>
-                        <p class="leading-relaxed mb-6" style="color: var(--text-secondary);">
-                            Whether you need custom software development or IT consulting, I'm here to help bring your ideas to life.
-                        </p>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-3" style="color: var(--text-secondary);">
-                                <div class="bento-icon" style="background: rgba(6,182,212,0.1); color: var(--accent-cyan); width: 2.5rem; height: 2.5rem; margin: 0;"><i class="fas fa-envelope"></i></div>
-                                <span class="font-medium text-sm">Available for new opportunities</span>
-                            </div>
-                            <div class="flex items-center gap-3" style="color: var(--text-secondary);">
-                                <div class="bento-icon" style="background: rgba(139,92,246,0.1); color: var(--accent-violet); width: 2.5rem; height: 2.5rem; margin: 0;"><i class="fas fa-map-marker-alt"></i></div>
-                                <span class="font-medium text-sm">Remote & on-site near Puerto Princesa City</span>
-                            </div>
-                        </div>
+                    <h2 class="section-title mb-2">Send a Message</h2>
+                    <p class="text-sm mb-6" style="color: var(--text-secondary);">Have a project in mind? Fill out the form or reach out directly.</p>
+
+                    <div class="contact-quick-actions mb-6">
+                        <button type="button" class="contact-action-btn contact-action-btn--primary" data-book-call>
+                            <i class="fas fa-calendar-check"></i>
+                            Book a Call
+                        </button>
+                        <a href="#" class="contact-action-btn contact-action-btn--chat" id="contactChatBtn" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp" id="contactChatIcon"></i>
+                            <span id="contactChatLabel">Chat on WhatsApp</span>
+                        </a>
                     </div>
-                    
-                    <div class="glass-card p-8">
-                        <h3 class="font-display text-xl font-bold mb-6" style="color: var(--text-primary);">Send Me a Message</h3>
-                        
-                        <form id="contactForm" class="space-y-5">
+
+                    <form id="contactForm" class="space-y-5">
                             <input type="checkbox" name="botcheck" class="contact-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
@@ -807,11 +820,6 @@
                             </button>
                             <div id="formMessage" class="hidden p-4 rounded-xl text-center font-medium text-sm"></div>
                         </form>
-                        <p class="contact-fallback text-sm text-center mt-4">
-                            Or email me directly at
-                            <a href="mailto:e.pequierda@yahoo.com" class="contact-email-link">e.pequierda@yahoo.com</a>
-                        </p>
-                    </div>
                 </div>
             </div>
         </section>
@@ -849,6 +857,39 @@
         </div>
     </footer>
     
+    <!-- Service Detail Modal -->
+    <div id="service-modal" class="service-modal hidden" role="dialog" aria-modal="true" aria-labelledby="service-modal-title">
+        <div class="service-modal-backdrop" data-close-service-modal></div>
+        <div class="service-modal-panel">
+            <button type="button" class="service-modal-close" data-close-service-modal aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="service-modal-icon" id="service-modal-icon"><i class="fas fa-laptop-code"></i></div>
+            <h3 class="service-modal-title" id="service-modal-title">Service</h3>
+            <p class="service-modal-tagline" id="service-modal-tagline"></p>
+            <p class="service-modal-body" id="service-modal-body"></p>
+            <ul class="service-modal-list" id="service-modal-list"></ul>
+            <p class="service-modal-timeline" id="service-modal-timeline"></p>
+            <div class="service-modal-actions">
+                <button type="button" class="btn-primary justify-center" data-book-call>
+                    <i class="fas fa-calendar-check"></i>
+                    Book a Call
+                </button>
+                <a href="#contact" class="btn-secondary justify-center" data-close-service-modal-link>
+                    <i class="fas fa-envelope"></i>
+                    Send a Message
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Chat Button -->
+    <div id="floatingChatBtn" class="floating-chat-btn" hidden>
+        <a href="#" id="floatingChatLink" class="floating-chat-link" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp" id="floatingChatIcon"></i>
+        </a>
+    </div>
+
     <!-- Floating Share Button -->
     <div id="floatingShareBtn" class="fixed bottom-6 right-6 z-40">
         <button onclick="toggleShareMenu()" class="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300" style="background: var(--gradient-brand);" aria-label="Share">
@@ -866,7 +907,10 @@
     </div>
 
     <!-- External JavaScript -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="js/site-config.js"></script>
     <script src="js/contact-config.js"></script>
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
     <script src="js/index.js" defer></script>
 
 </body>
