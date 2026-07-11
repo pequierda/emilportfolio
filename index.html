@@ -464,12 +464,13 @@
             <div class="netflix-section-head content-to-animate">
                 <span class="section-label">My List</span>
                 <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">Browse my latest builds — web apps, warehouse systems, and Bizbox solutions.</p>
+                <p class="section-subtitle">Browse my latest builds — web apps, DICOM imaging, warehouse systems, and Bizbox solutions.</p>
             </div>
 
             <div class="filter-tabs content-to-animate" id="project-filters">
                 <button class="filter-tab active" data-filter="all">All</button>
                 <button class="filter-tab" data-filter="web">Web Apps</button>
+                <button class="filter-tab" data-filter="dicom">DICOM</button>
                 <button class="filter-tab" data-filter="warehouse">Warehouse</button>
                 <button class="filter-tab" data-filter="bizbox">Bizbox</button>
             </div>
@@ -502,6 +503,35 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="project-card group" data-category="dicom">
+                        <div class="project-image-wrap">
+                            <img src="images/dicom.webp" alt="DICOM Management System" loading="lazy" decoding="async" fetchpriority="low" class="project-image" data-title="DICOM Management System" data-modal-src="images/dicom.webp" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center font-bold text-lg" style="background: var(--gradient-brand); color: white;">
+                                <i class="fas fa-x-ray mr-2"></i>DICOM System
+                            </div>
+                            <div class="project-overlay"><span><i class="fas fa-expand"></i> View Project</span></div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold mb-2" style="color: var(--text-primary);">DICOM Management System</h3>
+                            <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">Medical imaging platform for managing and viewing DICOM images with accurate rendering, sophisticated viewer settings, and an online portal so doctors can access patient results remotely.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="project-tag">go</span>
+                                <span class="project-tag">cloudflare</span>
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">DICOM</span>
+                                
+                            </div>
+                            <div class="mt-4 flex items-center gap-3">
+                               <button class="like-btn" data-project="dicom">
+                                   <i class="fas fa-heart"></i>
+                                   <span class="like-count">0</span>
+                                 </button>
+                               <span class="like-hint">Tap heart to support</span>
+                           </div>
+                       </div>
+                   </div>
 
 
                     <div class="project-card group" data-category="warehouse">
